@@ -35,7 +35,6 @@ int main(int argc, char* args[])
 			SDL_Event e;
 
 			//While application is running
-			int temp = 0;
 			while (!quit)
 			{
 				//Handle events on queue
@@ -56,9 +55,9 @@ int main(int argc, char* args[])
 				gBackgroundTexture.render(0, 0);
 
 				//Render Foo' to the screen
-				gFooTexture.render(50+temp, 250);
+				gFooTexture.render(50, 250);
 
-				gFooTexture2.render(500+temp, 250);
+				gFooTexture2.render(500, 250);
 
 				//Update screen
 				SDL_RenderPresent(gRenderer);
