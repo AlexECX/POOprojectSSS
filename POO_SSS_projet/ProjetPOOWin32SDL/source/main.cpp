@@ -100,6 +100,7 @@ int main(int argc, char* args[])
 			//While application is running
 			while (!quit)
 			{
+
 				//Handle events on queue
 				while (SDL_PollEvent(&e) != 0)
 				{
@@ -109,7 +110,7 @@ int main(int argc, char* args[])
 						quit = true;
 					}
 				}
-				
+
 				//Clear screen
 				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 				SDL_RenderClear(gRenderer);
