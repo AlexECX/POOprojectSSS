@@ -15,6 +15,41 @@ const int SCREEN_HEIGHT = 700;
 
 int main(int argc, char* args[])
 {
+	//Thread initialise
+
+	SDL_Thread *thread;
+	int         threadReturnValue;
+
+	/**
+	printf("\nSimple SDL_CreateThread test:");
+
+	//Simply create a thread 
+	thread = SDL_CreateThread(TestThread, "TestThread", (void *)NULL);
+
+	if (NULL == thread) {
+		printf("\nSDL_CreateThread failed: %s\n", SDL_GetError());
+	}
+	else {
+		SDL_WaitThread(thread, &threadReturnValue); //Wait for the thread to complete.
+		printf("\nThread returned value: %d", threadReturnValue);
+	}
+
+	static int TestThread(void *ptr)
+	{
+	int cnt;
+
+	for (cnt = 0; cnt < 10; ++cnt) {
+	printf("\nThread counter: %d", cnt);
+	SDL_Delay(50);
+	}
+
+	return cnt;
+	}
+
+	/**/
+
+
+
 	//Start up SDL and create window
 	if (!init())
 	{
