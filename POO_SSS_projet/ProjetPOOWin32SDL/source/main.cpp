@@ -72,17 +72,10 @@ int main(int argc, char* args[])
 
 
 
-<<<<<<< HEAD
-
-	
-
-	/**/
-
-=======
-	if (NULL == thread) {
+	/*if (NULL == thread) {
 		printf("\nSDL_CreateThread failed: %s\n", SDL_GetError());
-	}
->>>>>>> d3d8ad9fb95b95824a21496e11d8d1ff3a811084
+	}*/
+
 
 	//Start up SDL and create window
 	if (!init())
