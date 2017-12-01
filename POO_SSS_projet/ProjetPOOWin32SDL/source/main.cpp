@@ -8,7 +8,11 @@
 const int SCREEN_WIDTH = 1300;
 const int SCREEN_HEIGHT = 700;
 //test git
+<<<<<<< HEAD
 //77302
+=======
+//999
+>>>>>>> 23adf5d575687ad3e53ef6991d8041336d78fc28
 
 #include"initialise.h"
 
