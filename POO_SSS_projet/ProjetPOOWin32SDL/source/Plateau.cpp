@@ -1,9 +1,12 @@
-#include "Plateau.h"
+#include <list>
+#include <vector>
 
-Plateau::Plateau()
+#include "Plateau.h"
+#include "EntiteVolante.h"
+GameWorld::GameWorld()
 {
 }
 
-Plateau::~Plateau()
+GameWorld::~GameWorld()
 {
 }
