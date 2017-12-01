@@ -55,8 +55,11 @@ int TestThread(void *ptr)
 
 //----Main----------------------------------------------------------------------------
 
+
 int main(int argc, char* args[])
 {
+	void SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h);
+	
 	int X1 = 200;
 	int Y1 = 200;
 	auto Main_interval = std::chrono::nanoseconds(16666666); //16666666
@@ -69,11 +72,17 @@ int main(int argc, char* args[])
 
 
 
+<<<<<<< HEAD
 
 	
 
 	/**/
 
+=======
+	if (NULL == thread) {
+		printf("\nSDL_CreateThread failed: %s\n", SDL_GetError());
+	}
+>>>>>>> d3d8ad9fb95b95824a21496e11d8d1ff3a811084
 
 	//Start up SDL and create window
 	if (!init())
