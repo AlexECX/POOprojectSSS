@@ -74,10 +74,6 @@ int main(int argc, char* args[])
 	if (NULL == thread) {
 		printf("\nSDL_CreateThread failed: %s\n", SDL_GetError());
 	}
-	else {
-		SDL_WaitThread(thread, &threadReturnValue); //Wait for the thread to complete.
-		printf("\nThread returned value: %d", threadReturnValue);
-	}
 
 	//Start up SDL and create window
 	if (!init())
