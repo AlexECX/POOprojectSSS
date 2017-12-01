@@ -94,8 +94,12 @@ int main(int argc, char* args[])
 
 				//Render Foo' to the screen
 				texture[0].render(50, 250);
-				
+
+				texture[2].render(200, 300);
+
 				texture[1].render(500, 250);
+
+				texture[3].render(350, 300);
 
 				//Update screen
 				SDL_RenderPresent(gRenderer);

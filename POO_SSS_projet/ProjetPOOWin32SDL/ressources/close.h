@@ -5,6 +5,8 @@ void close()
 	//Free loaded images
 	texture[0].free();
 	texture[1].free();
+	texture[2].free();
+	texture[3].free();
 	gBackgroundTexture.free();
 
 	//Destroy window	

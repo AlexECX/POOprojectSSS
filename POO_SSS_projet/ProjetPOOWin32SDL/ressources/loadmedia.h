@@ -18,6 +18,18 @@ bool loadMedia()
 		success = false;
 	}
 
+	if (!texture[2].loadFromFile("./Image/LaserFriend.png"))
+	{
+		printf("Failed to load Foo' texture image!\n");
+		success = false;
+	}
+
+	if (!texture[3].loadFromFile("./Image/LaserEnnemis.png"))
+	{
+		printf("Failed to load Foo' texture image!\n");
+		success = false;
+	}
+
 	//Load background texture
 	if (!gBackgroundTexture.loadFromFile("./Image/background.png"))
 	{
