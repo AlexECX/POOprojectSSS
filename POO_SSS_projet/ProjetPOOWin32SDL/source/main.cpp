@@ -13,8 +13,12 @@ const int SCREEN_HEIGHT = 700;
 
 //----Main----------------------------------------------------------------------------
 
+
 int main(int argc, char* args[])
 {
+	void SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h);
+
+	
 	int X1 = 200;
 	int Y1 = 200;
 	
@@ -23,7 +27,7 @@ int main(int argc, char* args[])
 	SDL_Thread *thread;
 	int         threadReturnValue;
 
-	/**
+	
 	printf("\nSimple SDL_CreateThread test:");
 
 	//Simply create a thread 
@@ -36,21 +40,6 @@ int main(int argc, char* args[])
 		SDL_WaitThread(thread, &threadReturnValue); //Wait for the thread to complete.
 		printf("\nThread returned value: %d", threadReturnValue);
 	}
-
-	static int TestThread(void *ptr)
-	{
-	int cnt;
-
-	for (cnt = 0; cnt < 10; ++cnt) {
-	printf("\nThread counter: %d", cnt);
-	SDL_Delay(50);
-	}
-
-	return cnt;
-	}
-
-	/**/
-
 
 
 	//Start up SDL and create window
