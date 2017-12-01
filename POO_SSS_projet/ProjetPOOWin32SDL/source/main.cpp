@@ -10,6 +10,9 @@ const int SCREEN_HEIGHT = 700;
 
 
 #include"initialise.h"
+#include "Plateau.h"
+#include "EntiteVolante.h"
+#include "Joueur.h"
 
 //----Main----------------------------------------------------------------------------
 
@@ -48,7 +51,7 @@ int main(int argc, char* args[])
 
 	/**/
 
-
+	Joueur temp(joueur, republic, 50, 250, 1, 0, 0);
 
 	//Start up SDL and create window
 	if (!init())
@@ -93,7 +96,7 @@ int main(int argc, char* args[])
 				gBackgroundTexture.render(0, 0);
 
 				//Render Foo' to the screen
-				texture[0].render(50, 250);
+				texture[temp.getCategorie()].render(temp.getCoordX(), temp.getCoordY());
 
 				texture[2].render(200, 300);
 

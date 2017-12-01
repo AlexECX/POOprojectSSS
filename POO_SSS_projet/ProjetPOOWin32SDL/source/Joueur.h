@@ -5,7 +5,7 @@
 class Joueur : public Vaisseau
 {
 public:
-	Joueur();
+	Joueur(categorie, affiliation, int, int, int, int, int);
 	~Joueur();
 };
 #endif 

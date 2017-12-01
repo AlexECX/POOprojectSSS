@@ -1,10 +1,25 @@
-#ifndef PLATEAU_H
-#define PLATEAU_H
+#ifndef GAMEWORLD_H
+#define GAMEWORLD_H
 
-class Plateau
+class GameWorld
 {
+private:
+	/*std::list<std::vector<EntiteVolante>> EntiteMultiple;
+	std::list<EntiteVolante> EntiteSimple;
+	std::list<std::vector<EntiteVolante>>::iterator M;
+	std::list<EntiteVolante>::iterator S;*/
 public:
-	Plateau();
-	~Plateau();
+	GameWorld();
+	~GameWorld();
+
+
+	//void AddToGameWorld(std::vector<EntiteVolante> &entities)
+	//{
+	//	EntiteMultiple.push_back(entities);
+	//}
+	//void AddToGameWorld(EntiteVolante &entity)
+	//{
+	//	EntiteSimple.push_back(entity);
+	//}
 };
 #endif 

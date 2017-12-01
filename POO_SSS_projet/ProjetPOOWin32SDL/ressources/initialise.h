@@ -47,9 +47,6 @@ SDL_Window* gWindow = NULL;
 //The window renderer
 SDL_Renderer* gRenderer = NULL;
 
-//Tableau des textures
-LTexture AllTextures[10][10];
-
 //Scene textures
 LTexture texture[10];
 
