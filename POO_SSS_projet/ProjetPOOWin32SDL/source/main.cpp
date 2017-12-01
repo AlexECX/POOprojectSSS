@@ -18,6 +18,9 @@ const int SCREEN_HEIGHT = 700;
 
 int main(int argc, char* args[])
 {
+	int X1 = 200;
+	int Y1 = 200;
+	
 	//Thread initialise
 
 	SDL_Thread *thread;
@@ -74,7 +77,7 @@ int main(int argc, char* args[])
 			SDL_Event e;
 
 			//////////////////////////
-			
+
 			//While application is running
 			while (!quit)
 			{
@@ -96,7 +99,11 @@ int main(int argc, char* args[])
 				gBackgroundTexture.render(0, 0);
 
 				//Render Foo' to the screen
+<<<<<<< HEAD
 				texture[temp.getCategorie()].render(temp.getCoordX(), temp.getCoordY());
+=======
+				texture[0].render(X1,Y1);
+>>>>>>> 51dd08e02ede2172f31043af855a32135442a707
 
 				texture[2].render(200, 300);
 
@@ -106,7 +113,43 @@ int main(int argc, char* args[])
 
 				//Update screen
 				SDL_RenderPresent(gRenderer);
+
+				//----Keyboard detect----
+
+				const Uint8 *state = SDL_GetKeyboardState(NULL);
+
+				if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) {
+					Y1--;
+					X1--;
+				}
+
+				else if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_DOWN]) {
+					Y1++;
+					X1--;
+				}
+
+				else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_UP]) {
+					Y1--;
+					X1++;
+				}
+
+				else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_DOWN]) {
+					Y1++;
+					X1++;
+				}
 				
+				else if (state[SDL_SCANCODE_DOWN]) {
+					Y1++;
+				}
+				else if (state[SDL_SCANCODE_UP]) {
+					Y1--;
+				}
+				else if (state[SDL_SCANCODE_RIGHT]) {
+					X1++;
+				}
+				else if (state[SDL_SCANCODE_LEFT]) {
+					X1--;
+				}
 			}
 		}
 	}
