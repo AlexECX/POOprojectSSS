@@ -6,13 +6,13 @@ bool loadMedia()
 	bool success = true;
 
 	//Load Foo' texture
-	if (!gFooTexture.loadFromFile("./Image/falcon.png"))
+	if (!texture[0].loadFromFile("./Image/falcon.png"))
 	{
 		printf("Failed to load Foo' texture image!\n");
 		success = false;
 	}
 
-	if (!gFooTexture2.loadFromFile("./Image/tiefighter.png"))
+	if (!texture[1].loadFromFile("./Image/tiefighter.png"))
 	{
 		printf("Failed to load Foo' texture image!\n");
 		success = false;

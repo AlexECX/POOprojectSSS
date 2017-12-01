@@ -3,7 +3,8 @@
 void close()
 {
 	//Free loaded images
-	gFooTexture.free();
+	texture[0].free();
+	texture[1].free();
 	gBackgroundTexture.free();
 
 	//Destroy window	

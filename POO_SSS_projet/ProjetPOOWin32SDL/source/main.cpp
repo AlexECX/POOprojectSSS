@@ -58,9 +58,9 @@ int main(int argc, char* args[])
 				gBackgroundTexture.render(0, 0);
 
 				//Render Foo' to the screen
-				gFooTexture.render(50, 250);
+				texture[0].render(50, 250);
 				
-				gFooTexture2.render(500, 250);
+				texture[1].render(500, 250);
 
 				//Update screen
 				SDL_RenderPresent(gRenderer);

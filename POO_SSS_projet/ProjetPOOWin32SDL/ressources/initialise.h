@@ -51,8 +51,7 @@ SDL_Renderer* gRenderer = NULL;
 LTexture AllTextures[10][10];
 
 //Scene textures
-LTexture gFooTexture;
-LTexture gFooTexture2;
+LTexture texture[10];
 
 LTexture gBackgroundTexture;
 
