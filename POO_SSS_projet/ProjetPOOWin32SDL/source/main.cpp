@@ -5,8 +5,8 @@
 #include <string>
 
 //Screen dimension constants
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
+const int SCREEN_WIDTH = 1300;
+const int SCREEN_HEIGHT = 700;
 
 #include"initialise.h"
 
@@ -34,6 +34,8 @@ int main(int argc, char* args[])
 			//Event handler
 			SDL_Event e;
 
+			//////////////////////////
+			
 			//While application is running
 			while (!quit)
 			{
@@ -56,12 +58,12 @@ int main(int argc, char* args[])
 
 				//Render Foo' to the screen
 				gFooTexture.render(50, 250);
-
+				
 				gFooTexture2.render(500, 250);
 
 				//Update screen
 				SDL_RenderPresent(gRenderer);
-				temp += 10;
+				
 			}
 		}
 	}

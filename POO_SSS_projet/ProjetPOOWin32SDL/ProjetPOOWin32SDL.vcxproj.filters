@@ -36,6 +36,24 @@
     <ClInclude Include="source\EntiteVolante.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ressources\boolinit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ressources\close.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ressources\initialise.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ressources\loadFromFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ressources\loadmedia.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ressources\loadtexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
