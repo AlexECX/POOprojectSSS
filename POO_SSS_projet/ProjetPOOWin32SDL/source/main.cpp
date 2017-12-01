@@ -113,6 +113,7 @@ int main(int argc, char* args[])
 			//While application is running
 			while (!quit)
 			{
+
 				//Handle events on queue
 				while (SDL_PollEvent(&e) != 0)
 				{
@@ -122,6 +123,12 @@ int main(int argc, char* args[])
 						quit = true;
 					}
 				}
+<<<<<<< HEAD
+
+				//Clear screen
+				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+				SDL_RenderClear(gRenderer);
+=======
 			/*	auto tempTime = std::chrono::high_resolution_clock::now();
 				auto tempResult = tempTime - Main_Timestamp;
 				if (tempTime - Main_Timestamp < Main_interval) {
@@ -129,6 +136,7 @@ int main(int argc, char* args[])
 					Main_Timestamp = std::chrono::high_resolution_clock::now();
 				}
 				else {*/
+>>>>>>> fdad1192d8d60e1bf4a7eb789e1263faab76e027
 
 					SDL_Delay(16);
 
