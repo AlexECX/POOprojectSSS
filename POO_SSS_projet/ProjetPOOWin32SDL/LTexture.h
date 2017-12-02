@@ -1,6 +1,6 @@
 #pragma once
-
-
+#include "SDL_render.h"
+#include <string>
 //Texture wrapper class
 class LTexture
 {
@@ -32,26 +32,6 @@ private:
 	int mWidth;
 	int mHeight;
 };
-
-//Starts up SDL and creates window
-bool init();
-
-//Loads media
-bool loadMedia();
-
-//Frees media and shuts down SDL
-void close();
-
-//The window we'll be rendering to
-SDL_Window* gWindow = NULL;
-
-//The window renderer
-SDL_Renderer* gRenderer = NULL;
-
-//Scene textures
-LTexture texture[10];
-
-LTexture gBackgroundTexture;
 
 LTexture::LTexture()
 {
