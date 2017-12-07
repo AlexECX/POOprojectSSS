@@ -1,14 +1,14 @@
 #ifndef ENNEMIS_H
 #define ENNEMIS_H
 
-#include "Vaisseau.h"
-class Ennemis : public Vaisseau
+
+class Ennemis : public EntiteVolante
 {
 private:
 
 
 public:
-	Ennemis();
+	Ennemis(categorie, affiliation, int, int, int, int, int);
 	~Ennemis();
 };
 #endif 

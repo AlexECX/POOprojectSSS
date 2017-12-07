@@ -1,8 +1,7 @@
 #ifndef JOUEUR_H
 #define JOUEUR_H
 
-#include "Vaisseau.h"
-class Joueur : public Vaisseau
+class Joueur : public EntiteVolante
 {
 public:
 	Joueur(categorie, affiliation, int, int, int, int, int);

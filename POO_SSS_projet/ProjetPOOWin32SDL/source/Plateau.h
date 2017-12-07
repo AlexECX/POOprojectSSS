@@ -25,20 +25,9 @@ public:
 	~GameWorld();
 
 
-	Joueur* AddToGameWorld(Joueur &entity) { 
-		PlayerHolder.push_back(entity); 
-		return &PlayerHolder.back();
-	}
-
-	Ennemis* AddToGameWorld(Ennemis &entity) {
-		EnnemieSimple.push_back(entity);
-		return &EnnemieSimple.back();
-	}
-
-	std::vector<Ennemis>* AddToGameWorld(std::vector<Ennemis> &entity){ 
-		EnnemisMultiple.push_back(entity); 
-		return &EnnemisMultiple.back();
-	}
+	Joueur* AddToGameWorld(Joueur &entity);
+	Ennemis* AddToGameWorld(Ennemis &entity);
+	std::vector<Ennemis>* AddToGameWorld(std::vector<Ennemis> &entity);
 
 	std::list<Joueur>* AccessPlayerHolder();
 	std::list<Ennemis>* AccessEnnemieSimple();

@@ -17,7 +17,7 @@ protected:
 
 
 public:
-	EntiteVolante(/*categorie, affiliation, int, int, int, int, int*/);
+	EntiteVolante(categorie, affiliation, int, int, int, int, int);
 	virtual ~EntiteVolante();
 	int getCoordX() { return coordX; }
 	int getCoordY() { return coordY; }
