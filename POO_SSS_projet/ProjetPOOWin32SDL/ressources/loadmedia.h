@@ -5,7 +5,8 @@ bool loadMedia()
 	//Loading success flag
 	bool success = true;
 
-	//Load Foo' texture
+//----Load image----------------------------------------------------------
+
 	if (!texture[0].loadFromFile("./Image/falcon.png"))
 	{
 		printf("Failed to load Foo' texture image!\n");
@@ -36,6 +37,19 @@ bool loadMedia()
 		printf("Failed to load background texture image!\n");
 		success = false;
 	}
+
+//----Load image----------------------------------------------------------
+
+//----Load music----------------------------------------------------------
+
+	gMusic = Mix_LoadMUS("./Music/BackgroundAsteroidField.mp3");
+	if (gMusic == NULL)
+	{
+		printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
+		success = false;
+	}
+
+//----Load music----------------------------------------------------------
 
 	return success;
 }

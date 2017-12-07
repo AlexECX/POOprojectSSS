@@ -9,6 +9,10 @@ void close()
 	texture[3].free();
 	gBackgroundTexture.free();
 
+	//Free the music
+	Mix_FreeMusic(gMusic);
+	gMusic = NULL;
+
 	//Destroy window	
 	SDL_DestroyRenderer(gRenderer);
 	SDL_DestroyWindow(gWindow);
@@ -16,6 +20,7 @@ void close()
 	gRenderer = NULL;
 
 	//Quit SDL subsystems
+	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }

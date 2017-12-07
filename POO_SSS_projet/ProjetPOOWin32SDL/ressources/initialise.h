@@ -65,3 +65,6 @@ LTexture::~LTexture()
 	//Deallocate
 	free();
 }
+
+//The music that will be played
+Mix_Music *gMusic = NULL;

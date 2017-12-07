@@ -1,6 +1,7 @@
 //Using SDL, SDL_image, standard IO, and strings
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <SDL_thread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -66,7 +67,7 @@ int TestThread(void *ptr)
 int main(int argc, char* args[])
 {
 	void SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h);
-	
+	int BackgroundMusic = true;
 	int X1 = 200;
 	int Y1 = 200;
 	auto Main_interval = std::chrono::nanoseconds(16666666); //16666666
@@ -114,6 +115,32 @@ int main(int argc, char* args[])
 			GameWorld *World_ptr = &Space; //On envoie GameWorld en parametre, on devra le traduire avec (GameWorld*)
 			thread = SDL_CreateThread(TestThread, "TestThread", World_ptr);
 			/////////////////////////////////
+
+			//----Music background-------------------------
+
+			if (BackgroundMusic == true)
+			{
+				//Play the music
+				Mix_PlayMusic(gMusic, -1);
+			}
+			//If music is being played
+			else
+			{
+				//If the music is paused
+				if (Mix_PausedMusic() == 1)
+				{
+					//Resume the music
+					Mix_ResumeMusic();
+				}
+				//If the music is playing
+				else
+				{
+					//Pause the music
+					Mix_PauseMusic();
+				}
+			}
+
+			//----Music background------------------------
 
 			//While application is running
 			while (!quit)
@@ -221,6 +248,7 @@ int main(int argc, char* args[])
 												  MilleniumFalcon->getCoordY());
 
 				}
+
 			}
 			SDL_WaitThread(thread, &threadReturnValue); //Wait for the thread to complete.
 		}
