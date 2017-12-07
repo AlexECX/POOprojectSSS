@@ -11,7 +11,6 @@
 const int SCREEN_WIDTH = 1300;
 const int SCREEN_HEIGHT = 700;
 
-
 #include"initialise.h"
 #include "Plateau.h"
 #include "EntiteVolante.h"
@@ -21,9 +20,6 @@ const int SCREEN_HEIGHT = 700;
 typedef struct {
 	Joueur *PtrJoueur;
 } ThreadData;
-
-
-
 
 //----Thread Funct----------------------------------------------------------------------------
 
@@ -43,7 +39,6 @@ int TestThread(void *ptr)
 	int flying = 9000;
 	int H = 1;
 	////
-	
 
 	while (flying)
 	{
@@ -66,9 +61,7 @@ int TestThread(void *ptr)
 	return 1;
 }
 
-
 //----Main----------------------------------------------------------------------------
-
 
 int main(int argc, char* args[])
 {
@@ -86,12 +79,9 @@ int main(int argc, char* args[])
 	SDL_Thread *thread;
 	int         threadReturnValue;
 
-
-
 	/*if (NULL == thread) {
 		printf("\nSDL_CreateThread failed: %s\n", SDL_GetError());
 	}*/
-
 
 	//Start up SDL and create window
 	if (!init())
@@ -116,7 +106,6 @@ int main(int argc, char* args[])
 			//On initilise le Faucon.
 			//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de l'objet
 			Joueur *MilleniumFalcon = Space.AddToGameWorld(Joueur(joueur, republic, 50, 250, 1, 0, 0));
-			
 
 			/**/
 			//printf("\nSimple SDL_CreateThread test:");
@@ -139,7 +128,6 @@ int main(int argc, char* args[])
 						quit = true;
 					}
 				}
-
 
 				//Clear screen
 				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -186,7 +174,6 @@ int main(int argc, char* args[])
 					//Update screen
 					SDL_RenderPresent(gRenderer);
 				//}
-				
 
 				//----Keyboard detect----
 

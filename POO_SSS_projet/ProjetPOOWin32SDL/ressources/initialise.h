@@ -1,6 +1,5 @@
 #pragma once
 
-
 //Texture wrapper class
 class LTexture
 {
