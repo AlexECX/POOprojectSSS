@@ -180,6 +180,7 @@ int ThreadKeyboard(void* ptr)
 			//MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1,
 			//	MilleniumFalcon->getCoordY());
 		}
+		SDL_Delay(1);
 	}
 	return 1;
 }
@@ -245,7 +246,7 @@ int main(int argc, char* args[])
 
 			//On initilise le Faucon.
 			//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de l'objet
-			Joueur *MilleniumFalcon = Space.AddToGameWorld(Joueur(joueur, republic, 50, 250, 1, 0, 0));//Remore = pas affichage falcon
+			//Joueur *MilleniumFalcon = Space.AddToGameWorld(Joueur(joueur, republic, 50, 250, 1, 0, 0));//Remore = pas affichage falcon
 																									   //Le thread ne suffit pas a faire afficher le falcon 
 																									  
 			/**/
