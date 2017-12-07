@@ -26,7 +26,6 @@
     <ClInclude Include="ressources\loadFromFile.h" />
     <ClInclude Include="ressources\loadmedia.h" />
     <ClInclude Include="ressources\loadtexture.h" />
-    <ClInclude Include="ressources\LTexture.h" />
     <ClInclude Include="source\Ennemis.h" />
     <ClInclude Include="source\EntiteVolante.h" />
     <ClInclude Include="source\Joueur.h" />
