@@ -8,6 +8,8 @@
 #include <string>
 #include <chrono>
 
+using namespace std;
+
 //Screen dimension constants
 const int SCREEN_WIDTH = 1300;
 const int SCREEN_HEIGHT = 700;
@@ -22,14 +24,7 @@ typedef struct {
 	Joueur *PtrJoueur;
 } ThreadData;
 
-/**
-typedef struct {
-	bool parameter1;
-	Mix_Music *parameter2 = NULL;
-} ThreadMusicData;
-/**/
-
-//----Thread Funct----------------------------------------------------------------------------
+//----Thread Funtions----------------------------------------------------------------------------
 
 int TestThread(void *ptr)
 {
@@ -38,7 +33,7 @@ int TestThread(void *ptr)
 	//Initialise un Tie Fighter
 	//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de l'objet
 	Joueur *TieFighter = tdata->AddToGameWorld(Joueur(ennemis_simple, empire, 500, 250, 1, 0, 0));
-	std::list<Joueur>* AccessKey;
+	list<Joueur>* AccessKey;
 
 	//trucs pour le timer et le deplacement
 	auto interval = std::chrono::nanoseconds(10000000);
@@ -68,27 +63,95 @@ int TestThread(void *ptr)
 	return 1;
 }
 
-/**
-int ThreadMusic(ThreadMusicData* data) {
+int ThreadKeyboard(GameWorld* ptr)
+{
+	//On traduit le pointeur en GameWorld
+	GameWorld *tdata = (GameWorld*)ptr;
+	//Initialise un Tie Fighter
+	//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de l'objet
+	Joueur *MilleniumFalcon = tdata->AddToGameWorld(Joueur(joueur, republic, 50, 250, 1, 0, 0));
+	list<Joueur>* AccessKey;
 
-	ThreadMusicData *tdata2 = data;
-	bool BackgroundMusic = tdata2->parameter1;
-	Mix_Music *gMusic = tdata2->parameter2;
-
-	//----Music background-------------------------
-
-	while(true)
+	while (true) 
 	{
-		Mix_PlayMusic(gMusic, -1);
-		Mix_ResumeMusic();
+		const Uint8 *state = SDL_GetKeyboardState(NULL);
 
+		if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) {
+			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
+			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1, MilleniumFalcon->getCoordY() - 1);
+			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
+		}
+
+		else if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_DOWN]) {
+			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
+			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1, MilleniumFalcon->getCoordY() + 1);
+			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
+
+			/**
+				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1,
+				MilleniumFalcon->getCoordY() + 1);
+			/**/
+		}
+
+		else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_UP]) {
+			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
+			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1, MilleniumFalcon->getCoordY() - 1);
+			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
+
+			/**
+				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1,
+				MilleniumFalcon->getCoordY() - 1);
+			/**/
+
+		}
+
+		else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_DOWN]) {
+			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
+			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1, MilleniumFalcon->getCoordY() + 1);
+			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
+
+			//MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1,
+			//	MilleniumFalcon->getCoordY() + 1);
+
+		}
+
+		else if (state[SDL_SCANCODE_DOWN]) {
+			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
+			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX(), MilleniumFalcon->getCoordY() + 1);
+			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
+
+			//MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX(),
+			//	MilleniumFalcon->getCoordY() + 1);
+		}
+		else if (state[SDL_SCANCODE_UP]) {
+			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
+			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX(), MilleniumFalcon->getCoordY() - 1);
+			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
+
+			//MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX(),
+			//	MilleniumFalcon->getCoordY() - 1);
+
+		}
+		else if (state[SDL_SCANCODE_RIGHT]) {
+			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
+			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1, MilleniumFalcon->getCoordY());
+			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
+
+			//MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1,
+			//	MilleniumFalcon->getCoordY());
+
+		}
+		else if (state[SDL_SCANCODE_LEFT]) {
+			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
+			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1, MilleniumFalcon->getCoordY());
+			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
+
+			//MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1,
+			//	MilleniumFalcon->getCoordY());
+		}
 	}
-
 	return 1;
-
-	//----Music background------------------------
 }
-/**/
 
 //----Main----------------------------------------------------------------------------
 
@@ -100,23 +163,14 @@ int main(int argc, char* args[])
 	auto Main_interval = std::chrono::nanoseconds(16666666); //16666666
 	auto Main_Timestamp = std::chrono::high_resolution_clock::now();
 	GameWorld Space;
-	std::list<Joueur>* PlayerHolderAccessKey;
-	
-	//----Music background------------------------	
-	/**
-	bool BackgroundMusic = true;
-	ThreadMusicData* Music = new ThreadMusicData;
-	Music->parameter1 = BackgroundMusic;
-	Music->parameter2 = gMusic;
-	/**/
-	//----Music background------------------------
+	list<Joueur>* PlayerHolderAccessKey;
 
 	//Thread initialise
 
 	SDL_Thread *thread;
 	SDL_Thread *thread2;
-	int         threadReturnValue;
-	int         threadReturnValue2;
+	int        threadReturnValue;
+	int        threadReturnValue2;
 
 	/*if (NULL == thread) {
 		printf("\nSDL_CreateThread failed: %s\n", SDL_GetError());
@@ -147,14 +201,17 @@ int main(int argc, char* args[])
 
 			//On initilise le Faucon.
 			//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de l'objet
-			Joueur *MilleniumFalcon = Space.AddToGameWorld(Joueur(joueur, republic, 50, 250, 1, 0, 0));
-
+			Joueur *MilleniumFalcon = Space.AddToGameWorld(Joueur(joueur, republic, 50, 250, 1, 0, 0));//Remore = pas affichage falcon
+																									   //Le thread ne suffit pas a faire afficher le falcon 
+																									  
 			/**/
 			//printf("\nSimple SDL_CreateThread test:");
 
 			//Simply create a thread 
 			GameWorld *World_ptr = &Space; //On envoie GameWorld en parametre, on devra le traduire avec (GameWorld*)
 			thread = SDL_CreateThread(TestThread, "TestThread", World_ptr);
+			
+			thread2 = SDL_CreateThread(TestThread, "TestThread", World_ptr);
 
 			/////////////////////////////////
 
@@ -196,9 +253,9 @@ int main(int argc, char* args[])
 					//apres l'avoir locké. Tu peux donc itérer dessus si nécessaire
 
 					PlayerHolderAccessKey = Space.AccessPlayerHolder();	//On reclame un acces au conteneur
-					std::list<Joueur>::iterator S = PlayerHolderAccessKey->begin();
+					list<Joueur>::iterator S = PlayerHolderAccessKey->begin();
 
-					//Ici on itere sur le conteneur PlayerHolder pour render tout les objets qu'il contient
+					//Ici on itere sur le conteneur PlayerHolder pour render tout les objets qu'il contient (Affichage)
 					while (S != PlayerHolderAccessKey->end()) {
 						texture[S->getCategorie()].render(S->getCoordX(), S->getCoordY());
 						S++;
@@ -217,53 +274,9 @@ int main(int argc, char* args[])
 
 				//----Keyboard detect----
 
-				const Uint8 *state = SDL_GetKeyboardState(NULL);
-
-				if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) {
-					MilleniumFalcon->UpdateTrajet( MilleniumFalcon->getCoordX()-1,
-												   MilleniumFalcon->getCoordY()-1);
-				}
-
-				else if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_DOWN]) {
-					MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1,
-												  MilleniumFalcon->getCoordY() + 1);
-			
-				}
-
-				else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_UP]) {
-					MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1, 
-												  MilleniumFalcon->getCoordY() - 1);
-	
-				}
-
-				else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_DOWN]) {
-					MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1, 
-												  MilleniumFalcon->getCoordY() + 1);
-
-				}
-				
-				else if (state[SDL_SCANCODE_DOWN]) {
-					MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX(),
-												  MilleniumFalcon->getCoordY() + 1);
-				}
-				else if (state[SDL_SCANCODE_UP]) {
-					MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX(),
-												  MilleniumFalcon->getCoordY() - 1);
-
-				}
-				else if (state[SDL_SCANCODE_RIGHT]) {
-					MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1, 
-												  MilleniumFalcon->getCoordY());
-
-				}
-				else if (state[SDL_SCANCODE_LEFT]) {
-					MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1,
-												  MilleniumFalcon->getCoordY());
-
-				}
-
 			}
-			SDL_WaitThread(thread, &threadReturnValue); //Wait for the thread to complete.
+			SDL_WaitThread(thread, &threadReturnValue); //Wait for the thread to complete.		
+			SDL_WaitThread(thread2, &threadReturnValue2); //Wait for the thread to complete.
 		}
 	}
 

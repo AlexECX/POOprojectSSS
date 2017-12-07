@@ -6,7 +6,6 @@
 #include <mutex>
 
 class Joueur;
-
 class EntiteVolante;
 class Ennemis;
 
