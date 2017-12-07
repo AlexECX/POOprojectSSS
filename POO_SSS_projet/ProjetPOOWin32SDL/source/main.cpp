@@ -22,6 +22,13 @@ typedef struct {
 	Joueur *PtrJoueur;
 } ThreadData;
 
+/**
+typedef struct {
+	bool parameter1;
+	Mix_Music *parameter2 = NULL;
+} ThreadMusicData;
+/**/
+
 //----Thread Funct----------------------------------------------------------------------------
 
 int TestThread(void *ptr)
@@ -43,7 +50,6 @@ int TestThread(void *ptr)
 
 	while (flying)
 	{
-		
 		if (std::chrono::high_resolution_clock::now() - before > interval) {
 			//Ici le thread vas Accede a sont objet dans la liste PlayerHolder the GameWorld
 
@@ -62,12 +68,33 @@ int TestThread(void *ptr)
 	return 1;
 }
 
+/**
+int ThreadMusic(ThreadMusicData* data) {
+
+	ThreadMusicData *tdata2 = data;
+	bool BackgroundMusic = tdata2->parameter1;
+	Mix_Music *gMusic = tdata2->parameter2;
+
+	//----Music background-------------------------
+
+	while(true)
+	{
+		Mix_PlayMusic(gMusic, -1);
+		Mix_ResumeMusic();
+
+	}
+
+	return 1;
+
+	//----Music background------------------------
+}
+/**/
+
 //----Main----------------------------------------------------------------------------
 
 int main(int argc, char* args[])
 {
 	void SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h);
-	int BackgroundMusic = true;
 	int X1 = 200;
 	int Y1 = 200;
 	auto Main_interval = std::chrono::nanoseconds(16666666); //16666666
@@ -75,10 +102,21 @@ int main(int argc, char* args[])
 	GameWorld Space;
 	std::list<Joueur>* PlayerHolderAccessKey;
 	
+	//----Music background------------------------	
+	/**
+	bool BackgroundMusic = true;
+	ThreadMusicData* Music = new ThreadMusicData;
+	Music->parameter1 = BackgroundMusic;
+	Music->parameter2 = gMusic;
+	/**/
+	//----Music background------------------------
+
 	//Thread initialise
 
 	SDL_Thread *thread;
+	SDL_Thread *thread2;
 	int         threadReturnValue;
+	int         threadReturnValue2;
 
 	/*if (NULL == thread) {
 		printf("\nSDL_CreateThread failed: %s\n", SDL_GetError());
@@ -98,6 +136,9 @@ int main(int argc, char* args[])
 		}
 		else
 		{
+			Mix_PlayMusic(gMusic, -1);
+			Mix_ResumeMusic();
+
 			//Main loop flag
 			bool quit = false;
 
@@ -114,33 +155,8 @@ int main(int argc, char* args[])
 			//Simply create a thread 
 			GameWorld *World_ptr = &Space; //On envoie GameWorld en parametre, on devra le traduire avec (GameWorld*)
 			thread = SDL_CreateThread(TestThread, "TestThread", World_ptr);
+
 			/////////////////////////////////
-
-			//----Music background-------------------------
-
-			if (BackgroundMusic == true)
-			{
-				//Play the music
-				Mix_PlayMusic(gMusic, -1);
-			}
-			//If music is being played
-			else
-			{
-				//If the music is paused
-				if (Mix_PausedMusic() == 1)
-				{
-					//Resume the music
-					Mix_ResumeMusic();
-				}
-				//If the music is playing
-				else
-				{
-					//Pause the music
-					Mix_PauseMusic();
-				}
-			}
-
-			//----Music background------------------------
 
 			//While application is running
 			while (!quit)
@@ -167,8 +183,6 @@ int main(int argc, char* args[])
 					Main_Timestamp = std::chrono::high_resolution_clock::now();
 				}
 				else {*/
-
-
 					SDL_Delay(16);
 
 					//Clear screen
@@ -190,7 +204,6 @@ int main(int argc, char* args[])
 						S++;
 					}
 					Space.ReleaseContainer(PlayerHolderAccessKey);	//Ne pas oublier de relacher le conteneur
-
 
 					//texture[temp.getCategorie()].render(temp.getCoordX(), temp.getCoordY());
 
