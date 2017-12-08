@@ -4,11 +4,12 @@
 #include "Ennemis.h"
 #include "EsquadronTie.h"
 #include "Projectile.h"
+#include "WorldRenderer.h"
 #include <SDL.h>
 #include "..\ressources\LTexture.h"
 
 
-GameWorld::GameWorld()
+GameWorld::GameWorld(WorldRenderer* renderer_instance): RendererInstance(renderer_instance)
 {
 }
 
@@ -112,6 +113,7 @@ void GameWorld::RenderWorld(LTexture TtoRender[10])
 			TtoRender[P->getCategorie()].render(P->getCoordX(), P->getCoordY());
 
 	}
+	//RendererInstance->Render()
 	P_lock.unlock();
 
 	S_lock.lock();
@@ -127,13 +129,13 @@ void GameWorld::RenderWorld(LTexture TtoRender[10])
 			for (int i = 0; i < F->getSquadronSize(); i++) {
 				if (F->getMember(i)->isAlive())
 					TtoRender[F->getMember(i)->getCategorie()].render(F->getMember(i)->getCoordX(), F->getMember(i)->getCoordY());
-				else {
+				/*else {
 					Members--;
 					if (!F->getMember(i)->isRemoved()) {
 						Explosion.push_back(F->getMember(i)->getCategorie());
 						F->getMember(i)->Remove();
 					}
-				}
+				}*/
 			}
 			if (Members == 0)
 				F = FormationEnnemie.erase(F);

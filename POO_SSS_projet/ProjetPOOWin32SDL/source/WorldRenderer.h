@@ -1,6 +1,7 @@
 #pragma once
 
 class LTexture;
+struct LSprite;
 class Ennemis;
 class Joueur;
 class EsquadronTie;

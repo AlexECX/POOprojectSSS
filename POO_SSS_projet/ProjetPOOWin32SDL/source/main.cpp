@@ -199,7 +199,7 @@ int main(int argc, char* args[])
 
 	//----Objet GameWorld et variable pour contenir les adresses de conteneurs---
 	WorldRenderer SpaceRenderer(texture, GameSprites);
-	GameWorld Space;	//Contiendra tout nos objets volant du jeu
+	GameWorld Space(&SpaceRenderer);	//Contiendra tout nos objets volant du jeu
 	 
 	//std::list<Joueur>* PlayerHolder_AccessKey;
 	//std::list<Ennemis>* EnnemieSimple_AccessKey;

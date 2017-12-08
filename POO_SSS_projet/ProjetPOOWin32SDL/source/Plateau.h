@@ -12,6 +12,7 @@ class Ennemis;
 class LTexture;
 class CEsquadronTie;
 class Projectile;
+class WorldRenderer;
 enum categorie;
 
 
@@ -19,6 +20,8 @@ enum categorie;
 class GameWorld
 {
 private:
+	WorldRenderer* RendererInstance;
+
 	std::list<Joueur> PlayerHolder;
 	std::list<Ennemis> EnnemieSimple;
 	std::list<std::vector<Ennemis>> EnnemisMultiple;
@@ -37,7 +40,7 @@ private:
 	std::mutex T_lock;
 	
 public:
-	GameWorld();
+	GameWorld(WorldRenderer*);
 	~GameWorld();
 
 
