@@ -49,13 +49,15 @@ bool loadMedia()
 //----Load sprite----------------------------------------------------------
 
 //Load sprite sheet texture
-	if (!gSpriteSheetTexture.loadFromFile("./Image/Explosion.png"))
+	if (!GameSprites[0].SpriteTexture.loadFromFile("./Image/Explosion.png"))
 	{
 		printf("Failed to load walking animation texture!\n");
 		success = false;
 	}
 	else
 	{
+		
+		//GameSprites[0].SpriteClips = &gSpriteClips[9];
 		//Set sprite clips
 
 		//----Ligne 1:----
@@ -108,6 +110,8 @@ bool loadMedia()
 		gSpriteClips[8].y = 150;
 		gSpriteClips[8].w = 60;
 		gSpriteClips[8].h = 60;
+
+		GameSprites[0].SpriteClips = gSpriteClips;
 	}
 
 //----Load sprite----------------------------------------------------------
