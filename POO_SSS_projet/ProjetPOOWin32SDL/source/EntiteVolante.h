@@ -15,7 +15,7 @@ protected:
 	int HP;
 	int Damage;
 	int VitesseDeplacment;
-	bool Deleted;
+	bool Active;
 	
 
 
@@ -31,10 +31,10 @@ public:
 	int getVitesseDeplacment() { return VitesseDeplacment; }
 
 	bool isAlive() { return HP >= 0; }
-	bool isRemoved() { return Deleted; }
+	bool isActive() { return Active; }
 
 	void TakeDamage(int dmg) { HP -= dmg; }
-	void Remove() { Deleted = true; }
+	void Remove() { Active = false; }
 
 
 	virtual void UpdateTrajet(int x, int y) { coordX = x; coordY = y; } //incremente la position, en ce 

@@ -1,6 +1,10 @@
 #pragma once
 
 class LTexture;
+class Ennemis;
+class Joueur;
+class EsquadronTie;
+class Projectile;
 
 
 class WorldRenderer
@@ -20,9 +24,9 @@ public:
 	~WorldRenderer();
 
 	void Render(std::list<Joueur>&);
-	void Render(std::list<Ennemis>);
+	//void Render(std::list<Ennemis>);
 	void Render(std::list<CEsquadronTie>&);
 	void Render(std::list<Projectile>&);
-	void Render(std::list<categorie>);
+	//void Render(std::list<categorie>);
 };
 
