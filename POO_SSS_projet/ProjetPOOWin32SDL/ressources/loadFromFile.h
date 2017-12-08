@@ -1,5 +1,7 @@
 #pragma once
 
+class LTexture;
+
 bool LTexture::loadFromFile(std::string path)
 {
 	//Get rid of preexisting texture

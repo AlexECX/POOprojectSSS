@@ -14,13 +14,11 @@ using namespace std;
 const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 700;
 
-<<<<<<< HEAD
+
 #include "../ressources/LTexture.h"
-=======
-#include "initialise.h"
->>>>>>> e6eb35346271f2c9177e479263afa4f3be6bc6f5
-#include "Plateau.h"
 #include"initialise.h"
+#include "Plateau.h"
+
 #include "EntiteVolante.h"
 #include "Joueur.h"
 #include "Ennemis.h"
@@ -41,31 +39,18 @@ typedef struct {
 
 //----------------------------
 
-<<<<<<< HEAD
 
 
 //----Thread Funtions----------------------------------------------------------------------------
 
 int TieThread(void *ptr)
-=======
-typedef struct {
-	Joueur *PtrJoueur;
-} ThreadData;
-
-//----Thread Funtions----------------------------------------------------------------------------
-
-int ThreadEnnemis(void *ptr)
->>>>>>> e6eb35346271f2c9177e479263afa4f3be6bc6f5
 {
 	//On traduit le pointeur en GameWorld
 	ThreadData* FactoryData = (ThreadData*)ptr;
 
-<<<<<<< HEAD
 	vector<Ennemis>* TieFighter = (vector<Ennemis>*)FactoryData->data1;
 	//GameWorld *WorldData = (GameWorld*)FactoryData->data2;
 
-=======
->>>>>>> e6eb35346271f2c9177e479263afa4f3be6bc6f5
 	//trucs pour le timer et le deplacement
 	auto interval = std::chrono::milliseconds(5);
 //	std::chrono::milliseconds TieFighterFlightTime;
@@ -134,7 +119,6 @@ int ThreadKeyboard(void* ptr)
 	while (!quit) 
 	{
 		const Uint8 *state = SDL_GetKeyboardState(NULL);
-<<<<<<< HEAD
 
 		if (state[SDL_SCANCODE_Q]) {
 			SDL_Event user_event;
@@ -142,12 +126,7 @@ int ThreadKeyboard(void* ptr)
 			SDL_PushEvent(&user_event);
 		}
 
-		if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) {
-			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1, MilleniumFalcon->getCoordY() - 1);
-			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-=======
-		
+
 		if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) 
 		{
 			if (MilleniumFalcon->getCoordX() > 0 && MilleniumFalcon->getCoordX() < 1100 && MilleniumFalcon->getCoordY() > 0 && MilleniumFalcon->getCoordY() < 600)
@@ -162,7 +141,6 @@ int ThreadKeyboard(void* ptr)
 				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1, MilleniumFalcon->getCoordY() + 1);
 				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
 			}
->>>>>>> e6eb35346271f2c9177e479263afa4f3be6bc6f5
 		}
 
 		else if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_DOWN]) 
@@ -284,12 +262,10 @@ int ThreadKeyboard(void* ptr)
 int main(int argc, char* args[])
 {
 	//----Variables pour nos thread-------
-<<<<<<< HEAD
 	SDL_Thread *thread1;
 	SDL_Thread *thread2;
-=======
 	SDL_Thread *thread[10];
->>>>>>> e6eb35346271f2c9177e479263afa4f3be6bc6f5
+
 	int         threadReturnValue;
 	int         threadReturnValue2;
 	//------------------------------------
@@ -334,12 +310,6 @@ int main(int argc, char* args[])
 			Mix_PlayMusic(gMusic, -1);
 			Mix_ResumeMusic();
 
-			//Main loop flag
-			bool quit = false;
-
-			
-			
-
 			//Current animation frame
 			int frame = 0;
 
@@ -350,22 +320,11 @@ int main(int argc, char* args[])
 
 			//Simply create a thread 
 			GameWorld *World_ptr = &Space; //On envoie GameWorld en parametre, on devra le traduire avec (GameWorld*)
-<<<<<<< HEAD
-			thread1 = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", World_ptr);
-=======
->>>>>>> e6eb35346271f2c9177e479263afa4f3be6bc6f5
 			
 			//----Execute thread---------------------------------------------------------
-
-<<<<<<< HEAD
-
-			/////////////////////////////////
-=======
-			thread[0] = SDL_CreateThread(ThreadEnnemis, "ThreadEnnemis", World_ptr);
+			thread[0] = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", World_ptr);
 			thread[1] = SDL_CreateThread(ThreadKeyboard, "ThreadKeyboard", World_ptr);
-
-			//----Execute thread---------------------------------------------------------
->>>>>>> e6eb35346271f2c9177e479263afa4f3be6bc6f5
+			/////////////////////////////////
 
 			//While application is running
 			while (!quit)
@@ -378,7 +337,7 @@ int main(int argc, char* args[])
 					if (e.type == SDL_QUIT)
 					{
 						quit = true;
-						
+
 					}
 				}
 
@@ -393,14 +352,14 @@ int main(int argc, char* args[])
 
 				else {
 
-				//Clear screen
-				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-				SDL_RenderClear(gRenderer);
-					
-				//Bench pour tester l'interval de temp. Total devrait donner 30 ms +/- 1 ms
-				/*end = std::chrono::high_resolution_clock::now();
-				double total = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
-				start = std::chrono::high_resolution_clock::now();*/
+					//Clear screen
+					SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+					SDL_RenderClear(gRenderer);
+
+					//Bench pour tester l'interval de temp. Total devrait donner 30 ms +/- 1 ms
+					/*end = std::chrono::high_resolution_clock::now();
+					double total = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+					start = std::chrono::high_resolution_clock::now();*/
 
 					//SDL_Delay(16);
 
@@ -416,13 +375,11 @@ int main(int argc, char* args[])
 					//Astuce: les methodes "Access_______()" the GameWorld retourne en fait l'adresse du conteneur, 
 					//apres l'avoir locké. Tu peux donc itérer dessus si nécessaire
 
-<<<<<<< HEAD
+
 					Space.RenderWorld(texture);
 
 					/**Alternate Render Method//////
 
-=======
->>>>>>> e6eb35346271f2c9177e479263afa4f3be6bc6f5
 					//Render le Joueur
 					PlayerHolder_AccessKey = Space.AccessPlayerHolder();	//On reclame un acces au conteneur
 					//Ici on itere sur le conteneur PlayerHolder pour render tout les objets qu'il contient
@@ -435,15 +392,13 @@ int main(int argc, char* args[])
 					RenderTextures(texture, (std::list<EntiteVolante>*)EnnemieSimple_AccessKey);
 					Space.ReleaseContainer(EnnemieSimple_AccessKey);	//Ne pas oublier de relacher le conteneur
 
-<<<<<<< HEAD
+
 					EnnemisMultiple_AccessKey = Space.AccessEnnemisMultiple();
 					RenderTextures(texture, (std::list <vector<EntiteVolante>> *)EnnemisMultiple_AccessKey);
 					Space.ReleaseContainer(EnnemisMultiple_AccessKey);
 
 					/**/////////////////////////////
 
-=======
->>>>>>> e6eb35346271f2c9177e479263afa4f3be6bc6f5
 					texture[2].render(200, 300);
 
 					texture[3].render(350, 300);
@@ -460,16 +415,12 @@ int main(int argc, char* args[])
 
 					//Update screen
 					SDL_RenderPresent(gRenderer);
-<<<<<<< HEAD
-				}
-=======
 
-				//}
->>>>>>> e6eb35346271f2c9177e479263afa4f3be6bc6f5
+					//}
 
-					//----Sprite----
+						//----Sprite----
 
-					//Go to next frame
+						//Go to next frame
 					++frame;
 
 					//Cycle animation
@@ -479,14 +430,11 @@ int main(int argc, char* args[])
 					}
 
 					//----Sprite----
+				}
 			}
-<<<<<<< HEAD
-			SDL_WaitThread(thread1, &threadReturnValue); //Wait for the thread to complete.		
-			SDL_WaitThread(thread2, &threadReturnValue2); //Wait for the thread to complete.
-=======
 			SDL_WaitThread(thread[0], &threadReturnValue); //Wait for the thread to complete.		
 			SDL_WaitThread(thread[1], &threadReturnValue2); //Wait for the thread to complete.
->>>>>>> e6eb35346271f2c9177e479263afa4f3be6bc6f5
+
 		}
 	}
 

@@ -13,3 +13,4 @@ LTexture::~LTexture()
 	//Deallocate
 	free();
 }
+
