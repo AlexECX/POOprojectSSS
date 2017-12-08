@@ -1,15 +1,17 @@
-#include "..\ressources\LTexture.h"
-#include "..\ressources\LSprite.h"
-#include "WorldRenderer.h"
+
+#include "Plateau.h"
 #include "EntiteVolante.h"
 #include "Joueur.h"
 #include "Ennemis.h"
 #include "EsquadronTie.h"
 #include "Projectile.h"
-#include "SDL.h"
+#include "WorldRenderer.h"
+#include <SDL.h>
+#include "..\ressources\LTexture.h"
+#include "..\ressources\LSprite.h"
 
-#include <vector>
-#include <list>
+
+
 
 
 

@@ -1,5 +1,8 @@
 #pragma once
 
+#include <vector>
+#include <list>
+
 class LTexture;
 struct LSprite;
 class Ennemis;

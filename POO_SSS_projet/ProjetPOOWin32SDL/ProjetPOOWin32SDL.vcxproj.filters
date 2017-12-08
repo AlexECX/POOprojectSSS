@@ -29,7 +29,7 @@
     <ClInclude Include="source\Plateau.h" />
     <ClInclude Include="source\Projectile.h" />
     <ClInclude Include="source\Vaisseau.h" />
-    <ClInclude Include="source\WorldRenderer.h" />
     <ClInclude Include="ressources\LSprite.h" />
+    <ClInclude Include="source\WorldRenderer.h" />
   </ItemGroup>
 </Project>

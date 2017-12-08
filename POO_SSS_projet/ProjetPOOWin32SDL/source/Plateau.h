@@ -12,7 +12,7 @@ class Ennemis;
 class LTexture;
 class CEsquadronTie;
 class Projectile;
-class WorldRenderer;
+//class WorldRenderer;
 enum categorie;
 
 
@@ -20,19 +20,19 @@ enum categorie;
 class GameWorld
 {
 private:
-	WorldRenderer* RendererInstance;
+	//WorldRenderer* RendererInstance;
 
-	std::list<Joueur> PlayerHolder;
-	std::list<Ennemis> EnnemieSimple;
-	std::list<std::vector<Ennemis>> EnnemisMultiple;
-	std::list<CEsquadronTie> FormationEnnemie;
+	std::list<Joueur*> PlayerHolder;
+	std::list<Ennemis*> EnnemieSimple;
+	std::list<std::vector<Ennemis*>> EnnemisMultiple;
+	std::list<CEsquadronTie*> FormationEnnemie;
 	std::list<categorie> Explosion;
-	std::list<Projectile> TirsLaser;
-	std::list<Projectile>::iterator T;
-	std::list<Joueur>::iterator P;
-	std::list<Ennemis>::iterator S;
-	std::list<std::vector<Ennemis>>::iterator M;
-	std::list<CEsquadronTie>::iterator F;
+	std::list<Projectile*> TirsLaser;
+	std::list<Projectile*>::iterator T;
+	std::list<Joueur*>::iterator P;
+	std::list<Ennemis*>::iterator S;
+	std::list<std::vector<Ennemis*>>::iterator M;
+	std::list<CEsquadronTie*>::iterator F;
 	std::mutex P_lock;
 	std::mutex S_lock;
 	std::mutex M_lock;
@@ -40,13 +40,14 @@ private:
 	std::mutex T_lock;
 	
 public:
-	GameWorld(WorldRenderer*);
+	GameWorld();
+	//GameWorld(WorldRenderer*);
 	~GameWorld();
 
 
 	Joueur* AddToGameWorld(Joueur &entity);
 	Ennemis* AddToGameWorld(Ennemis &entity);
-	std::vector<Ennemis>* AddToGameWorld(std::vector<Ennemis> &entity);
+	//std::vector<Ennemis>* AddToGameWorld(std::vector<Ennemis> &entity);
 	CEsquadronTie* AddToGameWorld(CEsquadronTie &entity);
 	Projectile* AddToGameWorld(Projectile &entity);
 
@@ -54,9 +55,9 @@ public:
 	void RemoveFromGameWorld(Ennemis *entity);
 	void RemoveFromGameWorld(std::vector<Ennemis> *entity);*/
 
-	std::list<Joueur>* AccessPlayerHolder();
-	std::list<Ennemis>* AccessEnnemieSimple();
-	std::list<std::vector<Ennemis>>* AccessEnnemisMultiple();
+	std::list<Joueur*>* AccessPlayerHolder();
+	std::list<Ennemis*>* AccessEnnemieSimple();
+	//std::list<std::vector<Ennemis>>* AccessEnnemisMultiple();
 
 	void RenderWorld(LTexture TtoRender[]);
 

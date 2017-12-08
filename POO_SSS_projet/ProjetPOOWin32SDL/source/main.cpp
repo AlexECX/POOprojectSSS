@@ -46,40 +46,40 @@ typedef struct {
 
 //----Thread Funtions----------------------------------------------------------------------------
 
-int TieThread(void *ptr)
-{
-	//On traduit le pointeur en GameWorld
-	ThreadData* FactoryData = (ThreadData*)ptr;
-
-	vector<Ennemis>* TieFighter = (vector<Ennemis>*)FactoryData->data1;
-	//GameWorld *WorldData = (GameWorld*)FactoryData->data2;
-
-	//trucs pour le timer et le deplacement
-	auto interval = std::chrono::milliseconds(5);
-//	std::chrono::milliseconds TieFighterFlightTime;
-	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
-
-	while (!TieFighter->empty() && !quit)
-	{
-		int SquadronMembers = TieFighter->size();
-		if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval) {
-			
-			for (int i = 0; i < TieFighter->size(); i++) {
-				if ((*TieFighter)[i].isAlive())
-					(*TieFighter)[i].UpdateTrajet((*TieFighter)[i].getCoordX() - 1, (*TieFighter)[i].getCoordY());
-				else
-					SquadronMembers--;
-			}
-			BeforeUpdate = std::chrono::high_resolution_clock::now();
-		}
-		else
-			SDL_Delay(1);
-
-	}
-	//((GameWorld*)(FactoryData->data2))->RemoveFromGameWorld(TieFighter);
-
-	return 1;
-}
+//int TieThread(void *ptr)
+//{
+//	//On traduit le pointeur en GameWorld
+//	ThreadData* FactoryData = (ThreadData*)ptr;
+//
+//	vector<Ennemis>* TieFighter = (vector<Ennemis>*)FactoryData->data1;
+//	//GameWorld *WorldData = (GameWorld*)FactoryData->data2;
+//
+//	//trucs pour le timer et le deplacement
+//	auto interval = std::chrono::milliseconds(5);
+////	std::chrono::milliseconds TieFighterFlightTime;
+//	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
+//
+//	while (!TieFighter->empty() && !quit)
+//	{
+//		int SquadronMembers = TieFighter->size();
+//		if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval) {
+//			
+//			for (int i = 0; i < TieFighter->size(); i++) {
+//				if ((*TieFighter)[i].isAlive())
+//					(*TieFighter)[i].UpdateTrajet((*TieFighter)[i].getCoordX() - 1, (*TieFighter)[i].getCoordY());
+//				else
+//					SquadronMembers--;
+//			}
+//			BeforeUpdate = std::chrono::high_resolution_clock::now();
+//		}
+//		else
+//			SDL_Delay(1);
+//
+//	}
+//	//((GameWorld*)(FactoryData->data2))->RemoveFromGameWorld(TieFighter);
+//
+//	return 1;
+//}
 
 //----TieFactoryThread----------------------------------------------------------------
 
@@ -116,8 +116,12 @@ int ThreadKeyboard(void* ptr)
 	GameWorld *tdata = (GameWorld*)ptr;
 	//Initialise un Falcon
 	//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de l'objet
-	Joueur *MilleniumFalcon = tdata->AddToGameWorld(Joueur(joueur, republic, 50, 250, 1, 0, 0));
+	Joueur *MilleniumFalcon = new Joueur(joueur, republic, 50, 250, 1, 0, 0);
+	MilleniumFalcon = tdata->AddToGameWorld(*MilleniumFalcon);
 	list<Joueur>* AccessKey;
+
+	auto interval = std::chrono::milliseconds(2000);
+	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
 
 	while (!quit) 
 	{
@@ -129,12 +133,18 @@ int ThreadKeyboard(void* ptr)
 			SDL_PushEvent(&user_event);
 		}
 
-		else if (state[SDL_SCANCODE_SPACE])
+		if (state[SDL_SCANCODE_SPACE])
 		{
-			tdata->AddToGameWorld(Projectile(tir_joueur, republic, MilleniumFalcon->getCoordX()+1, MilleniumFalcon->getCoordY() + 1, 1, 0, 0));
+			if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval)
+			{
+				Projectile* Tir = new Projectile(tir_joueur, republic, MilleniumFalcon->getCoordX() + 1, MilleniumFalcon->getCoordY() + 1, 1, 0, 0);
+				Tir = tdata->AddToGameWorld(*Tir);
+				BeforeUpdate = std::chrono::high_resolution_clock::now();
+			}
+			
 		}
 
-		else if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) 
+		if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) 
 		{
 			MilleniumFalcon->MouvUpLeft();
 		}
@@ -198,8 +208,8 @@ int main(int argc, char* args[])
 	//------------------------------------------------
 
 	//----Objet GameWorld et variable pour contenir les adresses de conteneurs---
-	WorldRenderer SpaceRenderer(texture, GameSprites);
-	GameWorld Space(&SpaceRenderer);	//Contiendra tout nos objets volant du jeu
+	//WorldRenderer SpaceRenderer(texture, GameSprites);
+	GameWorld Space;// (&SpaceRenderer);	//Contiendra tout nos objets volant du jeu
 	 
 	//std::list<Joueur>* PlayerHolder_AccessKey;
 	//std::list<Ennemis>* EnnemieSimple_AccessKey;

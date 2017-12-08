@@ -51,7 +51,7 @@ int Projectile::ProjectileThread()
 	return ProjectileThreadReturnValue;
 }
 
-void Projectile::MoveLeft()
+int Projectile::MoveLeft()
 {
 	auto interval = std::chrono::milliseconds(2);
 	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
@@ -68,9 +68,10 @@ void Projectile::MoveLeft()
 			SDL_Delay(1);
 		}
 	}
+	return 0;
 }
 
-void Projectile::MoveRight()
+int Projectile::MoveRight()
 {
 	auto interval = std::chrono::milliseconds(2);
 	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
@@ -87,6 +88,7 @@ void Projectile::MoveRight()
 			SDL_Delay(1);
 		}
 	}
+	return 0;
 }
 
 #undef DURATION_IN_MS
