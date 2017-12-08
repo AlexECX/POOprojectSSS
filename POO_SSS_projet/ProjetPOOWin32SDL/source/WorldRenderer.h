@@ -6,11 +6,23 @@ class LTexture;
 class WorldRenderer
 {
 private:
-	LTexture GameTexturs;
-	LSprite GameSprites;
+	LTexture *GameTextures;
+	LSprite *GameSprites;
+	std::list<Joueur>::iterator P;
+	std::list<Ennemis>::iterator S;
+	std::list<std::vector<Ennemis>>::iterator M;
+	std::list<CEsquadronTie>::iterator F;
+	std::list<Projectile>::iterator T;
+
 
 public:
-	WorldRenderer();
+	WorldRenderer(LTexture gametextures[], LSprite gamesprites[]);
 	~WorldRenderer();
+
+	void Render(std::list<Joueur>&);
+	void Render(std::list<Ennemis>);
+	void Render(std::list<CEsquadronTie>&);
+	void Render(std::list<Projectile>&);
+	void Render(std::list<categorie>);
 };
 

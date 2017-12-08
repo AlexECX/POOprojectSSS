@@ -23,8 +23,9 @@ private:
 	std::list<Ennemis> EnnemieSimple;
 	std::list<std::vector<Ennemis>> EnnemisMultiple;
 	std::list<CEsquadronTie> FormationEnnemie;
-	std::vector<categorie> Explosion;
+	std::list<categorie> Explosion;
 	std::list<Projectile> TirsLaser;
+	std::list<Projectile>::iterator T;
 	std::list<Joueur>::iterator P;
 	std::list<Ennemis>::iterator S;
 	std::list<std::vector<Ennemis>>::iterator M;
