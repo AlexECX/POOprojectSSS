@@ -5,7 +5,7 @@
 class Projectile //: public EntiteVolante
 {
 public:
-	Projectile();
+	Projectile(categorie, affiliation, int, int, int, int, int);
 	~Projectile();
 };
 #endif 
