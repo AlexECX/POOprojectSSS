@@ -21,12 +21,12 @@ Projectile::Projectile(	categorie CategorieParam,
 																DamageParam,
 																SpeedParam)
 {
-	SquadThreadPtr = SDL_CreateThread(StartProjectileThread, "SquadThread", this);
+	ProjectileThreadPtr = SDL_CreateThread(StartProjectileThread, "StartProjectileThread", this);
 }
 
 Projectile::~Projectile()
 {
-	SDL_WaitThread(SquadThreadPtr, &SquadThreadReturnValue);
+	SDL_WaitThread(ProjectileThreadPtr, &ProjectileThreadReturnValue);
 }
 
 int Projectile::StartProjectileThread(void * pointer)
@@ -34,16 +34,21 @@ int Projectile::StartProjectileThread(void * pointer)
 	return ((Projectile*)pointer)->ProjectileThread();
 }
 
-void Projectile::ProjectileThread()
+int Projectile::ProjectileThread()
 {
-	if (Affiliation == republic)
+	while (Affiliation == republic)
 	{
 		MoveRight();
 	}
-	else if (Affiliation == empire)
+
+	while (Affiliation == empire)
 	{
 		MoveLeft();
 	}
+
+	ProjectileThreadReturnValue = true;
+
+	return ProjectileThreadReturnValue;
 }
 
 void Projectile::MoveLeft()

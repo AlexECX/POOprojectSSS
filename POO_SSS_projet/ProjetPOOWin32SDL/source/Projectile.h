@@ -4,12 +4,16 @@
 
 class Projectile : public EntiteVolante
 {
+private:
+	SDL_Thread* ProjectileThreadPtr;
+	int ProjectileThreadReturnValue;
+
 public:
 	Projectile(categorie, affiliation, int, int, int, int, int);
 	~Projectile();
 	
-	int StartProjectileThread(void *pointer);
-	void ProjectileThread();
+	static int StartProjectileThread(void *pointer);
+	int ProjectileThread();
 
 	void MoveLeft();
 	void MoveRight();
