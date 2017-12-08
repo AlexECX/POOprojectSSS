@@ -7,6 +7,7 @@ class Ennemis : public EntiteVolante
 private:
 
 
+
 public:
 	Ennemis(categorie, affiliation, int, int, int, int, int);
 	~Ennemis();

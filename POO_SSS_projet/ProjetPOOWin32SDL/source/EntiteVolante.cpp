@@ -12,9 +12,10 @@ EntiteVolante::EntiteVolante(categorie CategorieParam,
 	Affiliation = AffiliationParam;
 	coordX = PosXParam;
 	coordY = PosYParam;
-	int HP = HP_Param;
-	int Damage = DamageParam;
-	int VitesseDeplacment = SpeedParam;
+	HP = HP_Param;
+	Damage = DamageParam;
+	VitesseDeplacment = SpeedParam;
+	Deleted = false;
 }
 
 EntiteVolante::~EntiteVolante()

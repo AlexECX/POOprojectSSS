@@ -26,8 +26,10 @@
     <ClInclude Include="ressources\loadFromFile.h" />
     <ClInclude Include="ressources\loadmedia.h" />
     <ClInclude Include="ressources\loadtexture.h" />
+    <ClInclude Include="ressources\LTexture.h" />
     <ClInclude Include="source\Ennemis.h" />
     <ClInclude Include="source\EntiteVolante.h" />
+    <ClInclude Include="source\EsquadronTie.h" />
     <ClInclude Include="source\Joueur.h" />
     <ClInclude Include="source\Obstacle.h" />
     <ClInclude Include="source\Plateau.h" />
@@ -35,8 +37,10 @@
     <ClInclude Include="source\Vaisseau.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ressources\LTexture.cpp" />
     <ClCompile Include="source\Ennemis.cpp" />
     <ClCompile Include="source\EntiteVolante.cpp" />
+    <ClCompile Include="source\EsquadronTie.cpp" />
     <ClCompile Include="source\Joueur.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Obstacle.cpp" />

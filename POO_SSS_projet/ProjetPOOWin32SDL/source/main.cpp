@@ -14,71 +14,64 @@ using namespace std;
 const int SCREEN_WIDTH = 1300;
 const int SCREEN_HEIGHT = 700;
 
-#include"initialise.h"
+#include "../ressources/LTexture.h"
 #include "Plateau.h"
+#include"initialise.h"
 #include "EntiteVolante.h"
 #include "Joueur.h"
 #include "Ennemis.h"
+#include "EsquadronTie.h"
+
 
 #define DURATION_IN_MS(Time_Interval) std::chrono::duration_cast<std::chrono::milliseconds>(Time_Interval)
-////#define ENTIEVOLANTE_CAST std::_List_iterator<std::_List_val<std::_List_simple_types<EntiteVolante>>>
-//#define GENERIC_KEY Key
-//#define ASSIGN_TO_GENERIC_KEY(AccessKey) std::list<EntiteVolante> *GENERIC_KEY = (std::list<EntiteVolante>*)AccessKey;
+
+typedef struct {
+	void *data1;
+	void *data2;
+	void *data3;
+} ThreadData;
 
 //---Functions Declarations---
-void RenderTextures(LTexture ToRender[], std::list<EntiteVolante>* Generic_AccessKey);
+//void RenderTextures(LTexture ToRender[], std::list<EntiteVolante>* Generic_AccessKey);
+//void RenderTextures(LTexture ToRender[], std::list<vector<EntiteVolante>>* Generic_AccessKey);
 
 //----------------------------
 
 
 
-typedef struct {
-	Joueur *PtrJoueur;
-} ThreadData;
-
 //----Thread Funtions----------------------------------------------------------------------------
 
-int TestThread(void *ptr)
+int TieThread(void *ptr)
 {
 	//On traduit le pointeur en GameWorld
-	GameWorld *tdata = (GameWorld*)ptr; 
-	//Initialise un Tie Fighter
-	//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de l'objet
+	ThreadData* FactoryData = (ThreadData*)ptr;
 
-	Ennemis *TieFighter = tdata->AddToGameWorld(Ennemis(ennemis_simple, empire, 500, 250, 1, 0, 0));
-	std::list<Joueur>* AccessKey;
-
+	vector<Ennemis>* TieFighter = (vector<Ennemis>*)FactoryData->data1;
+	//GameWorld *WorldData = (GameWorld*)FactoryData->data2;
 
 	//trucs pour le timer et le deplacement
-	auto interval = std::chrono::milliseconds(10);
-	std::chrono::milliseconds TieFighterFlightTime;
+	auto interval = std::chrono::milliseconds(5);
+//	std::chrono::milliseconds TieFighterFlightTime;
 	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
-	auto BeforeUTurn = std::chrono::high_resolution_clock::now();
-	int flying = 9000;
-	int H = 1;
-	////
 
-	while (flying)
+	while (!TieFighter->empty() && !quit)
 	{
-		TieFighterFlightTime = DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate);
-		
-		if (TieFighterFlightTime >= interval) {
-			//Ici le thread vas Accede a sont objet dans la liste PlayerHolder the GameWorld
-
-			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-			TieFighter->UpdateTrajet(TieFighter->getCoordX() + H, TieFighter->getCoordY());
-			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			BeforeUpdate = std::chrono::high_resolution_clock::now();
-
-			if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUTurn) >= interval * 50) {
-				H *= -1;
-				BeforeUTurn = std::chrono::high_resolution_clock::now();
+		int SquadronMembers = TieFighter->size();
+		if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval) {
+			
+			for (int i = 0; i < TieFighter->size(); i++) {
+				if ((*TieFighter)[i].isAlive())
+					(*TieFighter)[i].UpdateTrajet((*TieFighter)[i].getCoordX() - 1, (*TieFighter)[i].getCoordY());
+				else
+					SquadronMembers--;
 			}
+			BeforeUpdate = std::chrono::high_resolution_clock::now();
 		}
 		else
-			SDL_Delay(DURATION_IN_MS(interval - TieFighterFlightTime).count() - 1);
+			SDL_Delay(1);
 
 	}
+	//((GameWorld*)(FactoryData->data2))->RemoveFromGameWorld(TieFighter);
 
 	return 1;
 }
@@ -89,7 +82,27 @@ int TestThread(void *ptr)
 int TieFactoryThread(void *ptr)
 {
 	//On traduit le pointeur en GameWorld
+	//vector<SDL_Thread*> TieTH;
+	vector<CEsquadronTie*> Vagues;
+	//int TieReturnValue;
 	GameWorld *tdata = (GameWorld*)ptr;
+	vector<Ennemis> Recrus;
+
+	while (!quit) {
+		SDL_Delay(5000);
+		vector<Ennemis> Recrus;
+		for (int i = 0; i < 5; i++) {
+			Recrus.push_back(Ennemis(ennemis_simple, empire, 1100 + (rand() % 4 * 50), (i*100) + 50, 1, 0, 0));
+		}
+		CEsquadronTie* temp = new CEsquadronTie(Recrus);
+		Vagues.push_back(tdata->AddToGameWorld(*temp));
+			
+		//ThreadData *FactoryMessage = new ThreadData{ Esquadron, tdata };
+		//TieTH.push_back(SDL_CreateThread(TieThread, "TieThread", FactoryMessage));
+		SDL_Delay(1000);
+	}
+	/*while (!TieTH.empty())
+		SDL_WaitThread(TieTH.back(), &TieReturnValue);*/
 	return 1;
 }
 
@@ -103,9 +116,15 @@ int ThreadKeyboard(void* ptr)
 	Joueur *MilleniumFalcon = tdata->AddToGameWorld(Joueur(joueur, republic, 50, 250, 1, 0, 0));
 	list<Joueur>* AccessKey;
 
-	while (true) 
+	while (!quit) 
 	{
 		const Uint8 *state = SDL_GetKeyboardState(NULL);
+
+		if (state[SDL_SCANCODE_Q]) {
+			SDL_Event user_event;
+			user_event.type = SDL_QUIT;
+			SDL_PushEvent(&user_event);
+		}
 
 		if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) {
 			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
@@ -191,7 +210,7 @@ int main(int argc, char* args[])
 {
 
 	//----Variables pour nos thread-------
-	SDL_Thread *thread;
+	SDL_Thread *thread1;
 	SDL_Thread *thread2;
 	int         threadReturnValue;
 	int        threadReturnValue2;
@@ -208,9 +227,9 @@ int main(int argc, char* args[])
 
 	//-Objet GameWorld et variable pour contenir les adresses de conteneurs---
 	GameWorld Space;	//Contiendra tout nos objets volant du jeu
-	std::list<Joueur>* PlayerHolder_AccessKey;
-	std::list<Ennemis>* EnnemieSimple_AccessKey;
-	std::list<std::vector<Ennemis>>* EnnemisMultiple_AccessKey;
+	//std::list<Joueur>* PlayerHolder_AccessKey;
+	//std::list<Ennemis>* EnnemieSimple_AccessKey;
+//	std::list<std::vector<Ennemis>>* EnnemisMultiple_AccessKey;
 	//------------------------------------------------------------------------
 
 
@@ -220,6 +239,7 @@ int main(int argc, char* args[])
 
 	void SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h);
 	int BackgroundMusic = true;
+
 
 	//Start up SDL and create window
 	if (!init())
@@ -241,8 +261,8 @@ int main(int argc, char* args[])
 			//Main loop flag
 			bool quit = false;
 
-			//Event handler
-			SDL_Event e;
+			
+			
 
 			//On initilise le Faucon.
 			//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de l'objet
@@ -254,9 +274,10 @@ int main(int argc, char* args[])
 
 			//Simply create a thread 
 			GameWorld *World_ptr = &Space; //On envoie GameWorld en parametre, on devra le traduire avec (GameWorld*)
-			thread = SDL_CreateThread(TestThread, "TestThread", World_ptr);
+			thread1 = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", World_ptr);
 			
 			thread2 = SDL_CreateThread(ThreadKeyboard, "ThreadKeyboard", World_ptr);
+
 
 			/////////////////////////////////
 
@@ -271,6 +292,7 @@ int main(int argc, char* args[])
 					if (e.type == SDL_QUIT)
 					{
 						quit = true;
+						
 					}
 				}
 
@@ -278,11 +300,12 @@ int main(int argc, char* args[])
 				Main_elapsed = DURATION_IN_MS(std::chrono::high_resolution_clock::now() - Main_Timestamp);
 
 				if (Main_elapsed < Main_interval) {
-					SDL_Delay(DURATION_IN_MS(Main_interval - Main_elapsed).count() - 1);
+					SDL_Delay(1);
+					//SDL_Delay(DURATION_IN_MS(Main_interval - Main_elapsed).count());
 
 				}
 
-				//else {
+				else {
 
 				//Clear screen
 				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -309,6 +332,9 @@ int main(int argc, char* args[])
 					//Astuce: les methodes "Access_______()" the GameWorld retourne en fait l'adresse du conteneur, 
 					//apres l'avoir locké. Tu peux donc itérer dessus si nécessaire
 
+					Space.RenderWorld(texture);
+
+					/**Alternate Render Method//////
 
 					//Render le Joueur
 					PlayerHolder_AccessKey = Space.AccessPlayerHolder();	//On reclame un acces au conteneur
@@ -322,6 +348,11 @@ int main(int argc, char* args[])
 					RenderTextures(texture, (std::list<EntiteVolante>*)EnnemieSimple_AccessKey);
 					Space.ReleaseContainer(EnnemieSimple_AccessKey);	//Ne pas oublier de relacher le conteneur
 
+					EnnemisMultiple_AccessKey = Space.AccessEnnemisMultiple();
+					RenderTextures(texture, (std::list <vector<EntiteVolante>> *)EnnemisMultiple_AccessKey);
+					Space.ReleaseContainer(EnnemisMultiple_AccessKey);
+
+					/**/////////////////////////////
 
 					texture[2].render(200, 300);
 
@@ -329,12 +360,12 @@ int main(int argc, char* args[])
 
 					//Update screen
 					SDL_RenderPresent(gRenderer);
-				//}
+				}
 
 				//----Keyboard detect----
 
 			}
-			SDL_WaitThread(thread, &threadReturnValue); //Wait for the thread to complete.		
+			SDL_WaitThread(thread1, &threadReturnValue); //Wait for the thread to complete.		
 			SDL_WaitThread(thread2, &threadReturnValue2); //Wait for the thread to complete.
 		}
 	}
@@ -348,13 +379,23 @@ int main(int argc, char* args[])
 
 //----Fonctions----------------------------------------------------------------------------
 
-void RenderTextures(LTexture ToRender[], std::list<EntiteVolante>* Generic_AccessKey) {
-	std::list<EntiteVolante>::iterator S = Generic_AccessKey->begin();
-	while (S != Generic_AccessKey->end()) {
-		texture[S->getCategorie()].render(S->getCoordX(), S->getCoordY());
-		S++;
-	}
-}
+//void RenderTextures(LTexture ToRender[], std::list<EntiteVolante>* Generic_AccessKey) {
+//	std::list<EntiteVolante>::iterator S = Generic_AccessKey->begin();
+//	while (S != Generic_AccessKey->end()) {
+//		texture[S->getCategorie()].render(S->getCoordX(), S->getCoordY());
+//		S++;
+//	}
+//}
+//
+//void RenderTextures(LTexture ToRender[], std::list<vector<EntiteVolante>>* Generic_AccessKey) {
+//	std::list<vector<EntiteVolante>>::iterator S = Generic_AccessKey->begin();
+//	while (S != Generic_AccessKey->end()) {
+//		for (int i = 0; i < S->size(); i++) {
+//			texture[(*S)[i].getCategorie()].render((*S)[i].getCoordX(), (*S)[i].getCoordY());
+//		}
+//		S++;
+//	}
+//}
 
 #include"loadFromFile.h"
 

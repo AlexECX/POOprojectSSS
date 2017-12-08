@@ -1,5 +1,7 @@
 #pragma once
 
+class LTexture;
+
 void LTexture::free()
 {
 	//Free texture if it exists

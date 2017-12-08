@@ -1,36 +1,10 @@
 #pragma once
+//#include <SDL.h>
+#include <SDL_mixer.h>
+//#include "LTexture.h"
 
 //Texture wrapper class
-class LTexture
-{
-public:
-	//Initializes variables
-	LTexture();
-
-	//Deallocates memory
-	~LTexture();
-
-	//Loads image at specified path
-	bool loadFromFile(std::string path);
-
-	//Deallocates texture
-	void free();
-
-	//Renders texture at given point
-	void render(int x, int y);
-
-	//Gets image dimensions
-	int getWidth();
-	int getHeight();
-
-private:
-	//The actual hardware texture
-	SDL_Texture* mTexture;
-
-	//Image dimensions
-	int mWidth;
-	int mHeight;
-};
+class LTexture;
 
 //Starts up SDL and creates window
 bool init();
@@ -40,6 +14,12 @@ bool loadMedia();
 
 //Frees media and shuts down SDL
 void close();
+
+//Event handler
+SDL_Event e;
+
+//Main loop flag
+bool quit = false;
 
 //The window we'll be rendering to
 SDL_Window* gWindow = NULL;
@@ -52,19 +32,7 @@ LTexture texture[10];
 
 LTexture gBackgroundTexture;
 
-LTexture::LTexture()
-{
-	//Initialize
-	mTexture = NULL;
-	mWidth = 0;
-	mHeight = 0;
-}
 
-LTexture::~LTexture()
-{
-	//Deallocate
-	free();
-}
 
 //The music that will be played
 Mix_Music *gMusic = NULL;

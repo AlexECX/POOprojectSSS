@@ -57,6 +57,12 @@
     <ClInclude Include="LTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ressources\LTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\EsquadronTie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
@@ -81,6 +87,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Joueur.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ressources\LTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\EsquadronTie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
