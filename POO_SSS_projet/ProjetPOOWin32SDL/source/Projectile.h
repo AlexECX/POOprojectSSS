@@ -1,6 +1,7 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
+struct SDL_Thread;
 
 class Projectile : public EntiteVolante
 {
@@ -15,7 +16,7 @@ public:
 	static int StartProjectileThread(void *pointer);
 	int ProjectileThread();
 
-	void MoveLeft();
-	void MoveRight();
+	int MoveLeft();
+	int MoveRight();
 };
 #endif 

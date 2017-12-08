@@ -15,7 +15,7 @@ public:
 	~CEsquadronTie();
 	Ennemis* getMember(int member) { return &Squad[member]; }
 	int getSquadronSize() { return Squad.size(); }
-	
+	bool isAlive() { return Flying; }
 
 	void Update();
 

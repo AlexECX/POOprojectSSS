@@ -1,6 +1,10 @@
 #pragma once
 
+#include <vector>
+#include <list>
+
 class LTexture;
+struct LSprite;
 class Ennemis;
 class Joueur;
 class EsquadronTie;
