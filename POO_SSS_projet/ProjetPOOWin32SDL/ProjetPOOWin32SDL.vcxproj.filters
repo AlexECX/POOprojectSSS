@@ -54,6 +54,7 @@
     <ClInclude Include="ressources\loadtexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="LTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -63,6 +64,8 @@
     <ClInclude Include="source\EsquadronTie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+=======
+>>>>>>> e6eb35346271f2c9177e479263afa4f3be6bc6f5
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
