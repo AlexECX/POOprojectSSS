@@ -30,8 +30,6 @@ void RenderTextures(LTexture ToRender[], std::list<EntiteVolante>* Generic_Acces
 
 //----------------------------
 
-
-
 typedef struct {
 	Joueur *PtrJoueur;
 } ThreadData;
@@ -83,7 +81,6 @@ int TestThread(void *ptr)
 	return 1;
 }
 
-
 //----TieFactoryThread----------------------------------------------------------------
 
 int TieFactoryThread(void *ptr)
@@ -93,12 +90,11 @@ int TieFactoryThread(void *ptr)
 	return 1;
 }
 
-
 int ThreadKeyboard(void* ptr)
 {
 	//On traduit le pointeur en GameWorld
 	GameWorld *tdata = (GameWorld*)ptr;
-	//Initialise un Tie Fighter
+	//Initialise un Falcon
 	//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de l'objet
 	Joueur *MilleniumFalcon = tdata->AddToGameWorld(Joueur(joueur, republic, 50, 250, 1, 0, 0));
 	list<Joueur>* AccessKey;
@@ -107,78 +103,57 @@ int ThreadKeyboard(void* ptr)
 	{
 		const Uint8 *state = SDL_GetKeyboardState(NULL);
 
-		if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) {
+		if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) 
+		{
 			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
 			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1, MilleniumFalcon->getCoordY() - 1);
 			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
 		}
 
-		else if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_DOWN]) {
+		else if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_DOWN]) 
+		{
 			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
 			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1, MilleniumFalcon->getCoordY() + 1);
 			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-
-			/**
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1,
-				MilleniumFalcon->getCoordY() + 1);
-			/**/
 		}
 
-		else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_UP]) {
+		else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_UP]) 
+		{
 			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
 			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1, MilleniumFalcon->getCoordY() - 1);
 			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-
-			/**
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1,
-				MilleniumFalcon->getCoordY() - 1);
-			/**/
-
 		}
 
-		else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_DOWN]) {
+		else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_DOWN]) 
+		{
 			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
 			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1, MilleniumFalcon->getCoordY() + 1);
 			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-
-			//MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1,
-			//	MilleniumFalcon->getCoordY() + 1);
-
 		}
 
-		else if (state[SDL_SCANCODE_DOWN]) {
+		else if (state[SDL_SCANCODE_DOWN]) 
+		{
 			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
 			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX(), MilleniumFalcon->getCoordY() + 1);
 			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-
-			//MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX(),
-			//	MilleniumFalcon->getCoordY() + 1);
 		}
-		else if (state[SDL_SCANCODE_UP]) {
+		else if (state[SDL_SCANCODE_UP]) 
+		{
 			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
 			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX(), MilleniumFalcon->getCoordY() - 1);
 			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-
-			//MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX(),
-			//	MilleniumFalcon->getCoordY() - 1);
-
 		}
-		else if (state[SDL_SCANCODE_RIGHT]) {
+		else if (state[SDL_SCANCODE_RIGHT]) 
+		{
 			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
 			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1, MilleniumFalcon->getCoordY());
 			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-
-			//MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1,
-			//	MilleniumFalcon->getCoordY());
-
 		}
-		else if (state[SDL_SCANCODE_LEFT]) {
+		else if (state[SDL_SCANCODE_LEFT]) 
+		{
 			AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
 			MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1, MilleniumFalcon->getCoordY());
 			tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-
-			//MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1,
-			//	MilleniumFalcon->getCoordY());
 		}
 		SDL_Delay(1);
 	}
@@ -189,7 +164,6 @@ int ThreadKeyboard(void* ptr)
 
 int main(int argc, char* args[])
 {
-
 	//----Variables pour nos thread-------
 	SDL_Thread *thread;
 	SDL_Thread *thread2;
@@ -205,14 +179,12 @@ int main(int argc, char* args[])
 	std::chrono::milliseconds Main_elapsed;
 	//------------------------------------------------
 
-
 	//-Objet GameWorld et variable pour contenir les adresses de conteneurs---
 	GameWorld Space;	//Contiendra tout nos objets volant du jeu
 	std::list<Joueur>* PlayerHolder_AccessKey;
 	std::list<Ennemis>* EnnemieSimple_AccessKey;
 	std::list<std::vector<Ennemis>>* EnnemisMultiple_AccessKey;
 	//------------------------------------------------------------------------
-
 
 	/*if (NULL == thread) {
 		printf("\nSDL_CreateThread failed: %s\n", SDL_GetError());
@@ -287,8 +259,6 @@ int main(int argc, char* args[])
 				//Clear screen
 				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 				SDL_RenderClear(gRenderer);
-
-
 					
 				//Bench pour tester l'interval de temp. Total devrait donner 30 ms +/- 1 ms
 				/*end = std::chrono::high_resolution_clock::now();
@@ -321,7 +291,6 @@ int main(int argc, char* args[])
 					//Ici on itere sur le conteneur PlayerHolder pour render tout les objets qu'il contient
 					RenderTextures(texture, (std::list<EntiteVolante>*)EnnemieSimple_AccessKey);
 					Space.ReleaseContainer(EnnemieSimple_AccessKey);	//Ne pas oublier de relacher le conteneur
-
 
 					texture[2].render(200, 300);
 
