@@ -216,12 +216,12 @@ int main(int argc, char* args[])
 			//Event handler
 			SDL_Event e;
 
+			//Current animation frame
+			int frame = 0;
+
 			//On initilise le Faucon.
 			//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de l'objet
-			//Joueur *MilleniumFalcon = Space.AddToGameWorld(Joueur(joueur, republic, 50, 250, 1, 0, 0));//Remore = pas affichage falcon
-																									   //Le thread ne suffit pas a faire afficher le falcon 
-																									  
-			/**/
+
 			//printf("\nSimple SDL_CreateThread test:");
 
 			//Simply create a thread 
@@ -279,7 +279,6 @@ int main(int argc, char* args[])
 					//Astuce: les methodes "Access_______()" the GameWorld retourne en fait l'adresse du conteneur, 
 					//apres l'avoir locké. Tu peux donc itérer dessus si nécessaire
 
-
 					//Render le Joueur
 					PlayerHolder_AccessKey = Space.AccessPlayerHolder();	//On reclame un acces au conteneur
 					//Ici on itere sur le conteneur PlayerHolder pour render tout les objets qu'il contient
@@ -296,12 +295,33 @@ int main(int argc, char* args[])
 
 					texture[3].render(350, 300);
 
+					texture[4].render(700, 300);
+
+					//----Sprite----
+
+					//Render current frame
+					SDL_Rect* currentClip = &gSpriteClips[frame / 5];//speed
+					gSpriteSheetTexture.renderSprite((SCREEN_WIDTH - currentClip->w) / 2, (SCREEN_HEIGHT - currentClip->h) / 2, currentClip);
+
+					//----Sprite----
+
 					//Update screen
 					SDL_RenderPresent(gRenderer);
+
 				//}
 
-				//----Keyboard detect----
+					//----Sprite----
 
+					//Go to next frame
+					++frame;
+
+					//Cycle animation
+					if (frame / 9 >= WALKING_ANIMATION_FRAMES)
+					{
+						frame = 0;
+					}
+
+					//----Sprite----
 			}
 			SDL_WaitThread(thread, &threadReturnValue); //Wait for the thread to complete.		
 			SDL_WaitThread(thread2, &threadReturnValue2); //Wait for the thread to complete.

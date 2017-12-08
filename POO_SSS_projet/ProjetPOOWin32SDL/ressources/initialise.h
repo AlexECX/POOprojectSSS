@@ -16,8 +16,20 @@ public:
 	//Deallocates texture
 	void free();
 
+	//Set color modulation
+	void setColor(Uint8 red, Uint8 green, Uint8 blue);
+
+	//Set blending
+	void setBlendMode(SDL_BlendMode blending);
+
+	//Set alpha modulation
+	void setAlpha(Uint8 alpha);
+
 	//Renders texture at given point
 	void render(int x, int y);
+
+	//Renders texture at given point
+	void renderSprite(int x, int y, SDL_Rect* clip = NULL);
 
 	//Gets image dimensions
 	int getWidth();
@@ -46,6 +58,11 @@ SDL_Window* gWindow = NULL;
 
 //The window renderer
 SDL_Renderer* gRenderer = NULL;
+
+//Walking animation
+const int WALKING_ANIMATION_FRAMES = 9;
+SDL_Rect gSpriteClips[WALKING_ANIMATION_FRAMES];
+LTexture gSpriteSheetTexture;
 
 //Scene textures
 LTexture texture[10];
