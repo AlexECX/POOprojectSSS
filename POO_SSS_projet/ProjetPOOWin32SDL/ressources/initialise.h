@@ -7,6 +7,7 @@
 class LTexture;
 
 
+
 //Starts up SDL and creates window
 bool init();
 
@@ -29,9 +30,12 @@ SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
 
 //Walking animation
-const int WALKING_ANIMATION_FRAMES = 9;
-SDL_Rect gSpriteClips[WALKING_ANIMATION_FRAMES];
-LTexture gSpriteSheetTexture;
+LSprite GameSprites[10];
+
+
+SDL_Rect gSpriteClips[9];
+//LTexture gSpriteSheetTexture;
+
 
 //Scene textures
 LTexture texture[10];

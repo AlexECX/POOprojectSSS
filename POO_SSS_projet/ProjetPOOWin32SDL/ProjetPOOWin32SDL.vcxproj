@@ -25,6 +25,7 @@
     <ClInclude Include="ressources\loadFromFile.h" />
     <ClInclude Include="ressources\loadmedia.h" />
     <ClInclude Include="ressources\loadtexture.h" />
+    <ClInclude Include="ressources\LSprite.h" />
     <ClInclude Include="ressources\LTexture.h" />
     <ClInclude Include="source\Ennemis.h" />
     <ClInclude Include="source\EntiteVolante.h" />
@@ -34,6 +35,7 @@
     <ClInclude Include="source\Plateau.h" />
     <ClInclude Include="source\Projectile.h" />
     <ClInclude Include="source\Vaisseau.h" />
+    <ClInclude Include="source\WorldRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ressources\LTexture.cpp" />
@@ -46,6 +48,7 @@
     <ClCompile Include="source\Plateau.cpp" />
     <ClCompile Include="source\Projectile.cpp" />
     <ClCompile Include="source\Vaisseau.cpp" />
+    <ClCompile Include="source\WorldRenderer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B81014F3-B4F0-4724-9D2E-368409E3E1C7}</ProjectGuid>

@@ -16,6 +16,7 @@ const int SCREEN_HEIGHT = 700;
 
 
 #include "../ressources/LTexture.h"
+#include "..\ressources\LSprite.h"
 #include"initialise.h"
 #include "Plateau.h"
 
@@ -325,8 +326,9 @@ int main(int argc, char* args[])
 					//----Sprite----
 
 					//Render current frame
-					SDL_Rect* currentClip = &gSpriteClips[frame / 5];//speed
-					gSpriteSheetTexture.renderSprite((SCREEN_WIDTH - currentClip->w) / 2, (SCREEN_HEIGHT - currentClip->h) / 2, currentClip);
+					SDL_Rect* currentClip = &GameSprites[0].SpriteClips[frame / 5];
+						//&gSpriteClips[frame / 5];//speed
+					GameSprites[0].SpriteTexture.renderSprite((SCREEN_WIDTH - currentClip->w) / 2, (SCREEN_HEIGHT - currentClip->h) / 2, currentClip);
 
 					//----Sprite----
 
@@ -341,7 +343,7 @@ int main(int argc, char* args[])
 					++frame;
 
 					//Cycle animation
-					if (frame / 9 >= WALKING_ANIMATION_FRAMES)
+					if (frame / 9 >= 9)
 					{
 						frame = 0;
 					}

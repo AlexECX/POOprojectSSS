@@ -3,7 +3,7 @@
 void close()
 {
 	//Free loaded images
-	gSpriteSheetTexture.free();
+	GameSprites[0].SpriteTexture.free();
 
 	//Free loaded images
 	texture[0].free();
