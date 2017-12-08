@@ -104,7 +104,7 @@ std::list<std::vector<Ennemis>>* GameWorld::AccessEnnemisMultiple()
 	return &EnnemisMultiple;
 }
 
-void GameWorld::RenderWorld(LTexture TtoRender[10])
+void GameWorld::RenderWorld(LTexture TtoRender[])
 {
 	P_lock.lock();
 	for (P = PlayerHolder.begin(); P != PlayerHolder.end(); P++) {

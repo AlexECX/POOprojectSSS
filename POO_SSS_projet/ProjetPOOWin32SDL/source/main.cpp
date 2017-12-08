@@ -40,10 +40,6 @@ typedef struct {
 //void RenderTextures(LTexture ToRender[], std::list<EntiteVolante>* Generic_AccessKey);
 //void RenderTextures(LTexture ToRender[], std::list<vector<EntiteVolante>>* Generic_AccessKey);
 
-//----------------------------
-
-
-
 //----Thread Funtions----------------------------------------------------------------------------
 
 int TieThread(void *ptr)
