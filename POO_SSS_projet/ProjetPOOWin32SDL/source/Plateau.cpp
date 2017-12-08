@@ -142,7 +142,7 @@ void GameWorld::RenderWorld(LTexture TtoRender[10])
 	}
 	M_lock.unlock();
 
-	SDL_Rect* currentClip = &gSpriteClips[1 / 5];//speed
+	//SDL_Rect* currentClip = &gSpriteClips[1 / 5];//speed
 
 
 	//for (M = EnnemisMultiple.begin(); M != EnnemisMultiple.end(); M++) {
