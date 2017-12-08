@@ -11,7 +11,7 @@
     <ClCompile Include="source\Plateau.cpp" />
     <ClCompile Include="source\Projectile.cpp" />
     <ClCompile Include="source\Vaisseau.cpp" />
-    <ClCompile Include="WorldRenderer.cpp" />
+    <ClCompile Include="source\WorldRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ressources\boolinit.h" />
@@ -29,6 +29,7 @@
     <ClInclude Include="source\Plateau.h" />
     <ClInclude Include="source\Projectile.h" />
     <ClInclude Include="source\Vaisseau.h" />
-    <ClInclude Include="WorldRenderer.h" />
+    <ClInclude Include="source\WorldRenderer.h" />
+    <ClInclude Include="ressources\LSprite.h" />
   </ItemGroup>
 </Project>

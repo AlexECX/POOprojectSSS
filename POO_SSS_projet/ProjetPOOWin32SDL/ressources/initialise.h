@@ -6,10 +6,6 @@
 //Texture wrapper class
 class LTexture;
 
-struct LSprite {
-	LTexture SpriteTexture;
-	SDL_Rect *SpriteClips;
-};
 
 
 //Starts up SDL and creates window

@@ -16,6 +16,7 @@ const int SCREEN_HEIGHT = 700;
 
 
 #include "../ressources/LTexture.h"
+#include "..\ressources\LSprite.h"
 #include"initialise.h"
 #include "Plateau.h"
 
