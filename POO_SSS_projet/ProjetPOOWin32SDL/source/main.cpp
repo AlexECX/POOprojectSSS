@@ -23,6 +23,7 @@ const int SCREEN_HEIGHT = 700;
 #include "Joueur.h"
 #include "Ennemis.h"
 #include "EsquadronTie.h"
+#include "Projectile.h"
 
 
 #define DURATION_IN_MS(Time_Interval) std::chrono::duration_cast<std::chrono::milliseconds>(Time_Interval)
@@ -128,7 +129,7 @@ int ThreadKeyboard(void* ptr)
 
 		else if (state[SDL_SCANCODE_SPACE])
 		{
-
+			tdata->AddToGameWorld(Projectile(tir_joueur, republic, MilleniumFalcon->getCoordX()+1, MilleniumFalcon->getCoordY() + 1, 1, 0, 0));
 		}
 
 		else if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) 
