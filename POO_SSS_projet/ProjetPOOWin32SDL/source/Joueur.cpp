@@ -26,3 +26,71 @@ Joueur::Joueur(categorie CategorieParam,
 Joueur::~Joueur()
 {
 }
+
+void Joueur::MouvUp()
+{
+	if (coordY > 0)
+	{
+		coordY--;
+	}
+}
+
+void Joueur::MouvDown()
+{
+	if (coordY < 600)
+	{
+		coordY++;
+	}
+}
+
+void Joueur::MouvLeft()
+{
+	if (coordX > 0)
+	{
+		coordX--;
+	}
+}
+
+void Joueur::MouvRight()
+{
+	if (coordX < 1100)
+	{
+		coordX++;
+	}
+}
+
+void Joueur::MouvUpLeft()
+{
+	if (coordX > 0 && coordY > 0 )
+	{
+		coordX--;
+		coordY--;
+	}
+}
+
+void Joueur::MouvDownLeft()
+{
+	if (coordX > 0 && coordY < 600)
+	{
+		coordX--;
+		coordY++;
+	}
+}
+
+void Joueur::MouvUpRight()
+{
+	if (coordX < 1100 && coordY > 0)
+	{
+		coordX++;
+		coordY--;
+	}
+}
+
+void Joueur::MouvDownRight()
+{
+	if (coordX < 1100 && coordY < 600)
+	{
+		coordX++;
+		coordY++;
+	}
+}

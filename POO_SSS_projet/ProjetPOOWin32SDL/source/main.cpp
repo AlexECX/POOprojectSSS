@@ -126,130 +126,46 @@ int ThreadKeyboard(void* ptr)
 			SDL_PushEvent(&user_event);
 		}
 
-
-		if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) 
+		else if (state[SDL_SCANCODE_SPACE])
 		{
-			if (MilleniumFalcon->getCoordX() > 0 && MilleniumFalcon->getCoordX() < 1100 && MilleniumFalcon->getCoordY() > 0 && MilleniumFalcon->getCoordY() < 600)
-			{
-				AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1, MilleniumFalcon->getCoordY() - 1);
-				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			}
-			else
-			{
-				AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1, MilleniumFalcon->getCoordY() + 1);
-				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			}
+
+		}
+
+		else if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) 
+		{
+			MilleniumFalcon->MouvUpLeft();
 		}
 
 		else if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_DOWN]) 
 		{
-			if (MilleniumFalcon->getCoordX() > 0 && MilleniumFalcon->getCoordX() < 1100 && MilleniumFalcon->getCoordY() > 0 && MilleniumFalcon->getCoordY() < 600)
-			{
-				AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1, MilleniumFalcon->getCoordY() + 1);
-				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			}
-			else
-			{
-				AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1, MilleniumFalcon->getCoordY() - 1);
-				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			}
+			MilleniumFalcon->MouvDownLeft();
 		}
 
 		else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_UP]) 
 		{
-			if (MilleniumFalcon->getCoordX() > 0 && MilleniumFalcon->getCoordX() < 1100 && MilleniumFalcon->getCoordY() > 0 && MilleniumFalcon->getCoordY() < 600)
-			{
-				AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1, MilleniumFalcon->getCoordY() - 1);
-				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			}
-			else
-			{
-				AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1, MilleniumFalcon->getCoordY() + 1);
-				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			}
+			MilleniumFalcon->MouvUpRight();
 		}
 
 		else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_DOWN]) 
 		{
-			if (MilleniumFalcon->getCoordX() > 0 && MilleniumFalcon->getCoordX() < 1100 && MilleniumFalcon->getCoordY() > 0 && MilleniumFalcon->getCoordY() < 600)
-			{
-				AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1, MilleniumFalcon->getCoordY() + 1);
-				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			}
-			else
-			{
-				AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1, MilleniumFalcon->getCoordY() - 1);
-				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			}
+			MilleniumFalcon->MouvDownRight();
 		}
 
 		else if (state[SDL_SCANCODE_DOWN]) 
 		{
-			if (MilleniumFalcon->getCoordX() > 0 && MilleniumFalcon->getCoordX() < 1100 && MilleniumFalcon->getCoordY() > 0 && MilleniumFalcon->getCoordY() < 600)
-			{
-				AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX(), MilleniumFalcon->getCoordY() + 1);
-				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			}
-			else
-			{
-				AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX(), MilleniumFalcon->getCoordY() - 1);
-				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			}
+			MilleniumFalcon->MouvDown();
 		}
 		else if (state[SDL_SCANCODE_UP]) 
 		{
-			if (MilleniumFalcon->getCoordX() > 0 && MilleniumFalcon->getCoordX() < 1100 && MilleniumFalcon->getCoordY() > 0 && MilleniumFalcon->getCoordY() < 600)
-			{
-				AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX(), MilleniumFalcon->getCoordY() - 1);
-				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			}
-			else
-			{
-				AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX(), MilleniumFalcon->getCoordY() + 1);
-				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			}
+			MilleniumFalcon->MouvUp();
 		}
 		else if (state[SDL_SCANCODE_RIGHT]) 
 		{
-			if (MilleniumFalcon->getCoordX() > 0 && MilleniumFalcon->getCoordX() < 1100 && MilleniumFalcon->getCoordY() > 0 && MilleniumFalcon->getCoordY() < 600)
-			{
-				AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1, MilleniumFalcon->getCoordY());
-				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			}
-			else
-			{
-				AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1, MilleniumFalcon->getCoordY());
-				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			}
+			MilleniumFalcon->MouvRight();
 		}
 		else if (state[SDL_SCANCODE_LEFT]) 
 		{
-			if (MilleniumFalcon->getCoordX() > 0 && MilleniumFalcon->getCoordX() < 1100 && MilleniumFalcon->getCoordY() > 0 && MilleniumFalcon->getCoordY() < 600)
-			{
-				AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() - 1, MilleniumFalcon->getCoordY());
-				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			}
-			else
-			{
-				AccessKey = tdata->AccessPlayerHolder(); //RecupÈre une clé d'Accès au bon conteneur
-				MilleniumFalcon->UpdateTrajet(MilleniumFalcon->getCoordX() + 1, MilleniumFalcon->getCoordY());
-				tdata->ReleaseContainer(AccessKey);	//libÈre la clé (important)
-			}
+			MilleniumFalcon->MouvLeft();
 		}
 
 		SDL_Delay(3);
