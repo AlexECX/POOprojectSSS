@@ -19,6 +19,7 @@ const int SCREEN_HEIGHT = 700;
 #include "..\ressources\LSprite.h"
 #include"initialise.h"
 #include "Plateau.h"
+#include "WorldRenderer.h"
 
 #include "EntiteVolante.h"
 #include "Joueur.h"
@@ -197,7 +198,9 @@ int main(int argc, char* args[])
 	//------------------------------------------------
 
 	//----Objet GameWorld et variable pour contenir les adresses de conteneurs---
+	WorldRenderer SpaceRenderer(texture, GameSprites);
 	GameWorld Space;	//Contiendra tout nos objets volant du jeu
+	 
 	//std::list<Joueur>* PlayerHolder_AccessKey;
 	//std::list<Ennemis>* EnnemieSimple_AccessKey;
 //	std::list<std::vector<Ennemis>>* EnnemisMultiple_AccessKey;
