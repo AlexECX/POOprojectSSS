@@ -126,8 +126,12 @@ int ThreadKeyboard(void* ptr)
 			SDL_PushEvent(&user_event);
 		}
 
+		else if (state[SDL_SCANCODE_SPACE])
+		{
 
-		if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) 
+		}
+
+		else if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) 
 		{
 			MilleniumFalcon->MouvUpLeft();
 		}

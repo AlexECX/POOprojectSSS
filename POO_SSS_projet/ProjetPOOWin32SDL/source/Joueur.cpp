@@ -61,7 +61,7 @@ void Joueur::MouvRight()
 
 void Joueur::MouvUpLeft()
 {
-	if (coordX > 0 && coordX < 1100 && coordY > 0 && coordY < 600)
+	if (coordX > 0 && coordY > 0 )
 	{
 		coordX--;
 		coordY--;
@@ -70,7 +70,7 @@ void Joueur::MouvUpLeft()
 
 void Joueur::MouvDownLeft()
 {
-	if (coordX > 0 && coordX < 1100 && coordY > 0 && coordY < 600)
+	if (coordX > 0 && coordY < 600)
 	{
 		coordX--;
 		coordY++;
@@ -79,7 +79,7 @@ void Joueur::MouvDownLeft()
 
 void Joueur::MouvUpRight()
 {
-	if (coordX > 0 && coordX < 1100 && coordY > 0 && coordY < 600)
+	if (coordX < 1100 && coordY > 0)
 	{
 		coordX++;
 		coordY--;
@@ -88,7 +88,7 @@ void Joueur::MouvUpRight()
 
 void Joueur::MouvDownRight()
 {
-	if (coordX > 0 && coordX < 1100 && coordY > 0 && coordY < 600)
+	if (coordX < 1100 && coordY < 600)
 	{
 		coordX++;
 		coordY++;
