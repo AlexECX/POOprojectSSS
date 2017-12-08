@@ -3,7 +3,8 @@
 #include "Joueur.h"
 #include "Ennemis.h"
 #include "EsquadronTie.h"
-//#include <SDL.h>
+#include "Projectile.h"
+#include <SDL.h>
 #include "..\ressources\LTexture.h"
 
 
@@ -50,6 +51,16 @@ CEsquadronTie* GameWorld::AddToGameWorld(CEsquadronTie &entity)
 	FormationEnnemie.push_back(entity);
 	PtrToSend = &FormationEnnemie.back();
 	M_lock.unlock();
+	return PtrToSend;
+}
+
+Projectile * GameWorld::AddToGameWorld(Projectile & entity)
+{
+	Projectile *PtrToSend;
+	T_lock.lock();
+	TirsLaser.push_back(entity);
+	PtrToSend = &TirsLaser.back();
+	T_lock.unlock();
 	return PtrToSend;
 }
 
@@ -130,6 +141,9 @@ void GameWorld::RenderWorld(LTexture TtoRender[10])
 			
 	}
 	M_lock.unlock();
+
+	SDL_Rect* currentClip = &gSpriteClips[1 / 5];//speed
+
 
 	//for (M = EnnemisMultiple.begin(); M != EnnemisMultiple.end(); M++) {
 	//	for (int i = 0; i < M->size(); i++)

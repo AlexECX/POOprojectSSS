@@ -11,6 +11,7 @@ class EntiteVolante;
 class Ennemis;
 class LTexture;
 class CEsquadronTie;
+class Projectile;
 enum categorie;
 
 
@@ -23,6 +24,7 @@ private:
 	std::list<std::vector<Ennemis>> EnnemisMultiple;
 	std::list<CEsquadronTie> FormationEnnemie;
 	std::vector<categorie> Explosion;
+	std::list<Projectile> TirsLaser;
 	std::list<Joueur>::iterator P;
 	std::list<Ennemis>::iterator S;
 	std::list<std::vector<Ennemis>>::iterator M;
@@ -31,6 +33,7 @@ private:
 	std::mutex S_lock;
 	std::mutex M_lock;
 	std::mutex E_lock;
+	std::mutex T_lock;
 	
 public:
 	GameWorld();
@@ -41,6 +44,7 @@ public:
 	Ennemis* AddToGameWorld(Ennemis &entity);
 	std::vector<Ennemis>* AddToGameWorld(std::vector<Ennemis> &entity);
 	CEsquadronTie* AddToGameWorld(CEsquadronTie &entity);
+	Projectile* AddToGameWorld(Projectile &entity);
 
 	/*void RemoveFromGameWorld(Joueur *entity);
 	void RemoveFromGameWorld(Ennemis *entity);
