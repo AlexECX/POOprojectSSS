@@ -36,9 +36,6 @@ typedef struct {
 	void *data3;
 } ThreadData;
 
-//---Functions Declarations---
-//void RenderTextures(LTexture ToRender[], std::list<EntiteVolante>* Generic_AccessKey);
-//void RenderTextures(LTexture ToRender[], std::list<vector<EntiteVolante>>* Generic_AccessKey);
 
 //----Thread Funtions----------------------------------------------------------------------------
 
@@ -84,7 +81,6 @@ int TieFactoryThread(void *ptr)
 	//On traduit le pointeur en GameWorld
 	//vector<SDL_Thread*> TieTH;
 	vector<CEsquadronTie*> Vagues;
-	//int TieReturnValue;
 	GameWorld *tdata = (GameWorld*)ptr;
 	vector<Ennemis> Recrus;
 
@@ -114,9 +110,8 @@ int ThreadKeyboard(void* ptr)
 	//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de l'objet
 	Joueur *MilleniumFalcon = new Joueur(joueur, republic, 50, 250, 1, 0, 0);
 	MilleniumFalcon = tdata->AddToGameWorld(*MilleniumFalcon);
-	list<Joueur>* AccessKey;
 
-	auto interval = std::chrono::milliseconds(2000);
+	auto interval = std::chrono::milliseconds(500);
 	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
 
 	while (!quit) 
@@ -139,6 +134,7 @@ int ThreadKeyboard(void* ptr)
 			}
 			
 		}
+
 
 		if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) 
 		{
@@ -187,8 +183,6 @@ int ThreadKeyboard(void* ptr)
 int main(int argc, char* args[])
 {
 	//----Variables pour nos thread-------
-	SDL_Thread *thread1;
-	SDL_Thread *thread2;
 	SDL_Thread *thread[10];
 
 	int         threadReturnValue;
@@ -196,8 +190,7 @@ int main(int argc, char* args[])
 	//------------------------------------
 
 	//----Variables pour la gestion du FPS----------
-	/*auto start = std::chrono::high_resolution_clock::now();
-	std::chrono::steady_clock::time_point end;*/
+	//std::chrono::steady_clock::time_point end;
 	auto Main_interval = std::chrono::milliseconds(16); //16666666
 	auto Main_Timestamp = std::chrono::high_resolution_clock::now();
 	std::chrono::milliseconds Main_elapsed;
@@ -206,15 +199,7 @@ int main(int argc, char* args[])
 	//----Objet GameWorld et variable pour contenir les adresses de conteneurs---
 	//WorldRenderer SpaceRenderer(texture, GameSprites);
 	GameWorld Space;// (&SpaceRenderer);	//Contiendra tout nos objets volant du jeu
-	 
-	//std::list<Joueur>* PlayerHolder_AccessKey;
-	//std::list<Ennemis>* EnnemieSimple_AccessKey;
-//	std::list<std::vector<Ennemis>>* EnnemisMultiple_AccessKey;
-	//------------------------------------------------------------------------
 
-	/*if (NULL == thread) {
-		printf("\nSDL_CreateThread failed: %s\n", SDL_GetError());
-	}*/
 
 	void SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h);
 	int BackgroundMusic = true;
@@ -239,11 +224,6 @@ int main(int argc, char* args[])
 
 			//Current animation frame
 			int frame = 0;
-
-			//On initilise le Faucon.
-			//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de l'objet
-
-			//printf("\nSimple SDL_CreateThread test:");
 
 			//Simply create a thread 
 			GameWorld *World_ptr = &Space; //On envoie GameWorld en parametre, on devra le traduire avec (GameWorld*)
@@ -305,37 +285,12 @@ int main(int argc, char* args[])
 
 					Space.RenderWorld(texture);
 
-					/**Alternate Render Method//////
-
-					//Render le Joueur
-					PlayerHolder_AccessKey = Space.AccessPlayerHolder();	//On reclame un acces au conteneur
-					//Ici on itere sur le conteneur PlayerHolder pour render tout les objets qu'il contient
-					RenderTextures(texture, (std::list<EntiteVolante>*)PlayerHolder_AccessKey);
-					Space.ReleaseContainer(PlayerHolder_AccessKey);	//Ne pas oublier de relacher le conteneur
-
-					//Render les ennemis simple
-					EnnemieSimple_AccessKey = Space.AccessEnnemieSimple();
-					//Ici on itere sur le conteneur PlayerHolder pour render tout les objets qu'il contient
-					RenderTextures(texture, (std::list<EntiteVolante>*)EnnemieSimple_AccessKey);
-					Space.ReleaseContainer(EnnemieSimple_AccessKey);	//Ne pas oublier de relacher le conteneur
-
-
-					EnnemisMultiple_AccessKey = Space.AccessEnnemisMultiple();
-					RenderTextures(texture, (std::list <vector<EntiteVolante>> *)EnnemisMultiple_AccessKey);
-					Space.ReleaseContainer(EnnemisMultiple_AccessKey);
-
-					/**/////////////////////////////
-
-					texture[2].render(200, 300);
-
-					texture[3].render(350, 300);
-
 					texture[4].render(700, 300);
 
 					//----Sprite----
 
 					//Render current frame
-					SDL_Rect* currentClip = &GameSprites[0].SpriteClips[frame / 5];
+					SDL_Rect* currentClip = &GameSprites[0].SpriteClips[frame / 7];
 						//&gSpriteClips[frame / 5];//speed
 					GameSprites[0].SpriteTexture.renderSprite((SCREEN_WIDTH - currentClip->w) / 2, (SCREEN_HEIGHT - currentClip->h) / 2, currentClip);
 

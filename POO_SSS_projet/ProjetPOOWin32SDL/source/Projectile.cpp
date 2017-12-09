@@ -26,7 +26,10 @@ Projectile::Projectile(	categorie CategorieParam,
 
 Projectile::~Projectile()
 {
-	SDL_WaitThread(ProjectileThreadPtr, &ProjectileThreadReturnValue);
+	if (isActive()) {
+		Active += 2;
+		SDL_WaitThread(ProjectileThreadPtr, &ProjectileThreadReturnValue);
+	}
 }
 
 int Projectile::StartProjectileThread(void * pointer)
@@ -36,12 +39,12 @@ int Projectile::StartProjectileThread(void * pointer)
 
 int Projectile::ProjectileThread()
 {
-	while (Affiliation == republic)
+	if (Affiliation == republic)
 	{
 		MoveRight();
 	}
 
-	while (Affiliation == empire)
+	else if (Affiliation == empire)
 	{
 		MoveLeft();
 	}
@@ -51,16 +54,26 @@ int Projectile::ProjectileThread()
 	return ProjectileThreadReturnValue;
 }
 
+void Projectile::UpadteTrajet(int x, int y)
+{
+	if (coordX < 1200 && coordX > -5) {
+		coordX = x;
+		coordY = y;
+	}
+	else
+		HP = 0;
+}
+
 int Projectile::MoveLeft()
 {
-	auto interval = std::chrono::milliseconds(2);
+	auto interval = std::chrono::milliseconds(1);
 	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
 
-	while (coordX > 0)
+	while (isActive())
 	{
 		if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval)
 		{
-			coordX--;
+			this->UpdateTrajet(this->coordX - 1, this->coordY);
 			BeforeUpdate = std::chrono::high_resolution_clock::now();
 		}
 		else
@@ -68,19 +81,21 @@ int Projectile::MoveLeft()
 			SDL_Delay(1);
 		}
 	}
+	if (Active == 1)
+		delete this;
 	return 0;
 }
 
 int Projectile::MoveRight()
 {
-	auto interval = std::chrono::milliseconds(2);
+	auto interval = std::chrono::milliseconds(1);
 	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
 
-	while (coordX < 1200)
+	while (isActive())
 	{
 		if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval)
 		{
-			coordX++;
+ 			Projectile::UpadteTrajet(coordX + 1, coordY);
 			BeforeUpdate = std::chrono::high_resolution_clock::now();
 		}
 		else
@@ -88,6 +103,8 @@ int Projectile::MoveRight()
 			SDL_Delay(1);
 		}
 	}
+	if (Active == 1)
+		delete this;
 	return 0;
 }
 

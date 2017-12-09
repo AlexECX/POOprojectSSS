@@ -15,7 +15,7 @@ EntiteVolante::EntiteVolante(categorie CategorieParam,
 	HP = HP_Param;
 	Damage = DamageParam;
 	VitesseDeplacment = SpeedParam;
-	Active = true;
+	Active = 0;
 }
 
 EntiteVolante::~EntiteVolante()

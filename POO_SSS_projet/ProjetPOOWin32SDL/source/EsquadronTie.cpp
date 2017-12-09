@@ -14,16 +14,20 @@
 
 CEsquadronTie::CEsquadronTie(std::vector<Ennemis> Ptr) : Squad(Ptr)
 {
-	Flying = true;
+	Active = 0;
 	//StartSquadThread(this);
 	SquadThreadPtr = SDL_CreateThread(StartSquadThread, "SquadThread", this);
+	
 }
 
 
 CEsquadronTie::~CEsquadronTie()
 {
-	Flying = false;
-	SDL_WaitThread(SquadThreadPtr, &SquadThreadReturnValue);
+	if (isActive()) {
+		Active += 2;
+		SDL_WaitThread(SquadThreadPtr, &SquadThreadReturnValue);
+	}
+	
 }
 
 void CEsquadronTie::Update()
@@ -53,7 +57,7 @@ int CEsquadronTie::SquadThread()
 	std::chrono::milliseconds TieFighterFlightTime;
 	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
 
-	while (this->isAlive())
+	while (this->isActive())
 	{
 		//int SquadronMembers = TieFighter->size();
 		if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval) {
@@ -66,6 +70,8 @@ int CEsquadronTie::SquadThread()
 			SDL_Delay(1);
 
 	}
+	if (Active == 1)
+		delete this;
 	return 1;
 }
 

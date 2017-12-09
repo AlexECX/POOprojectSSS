@@ -15,6 +15,7 @@ public:
 	
 	static int StartProjectileThread(void *pointer);
 	int ProjectileThread();
+	void UpadteTrajet(int x, int y);
 
 	int MoveLeft();
 	int MoveRight();

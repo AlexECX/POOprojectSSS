@@ -36,7 +36,7 @@ private:
 	std::mutex P_lock;
 	std::mutex S_lock;
 	std::mutex M_lock;
-	std::mutex E_lock;
+	std::mutex _lock;
 	std::mutex T_lock;
 	
 public:

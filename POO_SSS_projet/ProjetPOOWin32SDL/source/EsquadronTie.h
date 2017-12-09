@@ -9,15 +9,16 @@ private:
 	std::vector<Ennemis> Squad;
 	SDL_Thread* SquadThreadPtr;
 	int SquadThreadReturnValue;
-	bool Flying;
+	int Active;
 public:
 	CEsquadronTie(std::vector<Ennemis>);
 	~CEsquadronTie();
 	Ennemis* getMember(int member) { return &Squad[member]; }
 	int getSquadronSize() { return Squad.size(); }
-	bool isAlive() { return Flying; }
+	bool isActive() { return Active == 0; }
 
 	void Update();
+	void Remove() { Active++; }
 
 	static int StartSquadThread(void* pointer);
 	int SquadThread();

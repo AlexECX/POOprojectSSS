@@ -21,4 +21,14 @@ Ennemis::~Ennemis()
 {
 }
 
+void Ennemis::UpdateTrajet(int x, int y)
+{
+	if (coordX > -50) {
+		coordX = x;
+		coordY = y;
+	}
+	else
+		HP = 0;
+}
+
 

@@ -18,6 +18,21 @@ GameWorld::GameWorld()
 
 GameWorld::~GameWorld()
 {
+	P_lock.lock();
+	for (P = PlayerHolder.begin(); P != PlayerHolder.end(); P++) 
+		delete (*P);
+	P_lock.unlock();
+	T_lock.lock();
+	for (T = TirsLaser.begin(); T != TirsLaser.end(); T++)
+		delete (*T);
+	T_lock.unlock();
+	M_lock.lock();
+	for (F = FormationEnnemie.begin(); F != FormationEnnemie.end(); F++)
+		delete (*F);
+	M_lock.unlock();
+
+
+
 }
 
 Joueur* GameWorld::AddToGameWorld(Joueur &entity) {
@@ -125,32 +140,45 @@ void GameWorld::RenderWorld(LTexture TtoRender[])
 	S_lock.unlock();
 	
 	M_lock.lock();
-	for (F = FormationEnnemie.begin(); F != FormationEnnemie.end(); F++) {
-		if ((*F)->isAlive()) {
+	F = FormationEnnemie.begin();
+	while (F != FormationEnnemie.end()){
+		if ((*F)->isActive()) {
 			int Members = (*F)->getSquadronSize();
 			for (int i = 0; i < (*F)->getSquadronSize(); i++) {
 				if ((*F)->getMember(i)->isAlive())
 					TtoRender[(*F)->getMember(i)->getCategorie()].render((*F)->getMember(i)->getCoordX(), (*F)->getMember(i)->getCoordY());
-				/*else {
+				else {
 					Members--;
-					if (!F->getMember(i)->isRemoved()) {
-						Explosion.push_back(F->getMember(i)->getCategorie());
-						F->getMember(i)->Remove();
+					if ((*F)->getMember(i)->isActive()) {
+						//Explosion.push_back(F->getMember(i)->getCategorie());
+						(*F)->getMember(i)->Remove();
 					}
-				}*/
+				}
 			}
-			if (Members == 0)
+			if (Members == 0) {
+				(*F)->Remove();
 				F = FormationEnnemie.erase(F);
+				int i = 0;
+			}
+			else
+				F++;
 		}
-			
+		else
+			F++;
 	}
 	M_lock.unlock();
 
 	T_lock.lock();
-	for (T = TirsLaser.begin(); T != TirsLaser.end(); T++) {
-		if ((*T)->isAlive())
+	T = TirsLaser.begin();
+	while (T != TirsLaser.end()){
+		if ((*T)->isAlive()) {
 			TtoRender[(*T)->getCategorie()].render((*T)->getCoordX(), (*T)->getCoordY());
-
+			T++;
+		}
+		else {
+			(*T)->Remove();
+			T = TirsLaser.erase(T);
+		}
 	}
 	T_lock.unlock();
 

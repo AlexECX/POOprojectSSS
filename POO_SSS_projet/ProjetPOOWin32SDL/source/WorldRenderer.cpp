@@ -36,7 +36,7 @@ void WorldRenderer::Render(std::list<Joueur> &PlayerRender)
 void WorldRenderer::Render(std::list<CEsquadronTie> &SquadRender)
 {
 	for (F = SquadRender.begin(); F != SquadRender.end(); F++) {
-		if (F->isAlive()) {
+		if (F->isActive()) {
 			int Members = F->getSquadronSize();
 			for (int i = 0; i < F->getSquadronSize(); i++) {
 				if (F->getMember(i)->isAlive())

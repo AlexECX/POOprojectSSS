@@ -11,5 +11,7 @@ private:
 public:
 	Ennemis(categorie, affiliation, int, int, int, int, int);
 	~Ennemis();
+
+	void UpdateTrajet(int x, int y);
 };
 #endif 
