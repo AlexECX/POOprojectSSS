@@ -44,6 +44,13 @@ bool loadMedia()
 		success = false;
 	}
 
+	//Load background2 texture
+	if (!gBackground2Texture.loadFromFile("./Image/background.png"))
+	{
+		printf("Failed to load background texture image!\n");
+		success = false;
+	}
+
 //----Load image----------------------------------------------------------
 
 //----Load sprite----------------------------------------------------------
@@ -56,6 +63,7 @@ bool loadMedia()
 	}
 	else
 	{
+		
 		
 		//GameSprites[0].SpriteClips = &gSpriteClips[9];
 		//Set sprite clips
@@ -112,6 +120,8 @@ bool loadMedia()
 		gSpriteClips[8].h = 60;
 
 		GameSprites[0].SpriteClips = gSpriteClips;
+		GameSprites[0].CurrentFrame = 0;
+		GameSprites[0].TotalFrames = 9;
 	}
 
 //----Load sprite----------------------------------------------------------

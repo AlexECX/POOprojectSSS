@@ -18,7 +18,7 @@ const int SCREEN_HEIGHT = 700;
 #include "../ressources/LTexture.h"
 #include "..\ressources\LSprite.h"
 #include"initialise.h"
-#include "Plateau.h"
+#include "GameWorld.h"
 #include "WorldRenderer.h"
 
 #include "EntiteVolante.h"
@@ -87,8 +87,8 @@ int TieFactoryThread(void *ptr)
 	while (!quit) {
 		SDL_Delay(5000);
 		vector<Ennemis> Recrus;
-		for (int i = 0; i < 5; i++) {
-			Recrus.push_back(Ennemis(ennemis_simple, empire, 1100 + (rand() % 4 * 50), (i*100) + 50, 1, 0, 0));
+		for (int i = 0; i < 6; i++) {
+			Recrus.push_back(Ennemis(ennemis_simple, empire, 1100 + (rand() % 4 * 50), (i *100) + 50, 1, 0, 0));
 		}
 		CEsquadronTie* temp = new CEsquadronTie(Recrus);
 		Vagues.push_back(tdata->AddToGameWorld(*temp));
@@ -106,6 +106,8 @@ int ThreadKeyboard(void* ptr)
 {
 	//On traduit le pointeur en GameWorld
 	GameWorld *tdata = (GameWorld*)ptr;
+	bool CheckUpFirst = true;
+	bool CheckRightFirst = true;
 	//Initialise un Falcon
 	//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de l'objet
 	Joueur *MilleniumFalcon = new Joueur(joueur, republic, 50, 250, 1, 0, 0);
@@ -118,62 +120,87 @@ int ThreadKeyboard(void* ptr)
 	{
 		const Uint8 *state = SDL_GetKeyboardState(NULL);
 
-		if (state[SDL_SCANCODE_Q]) {
-			SDL_Event user_event;
-			user_event.type = SDL_QUIT;
-			SDL_PushEvent(&user_event);
-		}
+		//SDL_PollEvent(&e);
 
-		if (state[SDL_SCANCODE_SPACE])
-		{
-			if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval)
-			{
-				Projectile* Tir = new Projectile(tir_joueur, republic, MilleniumFalcon->getCoordX() + 150, MilleniumFalcon->getCoordY() + 65, 1, 0, 0);
-				Tir = tdata->AddToGameWorld(*Tir);
-				BeforeUpdate = std::chrono::high_resolution_clock::now();
+		//if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP)
+		//{
+
+			if (state[SDL_SCANCODE_Q]) {
+				SDL_Event user_event;
+				user_event.type = SDL_QUIT;
+				SDL_PushEvent(&user_event);
 			}
-			
-		}
+
+			if (CheckUpFirst) {
+				if (state[SDL_SCANCODE_UP] && state[SDL_SCANCODE_DOWN])
+					MilleniumFalcon->MouvUp();
+				else 
+					if (state[SDL_SCANCODE_UP]) {
+					MilleniumFalcon->MouvUp();
+					CheckUpFirst = false;
+				} 
+				else
+					if (state[SDL_SCANCODE_DOWN])
+						MilleniumFalcon->MouvDown();
+			}
+			else
+				if (state[SDL_SCANCODE_UP] && state[SDL_SCANCODE_DOWN])
+					MilleniumFalcon->MouvDown();
+				else
+					if (state[SDL_SCANCODE_DOWN]) {
+						MilleniumFalcon->MouvDown();
+						CheckUpFirst = true;
+					}
+				else
+					if (state[SDL_SCANCODE_UP])
+						MilleniumFalcon->MouvUp();
+
+			if (CheckRightFirst) {
+				if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_LEFT])
+					MilleniumFalcon->MouvRight();
+				else
+					if (state[SDL_SCANCODE_RIGHT]) {
+						MilleniumFalcon->MouvRight();
+						CheckRightFirst = false;
+					}
+					else
+						if (state[SDL_SCANCODE_LEFT])
+							MilleniumFalcon->MouvLeft();
+			}
+			else
+				if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_LEFT])
+					MilleniumFalcon->MouvLeft();
+				else
+					if (state[SDL_SCANCODE_LEFT]) {
+						MilleniumFalcon->MouvLeft();
+						CheckRightFirst = true;
+					}
+					else
+						if (state[SDL_SCANCODE_RIGHT])
+							MilleniumFalcon->MouvRight();
 
 
-		if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) 
-		{
-			MilleniumFalcon->MouvUpLeft();
-		}
 
-		else if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_DOWN]) 
-		{
-			MilleniumFalcon->MouvDownLeft();
-		}
+			/*if (state[SDL_SCANCODE_LEFT] && !state[SDL_SCANCODE_RIGHT])
+				MilleniumFalcon->MouvLeft();
+			else
+				if (!state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_RIGHT])
+					MilleniumFalcon->MouvRight();*/
 
-		else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_UP]) 
-		{
-			MilleniumFalcon->MouvUpRight();
-		}
+			if (state[SDL_SCANCODE_W])
+			{
+				if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval)
+				{
+					Projectile* Tir = new Projectile(tir_joueur, republic, MilleniumFalcon->getCoordX() + 150, MilleniumFalcon->getCoordY() + 65, 1, 0, 0);
+					Tir = tdata->AddToGameWorld(*Tir);
+					BeforeUpdate = std::chrono::high_resolution_clock::now();
+				}
 
-		else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_DOWN]) 
-		{
-			MilleniumFalcon->MouvDownRight();
-		}
+			}
+			SDL_Delay(2);
+		//}
+		SDL_Delay(1);
 
-		else if (state[SDL_SCANCODE_DOWN]) 
-		{
-			MilleniumFalcon->MouvDown();
-		}
-		else if (state[SDL_SCANCODE_UP]) 
-		{
-			MilleniumFalcon->MouvUp();
-		}
-		else if (state[SDL_SCANCODE_RIGHT]) 
-		{
-			MilleniumFalcon->MouvRight();
-		}
-		else if (state[SDL_SCANCODE_LEFT]) 
-		{
-			MilleniumFalcon->MouvLeft();
-		}
-
-		SDL_Delay(3);
 	}
 	return 1;
 }
@@ -197,8 +224,8 @@ int main(int argc, char* args[])
 	//------------------------------------------------
 
 	//----Objet GameWorld et variable pour contenir les adresses de conteneurs---
-	//WorldRenderer SpaceRenderer(texture, GameSprites);
-	GameWorld Space;// (&SpaceRenderer);	//Contiendra tout nos objets volant du jeu
+	WorldRenderer SpaceRenderer(texture, GameSprites, gRenderer);
+	GameWorld Space(&SpaceRenderer);	//Contiendra tout nos objets volant du jeu
 
 
 	void SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h);
@@ -232,6 +259,9 @@ int main(int argc, char* args[])
 			thread[0] = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", World_ptr);
 			thread[1] = SDL_CreateThread(ThreadKeyboard, "ThreadKeyboard", World_ptr);
 			/////////////////////////////////
+			int T = 0;
+			int R = -gBackgroundTexture.getWidth();
+			bool M = true;
 
 			//While application is running
 			while (!quit)
@@ -276,23 +306,48 @@ int main(int argc, char* args[])
 					SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 					SDL_RenderClear(gRenderer);
 
-					//Render background texture to screen
-					gBackgroundTexture.render(0, 0);
+					//Loops the background and Render texture to screen
+					if (T <= gBackgroundTexture.getWidth() + SCREEN_WIDTH) {
+						gBackgroundTexture.render(-T, 0);
+					}
 
-					//Astuce: les methodes "Access_______()" the GameWorld retourne en fait l'adresse du conteneur, 
-					//apres l'avoir locké. Tu peux donc itérer dessus si nécessaire
+					if (R >= -SCREEN_WIDTH && R <= gBackground2Texture.getWidth())
+						gBackgroundTexture.render(-R, 0);
 
 
-					Space.RenderWorld(texture);
+					if (R == gBackground2Texture.getWidth() - SCREEN_WIDTH && T >= 0)
+						T = -SCREEN_WIDTH;
+
+					if (R >= gBackground2Texture.getWidth())
+						R = -gBackgroundTexture.getWidth();
+					T++;
+					R++;
+
+
+
+					//T++;
+					//if (T >= gBackgroundTexture.getWidth() - 1200 && R == 0) {
+					//	R = -1200;
+					//}
+					//if (R <= gBackground2Texture.getWidth() - 1200)
+					//	gBackground2Texture.render(-R, 0)
+					//if (R >= gBackground2Texture.getWidth() && T >= 0) {
+					//	T = -1200;
+					//	gBackgroundTexture.render(-T, 0);
+					//}
+					//if (R <= gBackground2Texture.getWidth() - 1200)
+					//	R = 1200;
+					Space.RenderWorld();
+
 
 					texture[4].render(700, 300);
 
 					//----Sprite----
 
 					//Render current frame
-					SDL_Rect* currentClip = &GameSprites[0].SpriteClips[frame / 7];
+					//SDL_Rect* currentClip = &GameSprites[0].SpriteClips[frame / 7];
 						//&gSpriteClips[frame / 5];//speed
-					GameSprites[0].SpriteTexture.renderSprite((SCREEN_WIDTH - currentClip->w) / 2, (SCREEN_HEIGHT - currentClip->h) / 2, currentClip);
+					//GameSprites[0].SpriteTexture.renderSprite((SCREEN_WIDTH - currentClip->w) / 2, (SCREEN_HEIGHT - currentClip->h) / 2, currentClip);
 
 					//----Sprite----
 
@@ -315,8 +370,7 @@ int main(int argc, char* args[])
 					//----Sprite----
 				}
 			}
-			SDL_WaitThread(thread[0], &threadReturnValue); //Wait for the thread to complete.		
-			SDL_WaitThread(thread[1], &threadReturnValue2); //Wait for the thread to complete.
+			
 
 		}
 	}
@@ -324,6 +378,9 @@ int main(int argc, char* args[])
 	//Free resources and close SDL
 
 	close();
+
+	SDL_WaitThread(thread[0], &threadReturnValue); //Wait for the thread to complete.		
+	SDL_WaitThread(thread[1], &threadReturnValue2); //Wait for the thread to complete.
 
 	return 0;
 }

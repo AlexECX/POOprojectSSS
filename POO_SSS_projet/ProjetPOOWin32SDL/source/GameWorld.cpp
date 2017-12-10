@@ -1,20 +1,20 @@
-#include "Plateau.h"
+#include "GameWorld.h"
 #include "EntiteVolante.h"
 #include "Joueur.h"
 #include "Ennemis.h"
 #include "EsquadronTie.h"
 #include "Projectile.h"
-//#include "WorldRenderer.h"
+#include "WorldRenderer.h"
 #include <SDL.h>
 #include "..\ressources\LTexture.h"
 
-GameWorld::GameWorld()
-{
-}
-
-//GameWorld::GameWorld(WorldRenderer* renderer_instance): RendererInstance(renderer_instance)
+//GameWorld::GameWorld()
 //{
 //}
+
+GameWorld::GameWorld(WorldRenderer* renderer_instance): RendererInstance(renderer_instance)
+{
+}
 
 GameWorld::~GameWorld()
 {
@@ -22,17 +22,16 @@ GameWorld::~GameWorld()
 	for (P = PlayerHolder.begin(); P != PlayerHolder.end(); P++) 
 		delete (*P);
 	P_lock.unlock();
+
 	T_lock.lock();
 	for (T = TirsLaser.begin(); T != TirsLaser.end(); T++)
 		delete (*T);
 	T_lock.unlock();
-	M_lock.lock();
+
+	F_lock.lock();
 	for (F = FormationEnnemie.begin(); F != FormationEnnemie.end(); F++)
 		delete (*F);
-	M_lock.unlock();
-
-
-
+	F_lock.unlock();
 }
 
 Joueur* GameWorld::AddToGameWorld(Joueur &entity) {
@@ -65,10 +64,10 @@ Ennemis* GameWorld::AddToGameWorld(Ennemis &entity) {
 CEsquadronTie* GameWorld::AddToGameWorld(CEsquadronTie &entity)
 {
 	CEsquadronTie *PtrToSend;
-	M_lock.lock();
+	F_lock.lock();
 	FormationEnnemie.push_back(&entity);
 	PtrToSend = FormationEnnemie.back();
-	M_lock.unlock();
+	F_lock.unlock();
 	return PtrToSend;
 }
 
@@ -122,57 +121,42 @@ std::list<Ennemis*>* GameWorld::AccessEnnemieSimple()
 //	return &EnnemisMultiple;
 //}
 
-void GameWorld::RenderWorld(LTexture TtoRender[])
+void GameWorld::RenderWorld()
 {
 	P_lock.lock();
-	for (P = PlayerHolder.begin(); P != PlayerHolder.end(); P++) {
-		if ((*P)->isAlive())
-			TtoRender[(*P)->getCategorie()].render((*P)->getCoordX(), (*P)->getCoordY());
-
+	P = PlayerHolder.begin();
+	while (P != PlayerHolder.end()) {
+		if ((*P)->isAlive()) {
+			RendererInstance->Render(*P);
+			P++;
+		}
+		else {
+			(*P)->Remove();
+			P = PlayerHolder.erase(P);
+		}
 	}
-	//RendererInstance->Render()
 	P_lock.unlock();
 
-	S_lock.lock();
-	for (S = EnnemieSimple.begin(); S != EnnemieSimple.end(); S++)
-		if ((*S)->isAlive())
-			TtoRender[(*S)->getCategorie()].render((*S)->getCoordX(), (*S)->getCoordY());
-	S_lock.unlock();
-	
-	M_lock.lock();
+
+	F_lock.lock();
 	F = FormationEnnemie.begin();
 	while (F != FormationEnnemie.end()){
-		if ((*F)->isActive()) {
-			int Members = (*F)->getSquadronSize();
-			for (int i = 0; i < (*F)->getSquadronSize(); i++) {
-				if ((*F)->getMember(i)->isAlive())
-					TtoRender[(*F)->getMember(i)->getCategorie()].render((*F)->getMember(i)->getCoordX(), (*F)->getMember(i)->getCoordY());
-				else {
-					Members--;
-					if ((*F)->getMember(i)->isActive()) {
-						//Explosion.push_back(F->getMember(i)->getCategorie());
-						(*F)->getMember(i)->Remove();
-					}
-				}
-			}
-			if (Members == 0) {
-				(*F)->Remove();
-				F = FormationEnnemie.erase(F);
-				int i = 0;
-			}
-			else
-				F++;
-		}
-		else
+		if ((*F)->isAlive()) {
+			RendererInstance->Render(*F);
 			F++;
+		}
+		else {
+			(*F)->Remove();
+			F = FormationEnnemie.erase(F);
+		}
 	}
-	M_lock.unlock();
+	F_lock.unlock();
 
 	T_lock.lock();
 	T = TirsLaser.begin();
 	while (T != TirsLaser.end()){
 		if ((*T)->isAlive()) {
-			TtoRender[(*T)->getCategorie()].render((*T)->getCoordX(), (*T)->getCoordY());
+			RendererInstance->Render(*T);
 			T++;
 		}
 		else {
@@ -182,13 +166,7 @@ void GameWorld::RenderWorld(LTexture TtoRender[])
 	}
 	T_lock.unlock();
 
-
-
-	//for (M = EnnemisMultiple.begin(); M != EnnemisMultiple.end(); M++) {
-	//	for (int i = 0; i < M->size(); i++)
-	//		if ((*M)[i].isAlive())
-	//			TtoRender[(*M)[i].getCategorie()].render((*M)[i].getCoordX(), (*M)[i].getCoordY());
-	//}
+	RendererInstance->RenderEventAnimations();
 }
 
 

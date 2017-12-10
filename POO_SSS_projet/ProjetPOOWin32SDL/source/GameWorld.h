@@ -12,7 +12,7 @@ class Ennemis;
 class LTexture;
 class CEsquadronTie;
 class Projectile;
-//class WorldRenderer;
+class WorldRenderer;
 enum categorie;
 
 
@@ -20,28 +20,28 @@ enum categorie;
 class GameWorld
 {
 private:
-	//WorldRenderer* RendererInstance;
+	WorldRenderer* RendererInstance;
 
-	std::list<Joueur*> PlayerHolder;
-	std::list<Ennemis*> EnnemieSimple;
-	std::list<std::vector<Ennemis*>> EnnemisMultiple;
-	std::list<CEsquadronTie*> FormationEnnemie;
-	std::list<categorie> Explosion;
-	std::list<Projectile*> TirsLaser;
-	std::list<Projectile*>::iterator T;
 	std::list<Joueur*>::iterator P;
+	std::list<Joueur*> PlayerHolder;
 	std::list<Ennemis*>::iterator S;
-	std::list<std::vector<Ennemis*>>::iterator M;
+	std::list<Ennemis*> EnnemieSimple;
 	std::list<CEsquadronTie*>::iterator F;
+	std::list<CEsquadronTie*> FormationEnnemie;
+	std::list<Projectile*>::iterator T;
+	std::list<Projectile*> TirsLaser;
+	//std::list<std::vector<Ennemis*>>::iterator M;
+	//std::list<std::vector<Ennemis*>> EnnemisMultiple;
+	//std::list<categorie> Explosion;
 	std::mutex P_lock;
 	std::mutex S_lock;
-	std::mutex M_lock;
-	std::mutex _lock;
+	//std::mutex M_lock;
+	std::mutex F_lock;
 	std::mutex T_lock;
 	
 public:
-	GameWorld();
-	//GameWorld(WorldRenderer*);
+	//GameWorld();
+	GameWorld(WorldRenderer*);
 	~GameWorld();
 
 
@@ -59,11 +59,11 @@ public:
 	std::list<Ennemis*>* AccessEnnemieSimple();
 	//std::list<std::vector<Ennemis>>* AccessEnnemisMultiple();
 
-	void RenderWorld(LTexture TtoRender[]);
+	void RenderWorld();
 
 	void ReleaseContainer(std::list<Joueur>*) { P_lock.unlock(); }
 	void ReleaseContainer(std::list<Ennemis>*) { S_lock.unlock(); }
-	void ReleaseContainer(std::list<std::vector<Ennemis>>*) { M_lock.unlock(); }
+	//void ReleaseContainer(std::list<std::vector<Ennemis>>*) { M_lock.unlock(); }
 
 };
 #endif 

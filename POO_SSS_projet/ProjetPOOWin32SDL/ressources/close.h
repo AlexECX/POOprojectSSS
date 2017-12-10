@@ -11,6 +11,7 @@ void close()
 	texture[2].free();
 	texture[3].free();
 	gBackgroundTexture.free();
+	gBackground2Texture.free();
 
 	//Free the music
 	Mix_FreeMusic(gMusic);

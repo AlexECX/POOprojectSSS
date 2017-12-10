@@ -5,6 +5,8 @@
 
 class LTexture;
 struct LSprite;
+struct AnimationRequest;
+struct SDL_Renderer;
 class Ennemis;
 class Joueur;
 class EsquadronTie;
@@ -16,21 +18,21 @@ class WorldRenderer
 private:
 	LTexture *GameTextures;
 	LSprite *GameSprites;
-	std::list<Joueur>::iterator P;
-	std::list<Ennemis>::iterator S;
-	std::list<std::vector<Ennemis>>::iterator M;
-	std::list<CEsquadronTie>::iterator F;
-	std::list<Projectile>::iterator T;
-
+	SDL_Thread* ExplosionThreadPtr;
+	SDL_Renderer* Renderer;
+	std::list<AnimationRequest> Animations;
 
 public:
-	WorldRenderer(LTexture gametextures[], LSprite gamesprites[]);
+	WorldRenderer(LTexture gametextures[], LSprite gamesprites[], SDL_Renderer* renderer);
 	~WorldRenderer();
 
-	void Render(std::list<Joueur>&);
+	void Render(Joueur*);
 	//void Render(std::list<Ennemis>);
-	void Render(std::list<CEsquadronTie>&);
-	void Render(std::list<Projectile>&);
+	void Render(CEsquadronTie*);
+	void Render(Projectile*);
+	void RenderEventAnimations();
+	static int StartExplosionThread(void* ptr);
+	int RenderExplosion(void*);
 	//void Render(std::list<categorie>);
 };
 

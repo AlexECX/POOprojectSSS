@@ -41,6 +41,8 @@ SDL_Rect gSpriteClips[9];
 LTexture texture[10];
 
 LTexture gBackgroundTexture;
+LTexture gBackground2Texture;
+
 
 
 

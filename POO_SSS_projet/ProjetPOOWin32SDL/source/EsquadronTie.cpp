@@ -15,7 +15,7 @@
 CEsquadronTie::CEsquadronTie(std::vector<Ennemis> Ptr) : Squad(Ptr)
 {
 	Active = 0;
-	//StartSquadThread(this);
+	SquadCount = Squad.size();
 	SquadThreadPtr = SDL_CreateThread(StartSquadThread, "SquadThread", this);
 	
 }
@@ -38,6 +38,12 @@ void CEsquadronTie::Update()
 	}
 }
 
+void CEsquadronTie::RemoveMember(int member)
+{
+	Squad[member].Remove();
+	SquadCount--;
+}
+
 int CEsquadronTie::StartSquadThread(void *pointer)
 {
 
@@ -46,11 +52,6 @@ int CEsquadronTie::StartSquadThread(void *pointer)
 
 int CEsquadronTie::SquadThread()
 {
-	//On traduit le pointeur en GameWorld
-	//ThreadData* FactoryData = (ThreadData*)ptr;
-
-	//CEsquadronTie* TieFighters = (CEsquadronTie*)ptr;
-	//GameWorld *WorldData = (GameWorld*)FactoryData->data2;
 
 	//trucs pour le timer et le deplacement
 	auto interval = std::chrono::milliseconds(5);
