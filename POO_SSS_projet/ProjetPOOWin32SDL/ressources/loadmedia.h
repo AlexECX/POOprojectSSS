@@ -37,6 +37,12 @@ bool loadMedia()
 		success = false;
 	}
 
+	if (!texture[5].loadFromFile("./Image/Ok.png"))
+	{
+		printf("Failed to load Foo' texture image!\n");
+		success = false;
+	}
+
 	//Load background texture
 	if (!gBackgroundTexture.loadFromFile("./Image/background.png"))
 	{

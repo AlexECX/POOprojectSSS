@@ -6,12 +6,8 @@
 //Texture wrapper class
 class LTexture;
 
-<<<<<<< HEAD
-//The window renderer
 SDL_Renderer* gRenderer = NULL;
 
-=======
->>>>>>> ef1159a9eedd87e31966cddae28bdcde19722d44
 //Starts up SDL and creates window
 bool init();
 
@@ -29,8 +25,6 @@ bool quit = false;
 
 //The window we'll be rendering to
 SDL_Window* gWindow = NULL;
-
-
 
 //Walking animation
 LSprite GameSprites[10];

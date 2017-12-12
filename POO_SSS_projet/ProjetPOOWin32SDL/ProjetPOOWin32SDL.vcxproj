@@ -36,6 +36,7 @@
     <ClInclude Include="source\Projectile.h" />
     <ClInclude Include="source\Vaisseau.h" />
     <ClInclude Include="source\WorldRenderer.h" />
+    <ClInclude Include="WriteMessage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ressources\LTexture.cpp" />

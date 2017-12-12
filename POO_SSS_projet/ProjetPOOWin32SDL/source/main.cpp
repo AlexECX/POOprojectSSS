@@ -1,6 +1,7 @@
 //Using SDL, SDL_image, standard IO, and strings
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <SDL_mixer.h>
 #include <SDL_thread.h>
 #include <stdio.h>
@@ -33,6 +34,22 @@ typedef struct {
 	void *data2;
 	void *data3;
 } ThreadData;
+
+int CircleCollision(int x1, int y1, int radius1, int x2, int y2, int radius2)
+{
+	int dx = x2 - x1;
+	int dy = y2 - y1;
+	int radius3 = radius1 + radius2;
+
+	if (((dx ^ 2) + (dy ^ 2)) < (radius3 ^ 2))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 
 //----Thread Funtions----------------------------------------------------------------------------
 
@@ -74,11 +91,11 @@ typedef struct {
 int TieThread(void *ptr) {
 	GameWorld *tdata = (GameWorld*)ptr;
 
-	Ennemis *Tiefighter = new Ennemis(ennemis_simple, empire, 500, 250, 1, 0, 0);
+	Ennemis *Tiefighter = new Ennemis(ennemis_simple, empire, 250, 250, 1, 0, 0);
 	Tiefighter = tdata->AddToGameWorld(*Tiefighter);
 
 	while(true) {
-		Tiefighter->UpdateTrajet(500,250);
+		Tiefighter->UpdateTrajet(250,250);
 	}
 
 	return 1;
@@ -135,6 +152,11 @@ int ThreadKeyboard(void* ptr)
 		//if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP)
 		//{
 
+			//if (CircleCollision(MilleniumFalcon->getCoordX(), MilleniumFalcon->getCoordY(), 100, 700, 300, 50))
+			//{
+			//	texture[5].render(200, 200);
+			//}
+
 			if (state[SDL_SCANCODE_Q]) {
 				SDL_Event user_event;
 				user_event.type = SDL_QUIT;
@@ -189,8 +211,6 @@ int ThreadKeyboard(void* ptr)
 						if (state[SDL_SCANCODE_RIGHT])
 							MilleniumFalcon->MouvRight();
 
-
-
 			/*if (state[SDL_SCANCODE_LEFT] && !state[SDL_SCANCODE_RIGHT])
 				MilleniumFalcon->MouvLeft();
 			else
@@ -216,22 +236,6 @@ int ThreadKeyboard(void* ptr)
 	return 1;
 }
 
-int CircleCollision(int x1, int y1, int radius1, int x2, int y2, int radius2)
-{
-	int dx = x2 - x1;
-	int dy = y2 - y1;
-	int radius3 = radius1 + radius2;
-
-	if (((dx^2) + (dy^2)) < (radius3^2))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
 int ThreadCollision(void* ptr)
 {
 	//On traduit le pointeur en GameWorld
@@ -252,8 +256,7 @@ int main(int argc, char* args[])
 {
 	//----Variables pour nos thread-------
 	SDL_Thread *thread[10];
-
-	int         threadReturnValue[10];
+	int threadReturnValue[10];
 	//------------------------------------
 
 	//----Variables pour la gestion du FPS----------
@@ -267,10 +270,8 @@ int main(int argc, char* args[])
 	WorldRenderer SpaceRenderer(texture, GameSprites, gRenderer);
 	GameWorld Space(&SpaceRenderer);	//Contiendra tout nos objets volant du jeu
 
-
 	void SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h);
 	int BackgroundMusic = true;
-
 
 	//Start up SDL and create window
 	if (!init())
@@ -317,7 +318,6 @@ int main(int argc, char* args[])
 					if (e.type == SDL_QUIT)
 					{
 						quit = true;
-
 					}
 				}
 
@@ -327,7 +327,6 @@ int main(int argc, char* args[])
 				if (Main_elapsed < Main_interval) {
 					SDL_Delay(1);
 					//SDL_Delay(DURATION_IN_MS(Main_interval - Main_elapsed).count());
-
 				}
 
 				else {
@@ -382,7 +381,6 @@ int main(int argc, char* args[])
 					//	R = 1200;
 					Space.RenderWorld();
 
-
 					texture[4].render(700, 300);
 
 					//----Sprite----
@@ -413,8 +411,6 @@ int main(int argc, char* args[])
 					//----Sprite----
 				}
 			}
-			
-
 		}
 	}
 
