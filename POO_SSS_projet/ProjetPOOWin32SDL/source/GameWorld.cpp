@@ -8,18 +8,30 @@
 #include <SDL.h>
 #include "..\ressources\LTexture.h"
 
-std::list<CEsquadronTie*> GameWorld::FormationEnnemie;
+WorldRenderer* GameWorld::RendererInstance;
+
+std::list<Joueur*>::iterator  GameWorld::P;
+std::list<Joueur*>  GameWorld::PlayerHolder;
+std::list<Ennemis*>::iterator  GameWorld::S;
+std::list<Ennemis*>  GameWorld::EnnemieSimple;
 std::list<CEsquadronTie*>::iterator GameWorld::F;
+std::list<CEsquadronTie*> GameWorld::FormationEnnemie;
+std::list<Projectile*>::iterator GameWorld::T;
+std::list<Projectile*> GameWorld::TirsLaser;
+
+std::mutex GameWorld::P_lock;
+std::mutex GameWorld::S_lock;
 std::mutex GameWorld::F_lock;
+std::mutex GameWorld::T_lock;
 
 
 //GameWorld::GameWorld()
 //{
 //}
 
-GameWorld::GameWorld(WorldRenderer* renderer_instance): RendererInstance(renderer_instance)
-{
-}
+//GameWorld::GameWorld(WorldRenderer* renderer_instance): RendererInstance(renderer_instance)
+//{
+//}
 
 GameWorld::~GameWorld()
 {
@@ -146,10 +158,6 @@ bool GameWorld::VerifierImpact(Projectile* Tir)
 						int x1 = (*F)->getMember(i)->getCoordX() +30 - Tir->getCoordX();
 						int y1 = (*F)->getMember(i)->getCoordY() +30 - Tir->getCoordY();
 						if ((x1*x1) + (y1*y1) < (30 * 30))
-						/*if (Tir->getCoordX() == (*F)->getMember(i)->getCoordX() &&
-							(Tir->getCoordY() >= (*F)->getMember(i)->getCoordY() && 
-								Tir->getCoordY() <= (*F)->getMember(i)->getCoordY() + 100)
-							)*/
 						{
 							(*F)->getMember(i)->TakeDamage(Tir->getDamage());
 							Impact = true;
@@ -162,7 +170,6 @@ bool GameWorld::VerifierImpact(Projectile* Tir)
 		}
 		F_lock.unlock();
 	}
-
 	return Impact;
 }
 

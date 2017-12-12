@@ -18,13 +18,15 @@ class WorldRenderer
 private:
 	LTexture *GameTextures;
 	LSprite *GameSprites;
-	SDL_Thread* ExplosionThreadPtr;
+	//SDL_Thread* ExplosionThreadPtr;
 	SDL_Renderer* Renderer;
 	std::list<AnimationRequest> Animations;
 
 public:
 	WorldRenderer(LTexture gametextures[], LSprite gamesprites[], SDL_Renderer* renderer);
 	~WorldRenderer();
+
+	//static void SetupWorldRenderer(LTexture gametextures[], LSprite gamesprites[], SDL_Renderer* renderer);
 
 	void Render(Joueur*);
 	//void Render(std::list<Ennemis>);

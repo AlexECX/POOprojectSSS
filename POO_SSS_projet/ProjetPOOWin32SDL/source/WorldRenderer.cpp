@@ -35,6 +35,13 @@ WorldRenderer::~WorldRenderer()
 {
 }
 
+//void WorldRenderer::SetupWorldRenderer(LTexture gametextures[], LSprite gamesprites[], SDL_Renderer * renderer)
+//{
+//	GameTextures = gametextures;
+//	GameSprites = gamesprites;
+//	Renderer = renderer;
+//}
+
 void WorldRenderer::Render(Joueur *PlayerRender)
 {
 	GameTextures[PlayerRender->getCategorie()].render(PlayerRender->getCoordX(),
@@ -49,12 +56,13 @@ void WorldRenderer::Render(CEsquadronTie *SquadRender)
 																		   SquadRender->getMember(i)->getCoordY());
 		else
 			if (SquadRender->getMember(i)->isActive()) {
-				Animations.push_back(AnimationRequest{ 0,
+				//Pour l'instant, seulement une animation d'explosion
+				Animations.push_back(AnimationRequest{ 0,	//Sprite Number
 													   GameSprites[0].TotalFrames,
 													   SquadRender->getMember(i)->getCoordX(),
 													   SquadRender->getMember(i)->getCoordY(),
-													   0 } );
-
+													   0	//Starting frame
+													  } );
 				/*ThreadData* ExplosionData = new ThreadData{ this, 
 															(void*)SquadRender->getMember(i)->getCoordX(),
 															(void*)SquadRender->getMember(i)->getCoordY() };
@@ -84,6 +92,8 @@ void WorldRenderer::RenderEventAnimations()
 		}
 	}
 }
+
+
 
 int WorldRenderer::StartExplosionThread(void * ptr)
 {

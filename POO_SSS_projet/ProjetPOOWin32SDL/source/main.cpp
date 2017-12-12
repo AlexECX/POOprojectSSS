@@ -108,7 +108,7 @@ int TieFactoryThread(void *ptr)
 	//On traduit le pointeur en GameWorld
 	//vector<SDL_Thread*> TieTH;
 	vector<CEsquadronTie*> Vagues;
-	GameWorld *tdata = (GameWorld*)ptr;
+	//GameWorld *tdata = (GameWorld*)ptr;
 	vector<Ennemis> Recrus;
 
 	while (!quit) {
@@ -118,7 +118,7 @@ int TieFactoryThread(void *ptr)
 			Recrus.push_back(Ennemis(ennemis_simple, empire, 1100 + (rand() % 4 * 50), (i *100) + 50, 1, 0, 0));
 		}
 		CEsquadronTie* temp = new CEsquadronTie(Recrus);
-		tdata->AddToGameWorld(*temp);
+		GameWorld::AddToGameWorld(*temp);
 		//Vagues.push_back(tdata->AddToGameWorld(*temp));
 			
 		//ThreadData *FactoryMessage = new ThreadData{ Esquadron, tdata };
@@ -133,13 +133,13 @@ int TieFactoryThread(void *ptr)
 int ThreadKeyboard(void* ptr)
 {
 	//On traduit le pointeur en GameWorld
-	GameWorld *tdata = (GameWorld*)ptr;
+	//GameWorld *tdata = (GameWorld*)ptr;
 	bool CheckUpFirst = true;
 	bool CheckRightFirst = true;
 	//Initialise un Falcon
 	//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de l'objet
 	Joueur *MilleniumFalcon = new Joueur(joueur, republic, 50, 250, 1, 0, 0);
-	MilleniumFalcon = tdata->AddToGameWorld(*MilleniumFalcon);
+	MilleniumFalcon = GameWorld::AddToGameWorld(*MilleniumFalcon);
 
 	auto interval = std::chrono::milliseconds(500);
 	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
@@ -217,7 +217,7 @@ int ThreadKeyboard(void* ptr)
 				if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval)
 				{
 					Projectile* Tir = new Projectile(tir_joueur, republic, MilleniumFalcon->getCoordX() + 150, MilleniumFalcon->getCoordY() + 65, 1, 10, 0);
-					Tir = tdata->AddToGameWorld(*Tir);
+					Tir = GameWorld::AddToGameWorld(*Tir);
 					BeforeUpdate = std::chrono::high_resolution_clock::now();
 					
 					//----Play bref song----
@@ -259,7 +259,7 @@ int main(int argc, char* args[])
 
 	//----Objet GameWorld et variable pour contenir les adresses de conteneurs---
 	WorldRenderer SpaceRenderer(texture, GameSprites, gRenderer);
-	GameWorld Space(&SpaceRenderer);	//Contiendra tout nos objets volant du jeu
+	GameWorld::SetupGameWorld(&SpaceRenderer);	//Contiendra tout nos objets volant du jeu
 
 	void SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h);
 	int BackgroundMusic = true;
@@ -288,12 +288,12 @@ int main(int argc, char* args[])
 			int frame = 0;
 
 			//Simply create a thread 
-			GameWorld *World_ptr = &Space; //On envoie GameWorld en parametre, on devra le traduire avec (GameWorld*)
+			//GameWorld *World_ptr = &Space; //On envoie GameWorld en parametre, on devra le traduire avec (GameWorld*)
 			
 			//----Execute thread---------------------------------------------------------
 			//thread[0] = SDL_CreateThread(TieThread, "ThreadTie", World_ptr);
-			thread[1] = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", World_ptr);
-			thread[2] = SDL_CreateThread(ThreadKeyboard, "ThreadKeyboard", World_ptr);
+			thread[1] = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", ((void*)1) );
+			thread[2] = SDL_CreateThread(ThreadKeyboard, "ThreadKeyboard", ((void*)1) );
 			//thread[3] = SDL_CreateThread(ThreadCollision, "ThreadCollision", World_ptr);
 
 			/////////////////////////////////
@@ -384,7 +384,7 @@ int main(int argc, char* args[])
 					//}
 					//if (R <= gBackground2Texture.getWidth() - 1200)
 					//	R = 1200;
-					Space.RenderWorld();
+					GameWorld::RenderWorld();
 
 					texture[4].render(700, 300);
 

@@ -20,51 +20,47 @@ enum categorie;
 class GameWorld
 {
 private:
-	WorldRenderer* RendererInstance;
+	static WorldRenderer* RendererInstance;
 
-	std::list<Joueur*>::iterator P;
-	std::list<Joueur*> PlayerHolder;
-	std::list<Ennemis*>::iterator S;
-	std::list<Ennemis*> EnnemieSimple;
+	static std::list<Joueur*>::iterator P;
+	static std::list<Joueur*> PlayerHolder;
+	static std::list<Ennemis*>::iterator S;
+	static std::list<Ennemis*> EnnemieSimple;
 	static std::list<CEsquadronTie*> FormationEnnemie;
 	static std::list<CEsquadronTie*>::iterator F;
-	std::list<Projectile*>::iterator T;
-	std::list<Projectile*> TirsLaser;
-	//std::list<std::vector<Ennemis*>>::iterator M;
-	//std::list<std::vector<Ennemis*>> EnnemisMultiple;
-	//std::list<categorie> Explosion;
-	std::mutex P_lock;
-	std::mutex S_lock;
-	//std::mutex M_lock;
+	static std::list<Projectile*>::iterator T;
+	static std::list<Projectile*> TirsLaser;
+	static std::mutex P_lock;
+	static std::mutex S_lock;
 	static std::mutex F_lock;
-	std::mutex T_lock;
+	static std::mutex T_lock;
 	
 public:
 	//GameWorld();
-	GameWorld(WorldRenderer*);
+	//GameWorld(WorldRenderer*);
 	~GameWorld();
+	static void SetupGameWorld(WorldRenderer* renderer_instance) {
+		RendererInstance = renderer_instance;
+	}
 
 
-	Joueur* AddToGameWorld(Joueur &entity);
-	Ennemis* AddToGameWorld(Ennemis &entity);
-	//std::vector<Ennemis>* AddToGameWorld(std::vector<Ennemis> &entity);
-	CEsquadronTie* AddToGameWorld(CEsquadronTie &entity);
-	//CEsquadronTie* RemoveFromGameWorld(int member);
-	Projectile* AddToGameWorld(Projectile &entity);
+	static Joueur* AddToGameWorld(Joueur &entity);
+	static Ennemis* AddToGameWorld(Ennemis &entity);
+	static CEsquadronTie* AddToGameWorld(CEsquadronTie &entity);
+	static Projectile* AddToGameWorld(Projectile &entity);
 
 	/*void RemoveFromGameWorld(Joueur *entity);
 	void RemoveFromGameWorld(Ennemis *entity);
 	void RemoveFromGameWorld(std::vector<Ennemis> *entity);*/
 
-	std::list<Joueur*>* AccessPlayerHolder();
-	std::list<Ennemis*>* AccessEnnemieSimple();
+	static std::list<Joueur*>* AccessPlayerHolder();
+	static std::list<Ennemis*>* AccessEnnemieSimple();
 	static bool VerifierImpact(Projectile*);
-	//std::list<std::vector<Ennemis>>* AccessEnnemisMultiple();
 
-	void RenderWorld();
+	static void RenderWorld();
 
-	void ReleaseContainer(std::list<Joueur>*) { P_lock.unlock(); }
-	void ReleaseContainer(std::list<Ennemis>*) { S_lock.unlock(); }
+	static void ReleaseContainer(std::list<Joueur>*) { P_lock.unlock(); }
+	static void ReleaseContainer(std::list<Ennemis>*) { S_lock.unlock(); }
 	//void ReleaseContainer(std::list<std::vector<Ennemis>>*) { M_lock.unlock(); }
 
 };
