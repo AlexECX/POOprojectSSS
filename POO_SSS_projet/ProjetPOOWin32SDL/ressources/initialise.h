@@ -6,8 +6,6 @@
 //Texture wrapper class
 class LTexture;
 
-
-
 //Starts up SDL and creates window
 bool init();
 
@@ -32,10 +30,8 @@ SDL_Renderer* gRenderer = NULL;
 //Walking animation
 LSprite GameSprites[10];
 
-
 SDL_Rect gSpriteClips[9];
 //LTexture gSpriteSheetTexture;
-
 
 //Scene textures
 LTexture texture[10];
@@ -43,8 +39,11 @@ LTexture texture[10];
 LTexture gBackgroundTexture;
 LTexture gBackground2Texture;
 
-
-
-
 //The music that will be played
 Mix_Music *gMusic = NULL;
+
+Mix_Music *gMusicFalconFire = NULL;
+
+Mix_Music *gMusicTieFire = NULL;
+
+Mix_Music *gMusicTieExplose = NULL;
