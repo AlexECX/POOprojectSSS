@@ -17,7 +17,6 @@ class WorldRenderer
 private:
 	LTexture *GameTextures;
 	LSprite *GameSprites;
-	//SDL_Thread* ExplosionThreadPtr;
 	SDL_Renderer* Renderer;
 	std::list<AnimationRequest> Animations;
 
@@ -28,7 +27,6 @@ public:
 	//static void SetupWorldRenderer(LTexture gametextures[], LSprite gamesprites[], SDL_Renderer* renderer);
 
 	void Render(Joueur*);
-	//void Render(std::list<Ennemis>);
 	void Render(CEsquadronTie*);
 	void Render(Projectile*);
 	void RenderEventAnimations();

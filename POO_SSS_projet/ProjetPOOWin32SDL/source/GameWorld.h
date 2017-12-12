@@ -39,10 +39,10 @@ public:
 	}
 	static void DeleteGameWorld();
 
-	static Joueur* AddToGameWorld(Joueur &entity);
-	static Ennemis* AddToGameWorld(Ennemis &entity);
-	static CEsquadronTie* AddToGameWorld(CEsquadronTie &entity);
-	static Projectile* AddToGameWorld(Projectile &entity);
+	static Joueur* AddToGameWorld(Joueur* entity);
+	static Ennemis* AddToGameWorld(Ennemis* entity);
+	static CEsquadronTie* AddToGameWorld(CEsquadronTie* entity);
+	static Projectile* AddToGameWorld(Projectile* entity);
 
 	static bool VerifierImpact(Projectile*);
 

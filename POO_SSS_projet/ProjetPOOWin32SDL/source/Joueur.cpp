@@ -15,13 +15,6 @@ Joueur::Joueur(categorie CategorieParam,
 														DamageParam,
 														SpeedParam)
 {
-	/*Categorie = CategorieParam;
-	Affiliation = AffiliationParam;
-	coordX = PosXParam;
-	coordY = PosYParam;
-	int HP = HP_Param;
-	int Damage = DamageParam;
-	int VitesseDeplacment = SpeedParam;*/
 }
 Joueur::~Joueur()
 {
@@ -56,41 +49,5 @@ void Joueur::MouvRight()
 	if (coordX < 1030)
 	{
 		coordX++;
-	}
-}
-
-void Joueur::MouvUpLeft()
-{
-	if (coordX > 0 && coordY > 0 )
-	{
-		coordX--;
-		coordY--;
-	}
-}
-
-void Joueur::MouvDownLeft()
-{
-	if (coordX > 0 && coordY < 560)
-	{
-		coordX--;
-		coordY++;
-	}
-}
-
-void Joueur::MouvUpRight()
-{
-	if (coordX < 1030 && coordY > 0)
-	{
-		coordX++;
-		coordY--;
-	}
-}
-
-void Joueur::MouvDownRight()
-{
-	if (coordX < 1030 && coordY < 560)
-	{
-		coordX++;
-		coordY++;
 	}
 }

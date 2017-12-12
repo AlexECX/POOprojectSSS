@@ -23,7 +23,7 @@ Ennemis::~Ennemis()
 
 void Ennemis::UpdateTrajet(int x, int y)
 {
-	if (coordX > 1) {
+	if (coordX > -100) {
 		coordX = x;
 		coordY = y;
 	}

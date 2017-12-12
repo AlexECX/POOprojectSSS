@@ -69,42 +69,42 @@ void GameWorld::DeleteGameWorld()
 	F_lock.unlock();
 }
 
-Joueur* GameWorld::AddToGameWorld(Joueur &entity)
+Joueur* GameWorld::AddToGameWorld(Joueur *entity)
 {
 	Joueur *PtrToSend;
 	P_lock.lock();
-	PlayerHolder.push_back(&entity);
+	PlayerHolder.push_back(entity);
 	PtrToSend = PlayerHolder.back();
 	P_lock.unlock();
 	return PtrToSend;
 }
 
-Ennemis* GameWorld::AddToGameWorld(Ennemis &entity) 
+Ennemis* GameWorld::AddToGameWorld(Ennemis *entity) 
 {
 	Ennemis *PtrToSend;
 	S_lock.lock();
-	EnnemieSimple.push_back(&entity);
+	EnnemieSimple.push_back(entity);
 	PtrToSend = EnnemieSimple.back();
 	S_lock.unlock();
 	return PtrToSend;
 }
 
 
-CEsquadronTie* GameWorld::AddToGameWorld(CEsquadronTie &entity)
+CEsquadronTie* GameWorld::AddToGameWorld(CEsquadronTie *entity)
 {
 	CEsquadronTie *PtrToSend;
 	F_lock.lock();
-	FormationEnnemie.push_back(&entity);
+	FormationEnnemie.push_back(entity);
 	PtrToSend = FormationEnnemie.back();
 	F_lock.unlock();
 	return PtrToSend;
 }
 
-Projectile* GameWorld::AddToGameWorld(Projectile &entity)
+Projectile* GameWorld::AddToGameWorld(Projectile *entity)
 {
 	Projectile *PtrToSend;
 	T_lock.lock();
-	TirsLaser.push_back(&entity);
+	TirsLaser.push_back(entity);
 	PtrToSend = TirsLaser.back();
 	T_lock.unlock();
 	return PtrToSend;

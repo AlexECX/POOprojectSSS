@@ -9,7 +9,7 @@
 
 #define DURATION_IN_MS(Time_Interval) std::chrono::duration_cast<std::chrono::milliseconds>(Time_Interval)
 
-CEsquadronTie::CEsquadronTie(std::vector<Ennemis> Ptr) : Squad(Ptr)
+CEsquadronTie::CEsquadronTie(std::vector<Ennemis> Vect) : Squad(Vect)
 {
 	Active = 0;
 	SquadCount = Squad.size();

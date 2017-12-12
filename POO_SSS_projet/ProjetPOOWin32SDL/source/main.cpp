@@ -94,7 +94,7 @@ int TieThread(void *ptr)
 	GameWorld *tdata = (GameWorld*)ptr;
 
 	Ennemis *Tiefighter = new Ennemis(ennemis_simple, empire, 250, 250, 1, 0, 0);
-	Tiefighter = tdata->AddToGameWorld(*Tiefighter);
+	Tiefighter = tdata->AddToGameWorld(Tiefighter);
 
 	while(true) {
 		Tiefighter->UpdateTrajet(250,250);
@@ -110,7 +110,7 @@ int TieFactoryThread(void *ptr)
 	//vector<SDL_Thread*> TieTH;
 	vector<CEsquadronTie*> Vagues;
 	//GameWorld *tdata = (GameWorld*)ptr;
-	vector<Ennemis> Recrus;
+	//vector<Ennemis> Recrus;
 
 	while (!quit) {
 		SDL_Delay(5000);
@@ -119,7 +119,7 @@ int TieFactoryThread(void *ptr)
 			Recrus.push_back(Ennemis(ennemis_simple, empire, 1100 + (rand() % 4 * 50), (i *100) + 50, 1, 0, 0));
 		}
 		CEsquadronTie* temp = new CEsquadronTie(Recrus);
-		GameWorld::AddToGameWorld(*temp);
+		GameWorld::AddToGameWorld(temp);
 		//Vagues.push_back(tdata->AddToGameWorld(*temp));
 			
 		//ThreadData *FactoryMessage = new ThreadData{ Esquadron, tdata };
@@ -140,7 +140,7 @@ int ThreadKeyboard(void* ptr)
 	//Initialise un Falcon
 	//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de l'objet
 	Joueur *MilleniumFalcon = new Joueur(joueur, republic, 50, 250, 1, 0, 0);
-	MilleniumFalcon = GameWorld::AddToGameWorld(*MilleniumFalcon);
+	MilleniumFalcon = GameWorld::AddToGameWorld(MilleniumFalcon);
 
 	auto interval = std::chrono::milliseconds(500);
 	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
@@ -212,7 +212,7 @@ int ThreadKeyboard(void* ptr)
 				if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval)
 				{
 					Projectile* Tir = new Projectile(tir_joueur, republic, MilleniumFalcon->getCoordX() + 150, MilleniumFalcon->getCoordY() + 65, 1, 10, 0);
-					Tir = GameWorld::AddToGameWorld(*Tir);
+					Tir = GameWorld::AddToGameWorld(Tir);
 					BeforeUpdate = std::chrono::high_resolution_clock::now();
 					
 					//----Play bref song----
@@ -321,7 +321,7 @@ int main(int argc, char* args[])
 					SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 					SDL_RenderClear(gRenderer);
 
-					//Bench pour tester l'interval de temp. Total devrait donner 30 ms +/- 1 ms
+					//Bench pour tester l'interval de temp. Total devrait donner 16 ms +/- 1 ms
 					/*end = std::chrono::high_resolution_clock::now();
 					double total = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
 					start = std::chrono::high_resolution_clock::now();*/
