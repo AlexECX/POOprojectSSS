@@ -16,7 +16,6 @@ public:
 	static int StartProjectileThread(void *pointer);
 	//int ProjectileThread();
 	void UpdateTrajet(int PosX, int PosY) override;
-	
 
 	int Projectile::ProjectileThread(int direction);
 };

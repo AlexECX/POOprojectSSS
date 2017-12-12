@@ -1,4 +1,3 @@
-
 #include "GameWorld.h"
 #include "EntiteVolante.h"
 #include "Joueur.h"
@@ -23,8 +22,6 @@ struct AnimationRequest {
 	int Y;
 	int CurrentFrame;
 };
-
-
 
 WorldRenderer::WorldRenderer(LTexture gametextures[], LSprite gamesprites[], SDL_Renderer* renderer)
 		: GameTextures(gametextures), GameSprites(gamesprites), Renderer(renderer)
@@ -90,8 +87,6 @@ int WorldRenderer::StartExplosionThread(void * ptr)
 
 	return ((WorldRenderer*)((ThreadData*)ptr)->data1)->RenderExplosion(ptr);
 }
-
-
 
 int WorldRenderer::RenderExplosion(void* explose)
 {

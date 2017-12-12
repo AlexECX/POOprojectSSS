@@ -12,7 +12,6 @@ std::list<CEsquadronTie*> GameWorld::FormationEnnemie;
 std::list<CEsquadronTie*>::iterator GameWorld::F;
 std::mutex GameWorld::F_lock;
 
-
 //GameWorld::GameWorld()
 //{
 //}
@@ -39,7 +38,8 @@ GameWorld::~GameWorld()
 	F_lock.unlock();
 }
 
-Joueur* GameWorld::AddToGameWorld(Joueur &entity) {
+Joueur* GameWorld::AddToGameWorld(Joueur &entity) 
+{
 	Joueur *PtrToSend;
 	P_lock.lock();
 	PlayerHolder.push_back(&entity);
@@ -48,7 +48,8 @@ Joueur* GameWorld::AddToGameWorld(Joueur &entity) {
 	return PtrToSend;
 }
 
-Ennemis* GameWorld::AddToGameWorld(Ennemis &entity) {
+Ennemis* GameWorld::AddToGameWorld(Ennemis &entity) 
+{
 	Ennemis *PtrToSend;
 	S_lock.lock();
 	EnnemieSimple.push_back(&entity);
@@ -120,15 +121,13 @@ Projectile* GameWorld::AddToGameWorld(Projectile &entity)
 
 std::list<Joueur*>* GameWorld::AccessPlayerHolder()
 {
-P_lock.lock(); 
-return &PlayerHolder;
-		
+	P_lock.lock(); 
+	return &PlayerHolder;
 }
 
 std::list<Ennemis*>* GameWorld::AccessEnnemieSimple()
 {
 	S_lock.lock();
-
 	return &EnnemieSimple;
 }
 
@@ -144,8 +143,8 @@ bool GameWorld::VerifierImpact(Projectile* Tir)
 				while (i < (*F)->getSquadronSize() && !Impact) {
 					if ((*F)->getMember(i)->isAlive()) {
 						if ((*F)->getMember(i)->getCoordX() == Tir->getCoordX() &&
-							(Tir->getCoordY() >= (*F)->getMember(i)->getCoordY() && Tir->getCoordY() <= (*F)->getMember(i)->getCoordY() + 100)
-							)
+							(Tir->getCoordY() >= (*F)->getMember(i)->getCoordY() && 
+						     Tir->getCoordY() <= (*F)->getMember(i)->getCoordY() + 100))
 						{
 							(*F)->getMember(i)->TakeDamage(Tir->getDamage());
 							Impact = true;
@@ -158,7 +157,6 @@ bool GameWorld::VerifierImpact(Projectile* Tir)
 		}
 		F_lock.unlock();
 	}
-
 	return Impact;
 }
 
@@ -191,7 +189,6 @@ void GameWorld::RenderWorld()
 	}
 	P_lock.unlock();
 
-
 	F_lock.lock();
 	F = FormationEnnemie.begin();
 	while (F != FormationEnnemie.end()){
@@ -219,9 +216,5 @@ void GameWorld::RenderWorld()
 		}
 	}
 	T_lock.unlock();
-
 	RendererInstance->RenderEventAnimations();
 }
-
-
-

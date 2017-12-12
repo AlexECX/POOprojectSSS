@@ -70,6 +70,5 @@ bool init()
 			}
 		}
 	}
-
 	return success;
 }

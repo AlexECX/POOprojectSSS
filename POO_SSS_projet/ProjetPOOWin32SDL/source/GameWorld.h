@@ -15,8 +15,6 @@ class Projectile;
 class WorldRenderer;
 enum categorie;
 
-
-
 class GameWorld
 {
 private:
@@ -44,7 +42,6 @@ public:
 	GameWorld(WorldRenderer*);
 	~GameWorld();
 
-
 	Joueur* AddToGameWorld(Joueur &entity);
 	Ennemis* AddToGameWorld(Ennemis &entity);
 	//std::vector<Ennemis>* AddToGameWorld(std::vector<Ennemis> &entity);
@@ -66,6 +63,5 @@ public:
 	void ReleaseContainer(std::list<Joueur>*) { P_lock.unlock(); }
 	void ReleaseContainer(std::list<Ennemis>*) { S_lock.unlock(); }
 	//void ReleaseContainer(std::list<std::vector<Ennemis>>*) { M_lock.unlock(); }
-
 };
 #endif 

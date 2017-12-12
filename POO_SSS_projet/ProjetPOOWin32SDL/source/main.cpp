@@ -88,7 +88,8 @@ int CircleCollision(int x1, int y1, int radius1, int x2, int y2, int radius2)
 //	return 1;
 //}
 
-int TieThread(void *ptr) {
+int TieThread(void *ptr) 
+{
 	GameWorld *tdata = (GameWorld*)ptr;
 
 	Ennemis *Tiefighter = new Ennemis(ennemis_simple, empire, 250, 250, 1, 0, 0);
@@ -97,7 +98,6 @@ int TieThread(void *ptr) {
 	while(true) {
 		Tiefighter->UpdateTrajet(250,250);
 	}
-
 	return 1;
 }
 
@@ -151,12 +151,6 @@ int ThreadKeyboard(void* ptr)
 
 		//if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP)
 		//{
-
-			//if (CircleCollision(MilleniumFalcon->getCoordX(), MilleniumFalcon->getCoordY(), 100, 700, 300, 50))
-			//{
-			//	texture[5].render(200, 200);
-			//}
-
 			if (state[SDL_SCANCODE_Q]) {
 				SDL_Event user_event;
 				user_event.type = SDL_QUIT;
@@ -294,15 +288,16 @@ int main(int argc, char* args[])
 			int frame = 0;
 
 			//Simply create a thread 
-			GameWorld *World_ptr = &Space; //On envoie GameWorld en parametre, on devra le traduire avec (GameWorld*)
+			GameWorld *World_ptr = &Space; //On envoie GameWorld en parametre, on devra le traduire 
+			                               //avec (GameWorld*)
 			
 			//----Execute thread---------------------------------------------------------
 			thread[0] = SDL_CreateThread(TieThread, "ThreadTie", World_ptr);
 			thread[1] = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", World_ptr);
 			thread[2] = SDL_CreateThread(ThreadKeyboard, "ThreadKeyboard", World_ptr);
 			thread[3] = SDL_CreateThread(ThreadCollision, "ThreadCollision", World_ptr);
+			//---------------------------------------------------------------------------
 
-			/////////////////////////////////
 			int T = 0;
 			int R = -gBackgroundTexture.getWidth();
 			bool M = true;
@@ -310,7 +305,6 @@ int main(int argc, char* args[])
 			//While application is running
 			while (!quit)
 			{
-
 				//Handle events on queue
 				while (SDL_PollEvent(&e) != 0)
 				{
@@ -320,7 +314,6 @@ int main(int argc, char* args[])
 						quit = true;
 					}
 				}
-
 				//Wait until Main_interval milliseconds have passed.
 				Main_elapsed = DURATION_IN_MS(std::chrono::high_resolution_clock::now() - Main_Timestamp);
 
@@ -330,7 +323,6 @@ int main(int argc, char* args[])
 				}
 
 				else {
-
 					//Clear screen
 					SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 					SDL_RenderClear(gRenderer);
@@ -390,6 +382,7 @@ int main(int argc, char* args[])
 					//}
 					//if (R <= gBackground2Texture.getWidth() - 1200)
 					//	R = 1200;
+	
 					Space.RenderWorld();
 
 					texture[4].render(700, 300);
@@ -403,30 +396,13 @@ int main(int argc, char* args[])
 
 					//----Sprite----
 
-					//Update screen
+					////Update screen
 					SDL_RenderPresent(gRenderer);
-
-					//}
-
-						//----Sprite----
-
-						//Go to next frame
-					++frame;
-
-					//Cycle animation
-					if (frame / 9 >= 9)
-					{
-						frame = 0;
-					}
-
-					//----Sprite----
 				}
 			}
 		}
 	}
-
 	//Free resources and close SDL
-
 	close();
 
 	SDL_WaitThread(thread[0], &threadReturnValue[0]); //Wait for the thread to complete.		

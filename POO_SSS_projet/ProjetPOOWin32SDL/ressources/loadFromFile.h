@@ -37,7 +37,6 @@ bool LTexture::loadFromFile(std::string path)
 		//Get rid of old loaded surface
 		SDL_FreeSurface(loadedSurface);
 	}
-
 	//Return success
 	mTexture = newTexture;
 	return mTexture != NULL;

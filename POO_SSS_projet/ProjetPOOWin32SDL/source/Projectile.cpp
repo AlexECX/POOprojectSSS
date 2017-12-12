@@ -72,8 +72,6 @@ void Projectile::UpdateTrajet(int PosX, int PosY)
 //	return ProjectileThreadReturnValue;
 //}
 
-
-
 int Projectile::ProjectileThread(int direction)
 {
 	auto interval = std::chrono::milliseconds(1);
@@ -92,7 +90,6 @@ int Projectile::ProjectileThread(int direction)
 		}
 		if (GameWorld::VerifierImpact(this) == true)
 			HP = 0;
-
 	}
 	if (Active == 1)
 		delete this;

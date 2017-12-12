@@ -12,7 +12,6 @@ class Joueur;
 class EsquadronTie;
 class Projectile;
 
-
 class WorldRenderer
 {
 private:
@@ -36,4 +35,3 @@ public:
 	static int StartExplosionThread(void* ptr);
 	int RenderExplosion(void*);
 };
-
