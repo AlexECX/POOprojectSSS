@@ -44,6 +44,4 @@ Mix_Music *gMusic = NULL;
 
 //The bref song that will be played
 
-Mix_Chunk *gMusicFalconFire = NULL;
-Mix_Chunk *gMusicTieFire = NULL;
-Mix_Chunk *gMusicTieExplose = NULL;
+Mix_Chunk *gMusicBref[10];

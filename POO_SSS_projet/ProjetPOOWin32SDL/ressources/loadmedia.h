@@ -135,21 +135,21 @@ bool loadMedia()
 		success = false;
 	}
 
-	gMusicFalconFire = Mix_LoadWAV("./Music/FalconFire.wav");
+	gMusicBref[0] = Mix_LoadWAV("./Music/FalconFire.wav");
 	if (gMusic == NULL)
 	{
 		printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
 		success = false;
 	}
 
-	gMusicTieFire = Mix_LoadWAV("./Music/TieFighterFire.wav");
+	gMusicBref[1] = Mix_LoadWAV("./Music/TieFighterFire.wav");
 	if (gMusic == NULL)
 	{
 		printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
 		success = false;
 	}
 
-	gMusicTieExplose = Mix_LoadWAV("./Music/TieFighterExplosion.wav");
+	gMusicBref[2] = Mix_LoadWAV("./Music/TieFighterExplosion.wav");
 	if (gMusic == NULL)
 	{
 		printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());

@@ -193,7 +193,7 @@ int ThreadKeyboard(void* ptr)
 					BeforeUpdate = std::chrono::high_resolution_clock::now();
 					
 					//----Play bref song----
-					Mix_PlayChannel(-1,gMusicFalconFire, 0);
+					Mix_PlayChannel(-1, gMusicBref[0], 0);
 				}
 			}
 			SDL_Delay(2);
