@@ -4,6 +4,7 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 #include <SDL_thread.h>
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
@@ -239,6 +240,7 @@ int ThreadCollision(void* ptr)
 
 int main(int argc, char* args[])
 {
+	string score;
 	//----Variables pour nos thread-------
 	SDL_Thread *thread[10];
 	int threadReturnValue[10];
@@ -348,11 +350,13 @@ int main(int argc, char* args[])
 						R = -gBackgroundTexture.getWidth();
 					T++;
 					R++;
+					
+					score = to_string(GameWorld::GameScore());
 
 					//----Message----
 					TTF_Font* Arial = TTF_OpenFont("./style/Arial.ttf", 12);
 					SDL_Color White = { 255, 255, 255 };
-					SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Arial, "Score ", White); 
+					SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Arial, ("Score "+ score).c_str(), White); 
 					SDL_Texture* Message = SDL_CreateTextureFromSurface(gRenderer, surfaceMessage);
 					SDL_Rect Message_rect; //create a rect
 					Message_rect.x = 25;  //controls the rect's x coordinate 
