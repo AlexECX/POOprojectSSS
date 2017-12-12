@@ -6,10 +6,7 @@
 //Texture wrapper class
 class LTexture;
 
-<<<<<<< HEAD
 //The window renderer
-=======
->>>>>>> 3de359bda83a7b3584516189f4be5fb3b8429ab2
 SDL_Renderer* gRenderer = NULL;
 
 //Starts up SDL and creates window
