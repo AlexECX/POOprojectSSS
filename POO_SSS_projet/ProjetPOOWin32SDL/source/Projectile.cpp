@@ -1,5 +1,6 @@
 #include "EntiteVolante.h"
 #include "Projectile.h"
+#include "GameWorld.h"
 
 #include <SDL.h>
 #include <SDL_thread.h>
@@ -34,37 +35,46 @@ Projectile::~Projectile()
 
 int Projectile::StartProjectileThread(void * pointer)
 {
-	return ((Projectile*)pointer)->ProjectileThread();
+	Projectile* ptr = (Projectile*)pointer;
+	if (ptr->Affiliation == republic)
+		return ptr->ProjectileThread(-1);
+	else
+		if (ptr->Affiliation == empire)
+			return ptr->ProjectileThread(1);
+		else
+			return 2;
 }
 
-int Projectile::ProjectileThread()
-{
-	if (Affiliation == republic)
-	{
-		MoveRight();
-	}
-
-	else if (Affiliation == empire)
-	{
-		MoveLeft();
-	}
-
-	ProjectileThreadReturnValue = true;
-
-	return ProjectileThreadReturnValue;
-}
-
-void Projectile::UpadteTrajet(int x, int y)
+void Projectile::UpdateTrajet(int PosX, int PosY)
 {
 	if (coordX < 1200 && coordX > -5) {
-		coordX = x;
-		coordY = y;
+		coordX = PosX;
+		coordY = PosY;
 	}
 	else
 		HP = 0;
 }
 
-int Projectile::MoveLeft()
+//int Projectile::ProjectileThread()
+//{
+//	if (Affiliation == republic)
+//	{
+//		Move(-1);
+//	}
+//
+//	else if (Affiliation == empire)
+//	{
+//		Move(1);
+//	}
+//
+//	ProjectileThreadReturnValue = true;
+//
+//	return ProjectileThreadReturnValue;
+//}
+
+
+
+int Projectile::ProjectileThread(int direction)
 {
 	auto interval = std::chrono::milliseconds(1);
 	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
@@ -73,35 +83,16 @@ int Projectile::MoveLeft()
 	{
 		if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval)
 		{
-			this->UpdateTrajet(this->coordX - 1, this->coordY);
+			this->UpdateTrajet(this->coordX - direction, this->coordY);
 			BeforeUpdate = std::chrono::high_resolution_clock::now();
 		}
 		else
 		{
 			SDL_Delay(1);
 		}
-	}
-	if (Active == 1)
-		delete this;
-	return 0;
-}
+		if (GameWorld::VerifierImpact(this) == true)
+			HP = 0;
 
-int Projectile::MoveRight()
-{
-	auto interval = std::chrono::milliseconds(1);
-	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
-
-	while (isActive())
-	{
-		if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval)
-		{
- 			Projectile::UpadteTrajet(coordX + 1, coordY);
-			BeforeUpdate = std::chrono::high_resolution_clock::now();
-		}
-		else
-		{
-			SDL_Delay(1);
-		}
 	}
 	if (Active == 1)
 		delete this;

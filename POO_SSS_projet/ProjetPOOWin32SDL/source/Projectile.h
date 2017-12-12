@@ -14,10 +14,10 @@ public:
 	~Projectile();
 	
 	static int StartProjectileThread(void *pointer);
-	int ProjectileThread();
-	void UpadteTrajet(int x, int y);
+	//int ProjectileThread();
+	void UpdateTrajet(int PosX, int PosY) override;
+	
 
-	int MoveLeft();
-	int MoveRight();
+	int Projectile::ProjectileThread(int direction);
 };
 #endif 

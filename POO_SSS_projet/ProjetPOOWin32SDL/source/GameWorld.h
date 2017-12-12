@@ -26,8 +26,8 @@ private:
 	std::list<Joueur*> PlayerHolder;
 	std::list<Ennemis*>::iterator S;
 	std::list<Ennemis*> EnnemieSimple;
-	std::list<CEsquadronTie*>::iterator F;
-	std::list<CEsquadronTie*> FormationEnnemie;
+	static std::list<CEsquadronTie*> FormationEnnemie;
+	static std::list<CEsquadronTie*>::iterator F;
 	std::list<Projectile*>::iterator T;
 	std::list<Projectile*> TirsLaser;
 	//std::list<std::vector<Ennemis*>>::iterator M;
@@ -36,7 +36,7 @@ private:
 	std::mutex P_lock;
 	std::mutex S_lock;
 	//std::mutex M_lock;
-	std::mutex F_lock;
+	static std::mutex F_lock;
 	std::mutex T_lock;
 	
 public:
@@ -58,6 +58,7 @@ public:
 
 	std::list<Joueur*>* AccessPlayerHolder();
 	std::list<Ennemis*>* AccessEnnemieSimple();
+	static bool VerifierImpact(Projectile*);
 	//std::list<std::vector<Ennemis>>* AccessEnnemisMultiple();
 
 	void RenderWorld();

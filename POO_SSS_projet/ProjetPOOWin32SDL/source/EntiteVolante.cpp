@@ -21,3 +21,9 @@ EntiteVolante::EntiteVolante(categorie CategorieParam,
 EntiteVolante::~EntiteVolante()
 {
 }
+
+void EntiteVolante::UpdateTrajet(int x, int y)
+{
+	coordX = x;
+	coordY = y;  
+}

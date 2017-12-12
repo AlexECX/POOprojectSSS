@@ -8,6 +8,11 @@
 #include <SDL.h>
 #include "..\ressources\LTexture.h"
 
+std::list<CEsquadronTie*> GameWorld::FormationEnnemie;
+std::list<CEsquadronTie*>::iterator GameWorld::F;
+std::mutex GameWorld::F_lock;
+
+
 //GameWorld::GameWorld()
 //{
 //}
@@ -123,8 +128,46 @@ return &PlayerHolder;
 std::list<Ennemis*>* GameWorld::AccessEnnemieSimple()
 {
 	S_lock.lock();
+
 	return &EnnemieSimple;
 }
+
+bool GameWorld::VerifierImpact(Projectile* Tir)
+{
+	bool Impact = false;
+	if (Tir->getAffiliation() == republic) {
+		F_lock.lock();
+		F = FormationEnnemie.begin();
+		while (F != FormationEnnemie.end()) {
+			if ((*F)->isAlive()) {
+				int i = 0;
+				while (i < (*F)->getSquadronSize() && !Impact) {
+					int tempX = (*F)->getMember(i)->getCoordX();
+					int tempY = (*F)->getMember(i)->getCoordY();
+					if (tempX == Tir->getCoordX() &&
+						(Tir->getCoordY() >= tempY && Tir->getCoordY() <= tempY+100)
+						)
+					{
+						(*F)->getMember(i)->TakeDamage(Tir->getDamage());
+						Impact = true;
+					}
+					i++;
+				}
+			}
+			F++;
+		}
+		F_lock.unlock();
+	}
+
+	return Impact;
+}
+
+//std::list<EntiteVolante*>* GameWorld::AccessEnnemieSimpleGeneric()
+//{
+//	S_lock.lock();
+//	EntiteVolante ptr = (std::list<EntiteVolante*>)EnnemieSimple;
+//	return (std::list<EntiteVolante*>)EnnemieSimple;
+//}
 
 //std::list<std::vector<Ennemis>>* GameWorld::AccessEnnemisMultiple()
 //{

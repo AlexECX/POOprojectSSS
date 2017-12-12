@@ -37,7 +37,7 @@ public:
 	void Remove() { Active++; }
 
 
-	virtual void UpdateTrajet(int x, int y) { coordX = x; coordY = y; } //incremente la position, en ce 
+	virtual void UpdateTrajet(int x, int y);
 
 };
 #endif 

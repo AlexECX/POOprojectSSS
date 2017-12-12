@@ -188,7 +188,7 @@ int ThreadKeyboard(void* ptr)
 			{
 				if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval)
 				{
-					Projectile* Tir = new Projectile(tir_joueur, republic, MilleniumFalcon->getCoordX() + 150, MilleniumFalcon->getCoordY() + 65, 1, 0, 0);
+					Projectile* Tir = new Projectile(tir_joueur, republic, MilleniumFalcon->getCoordX() + 150, MilleniumFalcon->getCoordY() + 65, 1, 10, 0);
 					Tir = tdata->AddToGameWorld(*Tir);
 					BeforeUpdate = std::chrono::high_resolution_clock::now();
 					
