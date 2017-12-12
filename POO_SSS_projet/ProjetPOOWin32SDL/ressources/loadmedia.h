@@ -130,8 +130,6 @@ bool loadMedia()
 		GameSprites[0].TotalFrames = 9;
 	}
 
-//----Load sprite----------------------------------------------------------
-
 //----Load music----------------------------------------------------------
 
 	gMusic = Mix_LoadMUS("./Music/BackgroundAsteroidField.mp3");

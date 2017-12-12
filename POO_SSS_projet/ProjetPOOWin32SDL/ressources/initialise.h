@@ -38,6 +38,12 @@ LTexture texture[10];
 LTexture gBackgroundTexture;
 LTexture gBackground2Texture;
 
+//Globally used font
+TTF_Font *gFont = NULL;
+TTF_Font* Arial = TTF_OpenFont("./style/Arial.ttf", 12);
+//Scene Texte
+LTexture gPromptTextTexture;
+
 //The music that will be played
 Mix_Music *gMusic = NULL;
 

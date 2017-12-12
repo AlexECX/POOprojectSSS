@@ -240,13 +240,10 @@ int ThreadCollision(void* ptr)
 {
 	//On traduit le pointeur en GameWorld
 	GameWorld *tdata = (GameWorld*)ptr;
+	
+	//Joueur *MilleniumFalcon;
+	//MilleniumFalcon = tdata->AccessPlayerHolder();
 
-	/*tdata->RemoveFromGameWorld(3);
-
-
-	while (true) {
-
-	}*/
 	return 1;
 }
 
@@ -287,6 +284,9 @@ int main(int argc, char* args[])
 		}
 		else
 		{
+			//The current input text.
+			string inputText = "Some Text";
+
 			Mix_PlayMusic(gMusic, -1);
 			Mix_ResumeMusic();
 
@@ -365,8 +365,19 @@ int main(int argc, char* args[])
 					T++;
 					R++;
 
-
-
+					//----Message----
+					TTF_Font* Arial = TTF_OpenFont("./style/Arial.ttf", 12);
+					SDL_Color White = { 255, 255, 255 };
+					SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Arial, "Score ", White); 
+					SDL_Texture* Message = SDL_CreateTextureFromSurface(gRenderer, surfaceMessage);
+					SDL_Rect Message_rect; //create a rect
+					Message_rect.x = 25;  //controls the rect's x coordinate 
+					Message_rect.y = 650; // controls the rect's y coordinte
+					Message_rect.w = 75; // controls the width of the rect
+					Message_rect.h = 25; // controls the height of the rect
+					SDL_RenderCopy(gRenderer, Message, NULL, &Message_rect);
+					//----Message----
+					
 					//T++;
 					//if (T >= gBackgroundTexture.getWidth() - 1200 && R == 0) {
 					//	R = -1200;
