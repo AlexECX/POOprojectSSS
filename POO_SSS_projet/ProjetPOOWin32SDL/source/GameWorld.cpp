@@ -71,7 +71,18 @@ CEsquadronTie* GameWorld::AddToGameWorld(CEsquadronTie &entity)
 	return PtrToSend;
 }
 
-Projectile * GameWorld::AddToGameWorld(Projectile &entity)
+/**
+CEsquadronTie* GameWorld::RemoveFromGameWorld(int member)
+{
+	F_lock.lock();
+	std::list<CEsquadronTie*>::iterator it = FormationEnnemie.begin();
+	it->removeMember(member);
+	F_lock.unlock();
+	return F._Ptr->_Myval;
+}
+/**/
+
+Projectile* GameWorld::AddToGameWorld(Projectile &entity)
 {
 	Projectile *PtrToSend;
 	T_lock.lock();
