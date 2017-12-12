@@ -14,7 +14,6 @@ using namespace std;
 const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 700;
 
-
 #include "../ressources/LTexture.h"
 #include "..\ressources\LSprite.h"
 #include "initialise.h"
@@ -27,7 +26,6 @@ const int SCREEN_HEIGHT = 700;
 #include "EsquadronTie.h"
 #include "Projectile.h"
 
-
 #define DURATION_IN_MS(Time_Interval) std::chrono::duration_cast<std::chrono::milliseconds>(Time_Interval)
 
 typedef struct {
@@ -35,7 +33,6 @@ typedef struct {
 	void *data2;
 	void *data3;
 } ThreadData;
-
 
 //----Thread Funtions----------------------------------------------------------------------------
 
@@ -194,13 +191,14 @@ int ThreadKeyboard(void* ptr)
 					Projectile* Tir = new Projectile(tir_joueur, republic, MilleniumFalcon->getCoordX() + 150, MilleniumFalcon->getCoordY() + 65, 1, 0, 0);
 					Tir = tdata->AddToGameWorld(*Tir);
 					BeforeUpdate = std::chrono::high_resolution_clock::now();
+					
+					//----Play bref song----
+					Mix_PlayChannel(-1,gMusicFalconFire, 0);
 				}
-
 			}
 			SDL_Delay(2);
 		//}
 		SDL_Delay(1);
-
 	}
 	return 1;
 }

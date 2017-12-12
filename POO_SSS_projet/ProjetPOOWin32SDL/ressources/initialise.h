@@ -42,8 +42,8 @@ LTexture gBackground2Texture;
 //The music that will be played
 Mix_Music *gMusic = NULL;
 
-Mix_Music *gMusicFalconFire = NULL;
+//The bref song that will be played
 
-Mix_Music *gMusicTieFire = NULL;
-
-Mix_Music *gMusicTieExplose = NULL;
+Mix_Chunk *gMusicFalconFire = NULL;
+Mix_Chunk *gMusicTieFire = NULL;
+Mix_Chunk *gMusicTieExplose = NULL;

@@ -17,6 +17,13 @@ void close()
 	Mix_FreeMusic(gMusic);
 	gMusic = NULL;
 
+	Mix_FreeChunk(gMusicFalconFire);
+	Mix_FreeChunk(gMusicTieFire);
+	Mix_FreeChunk(gMusicTieExplose);
+	gMusicFalconFire = NULL;
+	gMusicTieFire = NULL;
+	gMusicTieExplose = NULL;
+
 	//Destroy window	
 	SDL_DestroyRenderer(gRenderer);
 	SDL_DestroyWindow(gWindow);
