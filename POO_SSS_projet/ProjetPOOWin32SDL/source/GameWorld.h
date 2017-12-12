@@ -19,7 +19,7 @@ class GameWorld
 {
 private:
 	static WorldRenderer* RendererInstance;
-
+	static int Score;
 	static std::list<Joueur*>::iterator P;
 	static std::list<Joueur*> PlayerHolder;
 	static std::list<Ennemis*>::iterator S;
@@ -34,9 +34,6 @@ private:
 	static std::mutex T_lock;
 	
 public:
-	//GameWorld();
-	//GameWorld(WorldRenderer*);
-	~GameWorld();
 	static void SetupGameWorld(WorldRenderer* renderer_instance) {
 		RendererInstance = renderer_instance;
 	}
@@ -47,19 +44,20 @@ public:
 	static CEsquadronTie* AddToGameWorld(CEsquadronTie &entity);
 	static Projectile* AddToGameWorld(Projectile &entity);
 
-
-	/*void RemoveFromGameWorld(Joueur *entity);
-	void RemoveFromGameWorld(Ennemis *entity);
-	void RemoveFromGameWorld(std::vector<Ennemis> *entity);*/
-
-	static std::list<Joueur*>* AccessPlayerHolder();
-	static std::list<Ennemis*>* AccessEnnemieSimple();
 	static bool VerifierImpact(Projectile*);
 
 	static void RenderWorld();
 
+	static int GameScore() { return Score; }
+
+	static std::list<Joueur*>* AccessPlayerHolder();
+	static std::list<Ennemis*>* AccessEnnemieSimple();
+
 	static void ReleaseContainer(std::list<Joueur>*) { P_lock.unlock(); }
 	static void ReleaseContainer(std::list<Ennemis>*) { S_lock.unlock(); }
-	//void ReleaseContainer(std::list<std::vector<Ennemis>>*) { M_lock.unlock(); }
+
+	/*void RemoveFromGameWorld(Joueur *entity);
+	void RemoveFromGameWorld(Ennemis *entity);
+	void RemoveFromGameWorld(std::vector<Ennemis> *entity);*/
 };
 #endif 

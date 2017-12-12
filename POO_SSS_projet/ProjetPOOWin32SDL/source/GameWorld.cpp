@@ -9,6 +9,7 @@
 #include "..\ressources\LTexture.h"
 
 WorldRenderer* GameWorld::RendererInstance;
+int GameWorld::Score;
 
 std::list<Joueur*>::iterator  GameWorld::P;
 std::list<Joueur*>  GameWorld::PlayerHolder;
@@ -32,23 +33,23 @@ std::mutex GameWorld::T_lock;
 //{
 //}
 
-GameWorld::~GameWorld()
-{
-	P_lock.lock();
-	for (P = PlayerHolder.begin(); P != PlayerHolder.end(); P++) 
-		delete (*P);
-	P_lock.unlock();
-
-	T_lock.lock();
-	for (T = TirsLaser.begin(); T != TirsLaser.end(); T++)
-		delete (*T);
-	T_lock.unlock();
-
-	F_lock.lock();
-	for (F = FormationEnnemie.begin(); F != FormationEnnemie.end(); F++)
-		delete (*F);
-	F_lock.unlock();
-}
+//GameWorld::~GameWorld()
+//{
+//	P_lock.lock();
+//	for (P = PlayerHolder.begin(); P != PlayerHolder.end(); P++) 
+//		delete (*P);
+//	P_lock.unlock();
+//
+//	T_lock.lock();
+//	for (T = TirsLaser.begin(); T != TirsLaser.end(); T++)
+//		delete (*T);
+//	T_lock.unlock();
+//
+//	F_lock.lock();
+//	for (F = FormationEnnemie.begin(); F != FormationEnnemie.end(); F++)
+//		delete (*F);
+//	F_lock.unlock();
+//}
 
 void GameWorld::DeleteGameWorld()
 {
@@ -88,14 +89,6 @@ Ennemis* GameWorld::AddToGameWorld(Ennemis &entity)
 	return PtrToSend;
 }
 
-//std::vector<Ennemis>* GameWorld::AddToGameWorld(std::vector<Ennemis> &entity) {
-//	std::vector<Ennemis> *PtrToSend;
-//	M_lock.lock();
-//	EnnemisMultiple.push_back(entity);
-//	PtrToSend = &EnnemisMultiple.back();
-//	M_lock.unlock();
-//	return PtrToSend;
-//}
 
 CEsquadronTie* GameWorld::AddToGameWorld(CEsquadronTie &entity)
 {
@@ -107,17 +100,6 @@ CEsquadronTie* GameWorld::AddToGameWorld(CEsquadronTie &entity)
 	return PtrToSend;
 }
 
-/**
-CEsquadronTie* GameWorld::RemoveFromGameWorld(int member)
-{
-	F_lock.lock();
-	std::list<CEsquadronTie*>::iterator it = FormationEnnemie.begin();
-	it->removeMember(member);
-	F_lock.unlock();
-	return F._Ptr->_Myval;
-}
-/**/
-
 Projectile* GameWorld::AddToGameWorld(Projectile &entity)
 {
 	Projectile *PtrToSend;
@@ -126,39 +108,6 @@ Projectile* GameWorld::AddToGameWorld(Projectile &entity)
 	PtrToSend = TirsLaser.back();
 	T_lock.unlock();
 	return PtrToSend;
-}
-
-//void GameWorld::RemoveFromGameWorld(Joueur * entity)
-//{
-//	P_lock.lock();
-//	PlayerHolder.remove(*entity);
-//	P_lock.unlock();
-//}
-//
-//void GameWorld::RemoveFromGameWorld(Ennemis * entity)
-//{
-//	S_lock.lock();
-//	EnnemieSimple.remove(*entity);
-//	S_lock.unlock();
-//}
-//
-//void GameWorld::RemoveFromGameWorld(std::vector<Ennemis>* entity)
-//{
-//	M_lock.lock();
-//	EnnemisMultiple.remove(*entity);
-//	M_lock.unlock();
-//}
-
-std::list<Joueur*>* GameWorld::AccessPlayerHolder()
-{
-	P_lock.lock(); 
-	return &PlayerHolder;
-}
-
-std::list<Ennemis*>* GameWorld::AccessEnnemieSimple()
-{
-	S_lock.lock();
-	return &EnnemieSimple;
 }
 
 bool GameWorld::VerifierImpact(Projectile* Tir)
@@ -172,12 +121,13 @@ bool GameWorld::VerifierImpact(Projectile* Tir)
 				int i = 0;
 				while (i < (*F)->getSquadronSize() && !Impact) {
 					if ((*F)->getMember(i)->isAlive()) {
-						int x1 = (*F)->getMember(i)->getCoordX() +30 - Tir->getCoordX();
-						int y1 = (*F)->getMember(i)->getCoordY() +30 - Tir->getCoordY();
+						int x1 = (*F)->getMember(i)->getCoordX() + 30 - Tir->getCoordX();
+						int y1 = (*F)->getMember(i)->getCoordY() + 30 - Tir->getCoordY();
 						if ((x1*x1) + (y1*y1) < (30 * 30))
 						{
 							(*F)->getMember(i)->TakeDamage(Tir->getDamage());
 							Impact = true;
+							Score++;
 						}
 					}
 					i++;
@@ -189,19 +139,6 @@ bool GameWorld::VerifierImpact(Projectile* Tir)
 	}
 	return Impact;
 }
-
-//std::list<EntiteVolante*>* GameWorld::AccessEnnemieSimpleGeneric()
-//{
-//	S_lock.lock();
-//	EntiteVolante ptr = (std::list<EntiteVolante*>)EnnemieSimple;
-//	return (std::list<EntiteVolante*>)EnnemieSimple;
-//}
-
-//std::list<std::vector<Ennemis>>* GameWorld::AccessEnnemisMultiple()
-//{
-//	M_lock.lock();
-//	return &EnnemisMultiple;
-//}
 
 void GameWorld::RenderWorld()
 {
@@ -221,7 +158,7 @@ void GameWorld::RenderWorld()
 
 	F_lock.lock();
 	F = FormationEnnemie.begin();
-	while (F != FormationEnnemie.end()){
+	while (F != FormationEnnemie.end()) {
 		if ((*F)->isAlive()) {
 			RendererInstance->Render(*F);
 			F++;
@@ -235,7 +172,7 @@ void GameWorld::RenderWorld()
 
 	T_lock.lock();
 	T = TirsLaser.begin();
-	while (T != TirsLaser.end()){
+	while (T != TirsLaser.end()) {
 		if ((*T)->isAlive()) {
 			RendererInstance->Render(*T);
 			T++;
@@ -248,3 +185,41 @@ void GameWorld::RenderWorld()
 	T_lock.unlock();
 	RendererInstance->RenderEventAnimations();
 }
+
+std::list<Joueur*>* GameWorld::AccessPlayerHolder()
+{
+	P_lock.lock();
+	return &PlayerHolder;
+}
+
+std::list<Ennemis*>* GameWorld::AccessEnnemieSimple()
+{
+	S_lock.lock();
+	return &EnnemieSimple;
+}
+
+
+//void GameWorld::RemoveFromGameWorld(Joueur * entity)
+//{
+//	P_lock.lock();
+//	PlayerHolder.remove(*entity);
+//	P_lock.unlock();
+//}
+//
+//void GameWorld::RemoveFromGameWorld(Ennemis * entity)
+//{
+//	S_lock.lock();
+//	EnnemieSimple.remove(*entity);
+//	S_lock.unlock();
+//}
+
+/**
+CEsquadronTie* GameWorld::RemoveFromGameWorld(int member)
+{
+F_lock.lock();
+std::list<CEsquadronTie*>::iterator it = FormationEnnemie.begin();
+it->removeMember(member);
+F_lock.unlock();
+return F._Ptr->_Myval;
+}
+/**/
