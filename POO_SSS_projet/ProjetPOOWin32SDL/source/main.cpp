@@ -289,12 +289,8 @@ int main(int argc, char* args[])
 			//thread[0] = SDL_CreateThread(TieThread, "ThreadTie", World_ptr);
 			thread[1] = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", World_ptr);
 			thread[2] = SDL_CreateThread(ThreadKeyboard, "ThreadKeyboard", World_ptr);
-<<<<<<< HEAD
 			thread[3] = SDL_CreateThread(ThreadCollision, "ThreadCollision", World_ptr);
 			//---------------------------------------------------------------------------
-=======
-			//thread[3] = SDL_CreateThread(ThreadCollision, "ThreadCollision", World_ptr);
->>>>>>> cae7622b2a990187f2bada13d959ccc6e02fd263
 
 			int T = 0;
 			int R = -gBackgroundTexture.getWidth();

@@ -142,11 +142,6 @@ bool GameWorld::VerifierImpact(Projectile* Tir)
 				int i = 0;
 				while (i < (*F)->getSquadronSize() && !Impact) {
 					if ((*F)->getMember(i)->isAlive()) {
-<<<<<<< HEAD
-						if ((*F)->getMember(i)->getCoordX() == Tir->getCoordX() &&
-							(Tir->getCoordY() >= (*F)->getMember(i)->getCoordY() && 
-						     Tir->getCoordY() <= (*F)->getMember(i)->getCoordY() + 100))
-=======
 						int x1 = (*F)->getMember(i)->getCoordX() +30 - Tir->getCoordX();
 						int y1 = (*F)->getMember(i)->getCoordY() +30 - Tir->getCoordY();
 						if ((x1*x1) + (y1*y1) < (30 * 30))
@@ -154,7 +149,6 @@ bool GameWorld::VerifierImpact(Projectile* Tir)
 							(Tir->getCoordY() >= (*F)->getMember(i)->getCoordY() && 
 								Tir->getCoordY() <= (*F)->getMember(i)->getCoordY() + 100)
 							)*/
->>>>>>> cae7622b2a990187f2bada13d959ccc6e02fd263
 						{
 							(*F)->getMember(i)->TakeDamage(Tir->getDamage());
 							Impact = true;
