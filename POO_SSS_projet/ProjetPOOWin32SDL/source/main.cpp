@@ -1,6 +1,7 @@
 //Using SDL, SDL_image, standard IO, and strings
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <SDL_mixer.h>
 #include <SDL_thread.h>
 #include <stdio.h>
@@ -33,6 +34,22 @@ typedef struct {
 	void *data2;
 	void *data3;
 } ThreadData;
+
+int CircleCollision(int x1, int y1, int radius1, int x2, int y2, int radius2)
+{
+	int dx = x2 - x1;
+	int dy = y2 - y1;
+	int radius3 = radius1 + radius2;
+
+	if (((dx ^ 2) + (dy ^ 2)) < (radius3 ^ 2))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 
 //----Thread Funtions----------------------------------------------------------------------------
 
@@ -70,6 +87,19 @@ typedef struct {
 //
 //	return 1;
 //}
+
+int TieThread(void *ptr) {
+	GameWorld *tdata = (GameWorld*)ptr;
+
+	Ennemis *Tiefighter = new Ennemis(ennemis_simple, empire, 250, 250, 1, 0, 0);
+	Tiefighter = tdata->AddToGameWorld(*Tiefighter);
+
+	while(true) {
+		Tiefighter->UpdateTrajet(250,250);
+	}
+
+	return 1;
+}
 
 //----TieFactoryThread----------------------------------------------------------------
 
@@ -121,6 +151,11 @@ int ThreadKeyboard(void* ptr)
 
 		//if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP)
 		//{
+
+			//if (CircleCollision(MilleniumFalcon->getCoordX(), MilleniumFalcon->getCoordY(), 100, 700, 300, 50))
+			//{
+			//	texture[5].render(200, 200);
+			//}
 
 			if (state[SDL_SCANCODE_Q]) {
 				SDL_Event user_event;
@@ -176,8 +211,6 @@ int ThreadKeyboard(void* ptr)
 						if (state[SDL_SCANCODE_RIGHT])
 							MilleniumFalcon->MouvRight();
 
-
-
 			/*if (state[SDL_SCANCODE_LEFT] && !state[SDL_SCANCODE_RIGHT])
 				MilleniumFalcon->MouvLeft();
 			else
@@ -203,33 +236,14 @@ int ThreadKeyboard(void* ptr)
 	return 1;
 }
 
-int CircleCollision(int x1, int y1, int radius1, int x2, int y2, int radius2)
-{
-	int dx = x2 - x1;
-	int dy = y2 - y1;
-	int radius3 = radius1 + radius2;
-
-	if (((dx^2) + (dy^2)) < (radius3^2))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
 int ThreadCollision(void* ptr)
 {
 	//On traduit le pointeur en GameWorld
 	GameWorld *tdata = (GameWorld*)ptr;
+	
+	//Joueur *MilleniumFalcon;
+	//MilleniumFalcon = tdata->AccessPlayerHolder();
 
-	/*tdata->RemoveFromGameWorld(3);
-
-
-	while (true) {
-
-	}*/
 	return 1;
 }
 
@@ -239,8 +253,7 @@ int main(int argc, char* args[])
 {
 	//----Variables pour nos thread-------
 	SDL_Thread *thread[10];
-
-	int         threadReturnValue[10];
+	int threadReturnValue[10];
 	//------------------------------------
 
 	//----Variables pour la gestion du FPS----------
@@ -254,10 +267,8 @@ int main(int argc, char* args[])
 	WorldRenderer SpaceRenderer(texture, GameSprites, gRenderer);
 	GameWorld Space(&SpaceRenderer);	//Contiendra tout nos objets volant du jeu
 
-
 	void SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h);
 	int BackgroundMusic = true;
-
 
 	//Start up SDL and create window
 	if (!init())
@@ -273,6 +284,9 @@ int main(int argc, char* args[])
 		}
 		else
 		{
+			//The current input text.
+			string inputText = "Some Text";
+
 			Mix_PlayMusic(gMusic, -1);
 			Mix_ResumeMusic();
 
@@ -283,9 +297,11 @@ int main(int argc, char* args[])
 			GameWorld *World_ptr = &Space; //On envoie GameWorld en parametre, on devra le traduire avec (GameWorld*)
 			
 			//----Execute thread---------------------------------------------------------
-			thread[0] = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", World_ptr);
-			thread[1] = SDL_CreateThread(ThreadKeyboard, "ThreadKeyboard", World_ptr);
-			thread[2] = SDL_CreateThread(ThreadCollision, "ThreadCollision", World_ptr);
+			thread[0] = SDL_CreateThread(TieThread, "ThreadTie", World_ptr);
+			thread[1] = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", World_ptr);
+			thread[2] = SDL_CreateThread(ThreadKeyboard, "ThreadKeyboard", World_ptr);
+			thread[3] = SDL_CreateThread(ThreadCollision, "ThreadCollision", World_ptr);
+
 			/////////////////////////////////
 			int T = 0;
 			int R = -gBackgroundTexture.getWidth();
@@ -302,7 +318,6 @@ int main(int argc, char* args[])
 					if (e.type == SDL_QUIT)
 					{
 						quit = true;
-
 					}
 				}
 
@@ -312,7 +327,6 @@ int main(int argc, char* args[])
 				if (Main_elapsed < Main_interval) {
 					SDL_Delay(1);
 					//SDL_Delay(DURATION_IN_MS(Main_interval - Main_elapsed).count());
-
 				}
 
 				else {
@@ -351,8 +365,19 @@ int main(int argc, char* args[])
 					T++;
 					R++;
 
-
-
+					//----Message----
+					TTF_Font* Arial = TTF_OpenFont("./style/Arial.ttf", 12);
+					SDL_Color White = { 255, 255, 255 };
+					SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Arial, "Score ", White); 
+					SDL_Texture* Message = SDL_CreateTextureFromSurface(gRenderer, surfaceMessage);
+					SDL_Rect Message_rect; //create a rect
+					Message_rect.x = 25;  //controls the rect's x coordinate 
+					Message_rect.y = 650; // controls the rect's y coordinte
+					Message_rect.w = 75; // controls the width of the rect
+					Message_rect.h = 25; // controls the height of the rect
+					SDL_RenderCopy(gRenderer, Message, NULL, &Message_rect);
+					//----Message----
+					
 					//T++;
 					//if (T >= gBackgroundTexture.getWidth() - 1200 && R == 0) {
 					//	R = -1200;
@@ -366,7 +391,6 @@ int main(int argc, char* args[])
 					//if (R <= gBackground2Texture.getWidth() - 1200)
 					//	R = 1200;
 					Space.RenderWorld();
-
 
 					texture[4].render(700, 300);
 
@@ -398,8 +422,6 @@ int main(int argc, char* args[])
 					//----Sprite----
 				}
 			}
-			
-
 		}
 	}
 
@@ -410,6 +432,7 @@ int main(int argc, char* args[])
 	SDL_WaitThread(thread[0], &threadReturnValue[0]); //Wait for the thread to complete.		
 	SDL_WaitThread(thread[1], &threadReturnValue[1]); //Wait for the thread to complete.
 	SDL_WaitThread(thread[2], &threadReturnValue[2]); //Wait for the thread to complete.
+	SDL_WaitThread(thread[3], &threadReturnValue[3]); //Wait for the thread to complete.
 
 	return 0;
 }

@@ -13,6 +13,13 @@ void close()
 	gBackgroundTexture.free();
 	gBackground2Texture.free();
 
+	//Free loaded images
+	gPromptTextTexture.free();
+
+	//Free global font
+	TTF_CloseFont(Arial);
+	gFont = NULL;
+
 	//Free the music
 	Mix_FreeMusic(gMusic);
 	gMusic = NULL;
@@ -31,6 +38,7 @@ void close()
 	gRenderer = NULL;
 
 	//Quit SDL subsystems
+	TTF_Quit();
 	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();

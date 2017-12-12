@@ -31,5 +31,6 @@
     <ClInclude Include="ressources\LSprite.h" />
     <ClInclude Include="source\WorldRenderer.h" />
     <ClInclude Include="source\GameWorld.h" />
+    <ClInclude Include="WriteMessage.h" />
   </ItemGroup>
 </Project>
