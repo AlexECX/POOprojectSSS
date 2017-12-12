@@ -50,7 +50,25 @@ GameWorld::~GameWorld()
 	F_lock.unlock();
 }
 
-Joueur* GameWorld::AddToGameWorld(Joueur &entity) 
+void GameWorld::DeleteGameWorld()
+{
+	P_lock.lock();
+	for (P = PlayerHolder.begin(); P != PlayerHolder.end(); P++)
+		delete (*P);
+	P_lock.unlock();
+
+	T_lock.lock();
+	for (T = TirsLaser.begin(); T != TirsLaser.end(); T++)
+		delete (*T);
+	T_lock.unlock();
+
+	F_lock.lock();
+	for (F = FormationEnnemie.begin(); F != FormationEnnemie.end(); F++)
+		delete (*F);
+	F_lock.unlock();
+}
+
+Joueur* GameWorld::AddToGameWorld(Joueur &entity)
 {
 	Joueur *PtrToSend;
 	P_lock.lock();

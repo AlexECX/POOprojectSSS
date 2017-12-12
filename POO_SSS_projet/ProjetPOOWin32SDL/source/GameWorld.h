@@ -40,21 +40,13 @@ public:
 	static void SetupGameWorld(WorldRenderer* renderer_instance) {
 		RendererInstance = renderer_instance;
 	}
-
-<<<<<<< HEAD
+	static void DeleteGameWorld();
 
 	static Joueur* AddToGameWorld(Joueur &entity);
 	static Ennemis* AddToGameWorld(Ennemis &entity);
 	static CEsquadronTie* AddToGameWorld(CEsquadronTie &entity);
 	static Projectile* AddToGameWorld(Projectile &entity);
-=======
-	Joueur* AddToGameWorld(Joueur &entity);
-	Ennemis* AddToGameWorld(Ennemis &entity);
-	//std::vector<Ennemis>* AddToGameWorld(std::vector<Ennemis> &entity);
-	CEsquadronTie* AddToGameWorld(CEsquadronTie &entity);
-	//CEsquadronTie* RemoveFromGameWorld(int member);
-	Projectile* AddToGameWorld(Projectile &entity);
->>>>>>> 8d82f0958ebe79d8dbabeb2bbefe194033d3b862
+
 
 	/*void RemoveFromGameWorld(Joueur *entity);
 	void RemoveFromGameWorld(Ennemis *entity);

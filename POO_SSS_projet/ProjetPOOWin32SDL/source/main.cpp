@@ -252,8 +252,11 @@ int main(int argc, char* args[])
 	//------------------------------------------------
 
 	//----Objet GameWorld et variable pour contenir les adresses de conteneurs---
-	WorldRenderer SpaceRenderer(texture, GameSprites, gRenderer);
-	GameWorld::SetupGameWorld(&SpaceRenderer);	//Contiendra tout nos objets volant du jeu
+	//Englobe toute les textures, animation et le SDL renderer
+	WorldRenderer SpaceRenderer(texture, GameSprites, gRenderer); 
+	//GameWorld contiendra des pointeurs sur tout nos objets volant du jeu. On lui 
+	//passe ici l'adresse du Renderer
+	GameWorld::SetupGameWorld(&SpaceRenderer);	//Contiendra des pointeurs sur tout nos objets volant du jeu
 
 	void SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h);
 	int BackgroundMusic = true;
@@ -278,11 +281,6 @@ int main(int argc, char* args[])
 			Mix_PlayMusic(gMusic, -1);
 			Mix_ResumeMusic();
 
-			//Current animation frame
-			int frame = 0;
-
-			//Simply create a thread 
-<<<<<<< HEAD
 			//GameWorld *World_ptr = &Space; //On envoie GameWorld en parametre, on devra le traduire avec (GameWorld*)
 			
 			//----Execute thread---------------------------------------------------------
@@ -290,17 +288,7 @@ int main(int argc, char* args[])
 			thread[1] = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", ((void*)1) );
 			thread[2] = SDL_CreateThread(ThreadKeyboard, "ThreadKeyboard", ((void*)1) );
 			//thread[3] = SDL_CreateThread(ThreadCollision, "ThreadCollision", World_ptr);
-=======
-			GameWorld *World_ptr = &Space; //On envoie GameWorld en parametre, on devra le traduire 
-			                               //avec (GameWorld*)
-			
-			//----Execute thread---------------------------------------------------------
-			//thread[0] = SDL_CreateThread(TieThread, "ThreadTie", World_ptr);
-			thread[1] = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", World_ptr);
-			thread[2] = SDL_CreateThread(ThreadKeyboard, "ThreadKeyboard", World_ptr);
-			thread[3] = SDL_CreateThread(ThreadCollision, "ThreadCollision", World_ptr);
-			//---------------------------------------------------------------------------
->>>>>>> 8d82f0958ebe79d8dbabeb2bbefe194033d3b862
+
 
 			int T = 0;
 			int R = -gBackgroundTexture.getWidth();
@@ -373,36 +361,10 @@ int main(int argc, char* args[])
 					Message_rect.h = 25; // controls the height of the rect
 					SDL_RenderCopy(gRenderer, Message, NULL, &Message_rect);
 					//----Message----
-					
-					//T++;
-					//if (T >= gBackgroundTexture.getWidth() - 1200 && R == 0) {
-					//	R = -1200;
-					//}
-					//if (R <= gBackground2Texture.getWidth() - 1200)
-					//	gBackground2Texture.render(-R, 0)
-					//if (R >= gBackground2Texture.getWidth() && T >= 0) {
-					//	T = -1200;
-					//	gBackgroundTexture.render(-T, 0);
-					//}
-					//if (R <= gBackground2Texture.getWidth() - 1200)
-					//	R = 1200;
-<<<<<<< HEAD
+
 					GameWorld::RenderWorld();
-=======
-	
-					Space.RenderWorld();
->>>>>>> 8d82f0958ebe79d8dbabeb2bbefe194033d3b862
 
 					texture[4].render(700, 300);
-
-					//----Sprite----
-
-					//Render current frame
-					//SDL_Rect* currentClip = &GameSprites[0].SpriteClips[frame / 7];
-						//&gSpriteClips[frame / 5];//speed
-					//GameSprites[0].SpriteTexture.renderSprite((SCREEN_WIDTH - currentClip->w) / 2, (SCREEN_HEIGHT - currentClip->h) / 2, currentClip);
-
-					//----Sprite----
 
 					////Update screen
 					SDL_RenderPresent(gRenderer);
@@ -417,6 +379,8 @@ int main(int argc, char* args[])
 	SDL_WaitThread(thread[1], &threadReturnValue[1]); //Wait for the thread to complete.
 	SDL_WaitThread(thread[2], &threadReturnValue[2]); //Wait for the thread to complete.
 //	SDL_WaitThread(thread[3], &threadReturnValue[3]); //Wait for the thread to complete.
+
+	GameWorld::DeleteGameWorld();
 
 	return 0;
 }
