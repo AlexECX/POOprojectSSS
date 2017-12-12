@@ -71,6 +71,19 @@ typedef struct {
 //	return 1;
 //}
 
+int TieThread(void *ptr) {
+	GameWorld *tdata = (GameWorld*)ptr;
+
+	Ennemis *Tiefighter = new Ennemis(ennemis_simple, empire, 500, 250, 1, 0, 0);
+	Tiefighter = tdata->AddToGameWorld(*Tiefighter);
+
+	while(true) {
+		Tiefighter->UpdateTrajet(500,250);
+	}
+
+	return 1;
+}
+
 //----TieFactoryThread----------------------------------------------------------------
 
 int TieFactoryThread(void *ptr)
@@ -283,9 +296,11 @@ int main(int argc, char* args[])
 			GameWorld *World_ptr = &Space; //On envoie GameWorld en parametre, on devra le traduire avec (GameWorld*)
 			
 			//----Execute thread---------------------------------------------------------
-			thread[0] = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", World_ptr);
-			thread[1] = SDL_CreateThread(ThreadKeyboard, "ThreadKeyboard", World_ptr);
-			thread[2] = SDL_CreateThread(ThreadCollision, "ThreadCollision", World_ptr);
+			thread[0] = SDL_CreateThread(TieThread, "ThreadTie", World_ptr);
+			thread[1] = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", World_ptr);
+			thread[2] = SDL_CreateThread(ThreadKeyboard, "ThreadKeyboard", World_ptr);
+			thread[3] = SDL_CreateThread(ThreadCollision, "ThreadCollision", World_ptr);
+
 			/////////////////////////////////
 			int T = 0;
 			int R = -gBackgroundTexture.getWidth();
@@ -410,6 +425,7 @@ int main(int argc, char* args[])
 	SDL_WaitThread(thread[0], &threadReturnValue[0]); //Wait for the thread to complete.		
 	SDL_WaitThread(thread[1], &threadReturnValue[1]); //Wait for the thread to complete.
 	SDL_WaitThread(thread[2], &threadReturnValue[2]); //Wait for the thread to complete.
+	SDL_WaitThread(thread[3], &threadReturnValue[3]); //Wait for the thread to complete.
 
 	return 0;
 }
