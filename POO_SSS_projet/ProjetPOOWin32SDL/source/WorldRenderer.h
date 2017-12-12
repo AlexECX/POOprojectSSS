@@ -31,8 +31,9 @@ public:
 	void Render(CEsquadronTie*);
 	void Render(Projectile*);
 	void RenderEventAnimations();
+
+	//Inutilisé
 	static int StartExplosionThread(void* ptr);
 	int RenderExplosion(void*);
-	//void Render(std::list<categorie>);
 };
 
