@@ -1,6 +1,8 @@
 #pragma once
+
 #include "SDL_render.h"
 #include <string>
+
 //Texture wrapper class
 class LTexture
 {

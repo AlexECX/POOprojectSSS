@@ -24,7 +24,6 @@ std::mutex GameWorld::S_lock;
 std::mutex GameWorld::F_lock;
 std::mutex GameWorld::T_lock;
 
-
 //GameWorld::GameWorld()
 //{
 //}
@@ -51,7 +50,8 @@ GameWorld::~GameWorld()
 	F_lock.unlock();
 }
 
-Joueur* GameWorld::AddToGameWorld(Joueur &entity) {
+Joueur* GameWorld::AddToGameWorld(Joueur &entity) 
+{
 	Joueur *PtrToSend;
 	P_lock.lock();
 	PlayerHolder.push_back(&entity);
@@ -60,7 +60,8 @@ Joueur* GameWorld::AddToGameWorld(Joueur &entity) {
 	return PtrToSend;
 }
 
-Ennemis* GameWorld::AddToGameWorld(Ennemis &entity) {
+Ennemis* GameWorld::AddToGameWorld(Ennemis &entity) 
+{
 	Ennemis *PtrToSend;
 	S_lock.lock();
 	EnnemieSimple.push_back(&entity);
@@ -132,15 +133,13 @@ Projectile* GameWorld::AddToGameWorld(Projectile &entity)
 
 std::list<Joueur*>* GameWorld::AccessPlayerHolder()
 {
-P_lock.lock(); 
-return &PlayerHolder;
-		
+	P_lock.lock(); 
+	return &PlayerHolder;
 }
 
 std::list<Ennemis*>* GameWorld::AccessEnnemieSimple()
 {
 	S_lock.lock();
-
 	return &EnnemieSimple;
 }
 
@@ -202,7 +201,6 @@ void GameWorld::RenderWorld()
 	}
 	P_lock.unlock();
 
-
 	F_lock.lock();
 	F = FormationEnnemie.begin();
 	while (F != FormationEnnemie.end()){
@@ -230,9 +228,5 @@ void GameWorld::RenderWorld()
 		}
 	}
 	T_lock.unlock();
-
 	RendererInstance->RenderEventAnimations();
 }
-
-
-

@@ -7,51 +7,45 @@ bool loadMedia()
 
 //----Load image----------------------------------------------------------
 
-	if (!texture[0].loadFromFile("./Image/falcon.png"))
+	if (!texture[0].loadFromFile("./image/falcon.png"))
 	{
 		printf("Failed to load Foo' texture image!\n");
 		success = false;
 	}
 
-	if (!texture[1].loadFromFile("./Image/tiefighter.png"))
+	if (!texture[1].loadFromFile("./image/tiefighter.png"))
 	{
 		printf("Failed to load Foo' texture image!\n");
 		success = false;
 	}
 
-	if (!texture[2].loadFromFile("./Image/LaserFriend.png"))
+	if (!texture[2].loadFromFile("./image/LaserFriend.png"))
 	{
 		printf("Failed to load Foo' texture image!\n");
 		success = false;
 	}
 
-	if (!texture[3].loadFromFile("./Image/LaserEnnemis.png"))
+	if (!texture[3].loadFromFile("./image/LaserEnnemis.png"))
 	{
 		printf("Failed to load Foo' texture image!\n");
 		success = false;
 	}
 
-	if (!texture[4].loadFromFile("./Image/Asteroid.png"))
-	{
-		printf("Failed to load Foo' texture image!\n");
-		success = false;
-	}
-
-	if (!texture[5].loadFromFile("./Image/Ok.png"))
+	if (!texture[4].loadFromFile("./image/Asteroid.png"))
 	{
 		printf("Failed to load Foo' texture image!\n");
 		success = false;
 	}
 
 	//Load background texture
-	if (!gBackgroundTexture.loadFromFile("./Image/background.png"))
+	if (!gBackgroundTexture.loadFromFile("./image/background.png"))
 	{
 		printf("Failed to load background texture image!\n");
 		success = false;
 	}
 
 	//Load background2 texture
-	if (!gBackground2Texture.loadFromFile("./Image/background.png"))
+	if (!gBackground2Texture.loadFromFile("./image/background.png"))
 	{
 		printf("Failed to load background texture image!\n");
 		success = false;
@@ -62,16 +56,13 @@ bool loadMedia()
 //----Load sprite----------------------------------------------------------
 
 //Load sprite sheet texture
-	if (!GameSprites[0].SpriteTexture.loadFromFile("./Image/Explosion.png"))
+	if (!GameSprites[0].SpriteTexture.loadFromFile("./image/Explosion.png"))
 	{
 		printf("Failed to load walking animation texture!\n");
 		success = false;
 	}
 	else
 	{
-		
-		
-		//GameSprites[0].SpriteClips = &gSpriteClips[9];
 		//Set sprite clips
 
 		//----Ligne 1:----
@@ -132,28 +123,28 @@ bool loadMedia()
 
 //----Load music----------------------------------------------------------
 
-	gMusic = Mix_LoadMUS("./Music/BackgroundAsteroidField.mp3");
+	gMusic = Mix_LoadMUS("./music/BackgroundAsteroidField.mp3");
 	if (gMusic == NULL)
 	{
 		printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
 		success = false;
 	}
 
-	gMusicBref[0] = Mix_LoadWAV("./Music/FalconFire.wav");
+	gMusicBref[0] = Mix_LoadWAV("./music/FalconFire.wav");
 	if (gMusic == NULL)
 	{
 		printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
 		success = false;
 	}
 
-	gMusicBref[1] = Mix_LoadWAV("./Music/TieFighterFire.wav");
+	gMusicBref[1] = Mix_LoadWAV("./music/TieFighterFire.wav");
 	if (gMusic == NULL)
 	{
 		printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
 		success = false;
 	}
 
-	gMusicBref[2] = Mix_LoadWAV("./Music/TieFighterExplosion.wav");
+	gMusicBref[2] = Mix_LoadWAV("./music/TieFighterExplosion.wav");
 	if (gMusic == NULL)
 	{
 		printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());

@@ -15,8 +15,6 @@ class Projectile;
 class WorldRenderer;
 enum categorie;
 
-
-
 class GameWorld
 {
 private:
@@ -43,11 +41,20 @@ public:
 		RendererInstance = renderer_instance;
 	}
 
+<<<<<<< HEAD
 
 	static Joueur* AddToGameWorld(Joueur &entity);
 	static Ennemis* AddToGameWorld(Ennemis &entity);
 	static CEsquadronTie* AddToGameWorld(CEsquadronTie &entity);
 	static Projectile* AddToGameWorld(Projectile &entity);
+=======
+	Joueur* AddToGameWorld(Joueur &entity);
+	Ennemis* AddToGameWorld(Ennemis &entity);
+	//std::vector<Ennemis>* AddToGameWorld(std::vector<Ennemis> &entity);
+	CEsquadronTie* AddToGameWorld(CEsquadronTie &entity);
+	//CEsquadronTie* RemoveFromGameWorld(int member);
+	Projectile* AddToGameWorld(Projectile &entity);
+>>>>>>> 8d82f0958ebe79d8dbabeb2bbefe194033d3b862
 
 	/*void RemoveFromGameWorld(Joueur *entity);
 	void RemoveFromGameWorld(Ennemis *entity);
@@ -62,6 +69,5 @@ public:
 	static void ReleaseContainer(std::list<Joueur>*) { P_lock.unlock(); }
 	static void ReleaseContainer(std::list<Ennemis>*) { S_lock.unlock(); }
 	//void ReleaseContainer(std::list<std::vector<Ennemis>>*) { M_lock.unlock(); }
-
 };
 #endif 

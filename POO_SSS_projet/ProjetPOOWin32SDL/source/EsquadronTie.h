@@ -26,4 +26,3 @@ public:
 	static int StartSquadThread(void* pointer);
 	int SquadThread();
 };
-

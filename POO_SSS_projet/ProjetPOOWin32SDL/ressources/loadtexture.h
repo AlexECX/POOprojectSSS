@@ -50,7 +50,6 @@ void LTexture::renderSprite(int x, int y, SDL_Rect* clip)
 		renderQuad.w = clip->w;
 		renderQuad.h = clip->h;
 	}
-
 	//Render to screen
 	SDL_RenderCopy(gRenderer, mTexture, clip, &renderQuad);
 }

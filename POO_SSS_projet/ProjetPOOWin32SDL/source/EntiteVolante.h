@@ -16,8 +16,6 @@ protected:
 	int Damage;
 	int VitesseDeplacment;
 	int Active;
-	
-
 
 public:
 	EntiteVolante(categorie, affiliation, int, int, int, int, int);
@@ -36,8 +34,6 @@ public:
 	void TakeDamage(int dmg) { HP -= dmg; }
 	void Remove() { Active++; }
 
-
 	virtual void UpdateTrajet(int x, int y);
-
 };
 #endif 
