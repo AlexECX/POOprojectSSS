@@ -203,6 +203,36 @@ int ThreadKeyboard(void* ptr)
 	return 1;
 }
 
+int CircleCollision(int x1, int y1, int radius1, int x2, int y2, int radius2)
+{
+	int dx = x2 - x1;
+	int dy = y2 - y1;
+	int radius3 = radius1 + radius2;
+
+	if (((dx^2) + (dy^2)) < (radius3^2))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+int ThreadCollision(void* ptr)
+{
+	//On traduit le pointeur en GameWorld
+	GameWorld *tdata = (GameWorld*)ptr;
+
+	/*tdata->RemoveFromGameWorld(3);
+
+
+	while (true) {
+
+	}*/
+	return 1;
+}
+
 //----Main----------------------------------------------------------------------------
 
 int main(int argc, char* args[])
@@ -210,8 +240,7 @@ int main(int argc, char* args[])
 	//----Variables pour nos thread-------
 	SDL_Thread *thread[10];
 
-	int         threadReturnValue;
-	int         threadReturnValue2;
+	int         threadReturnValue[10];
 	//------------------------------------
 
 	//----Variables pour la gestion du FPS----------
@@ -256,6 +285,7 @@ int main(int argc, char* args[])
 			//----Execute thread---------------------------------------------------------
 			thread[0] = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", World_ptr);
 			thread[1] = SDL_CreateThread(ThreadKeyboard, "ThreadKeyboard", World_ptr);
+			thread[2] = SDL_CreateThread(ThreadCollision, "ThreadCollision", World_ptr);
 			/////////////////////////////////
 			int T = 0;
 			int R = -gBackgroundTexture.getWidth();
@@ -377,8 +407,9 @@ int main(int argc, char* args[])
 
 	close();
 
-	SDL_WaitThread(thread[0], &threadReturnValue); //Wait for the thread to complete.		
-	SDL_WaitThread(thread[1], &threadReturnValue2); //Wait for the thread to complete.
+	SDL_WaitThread(thread[0], &threadReturnValue[0]); //Wait for the thread to complete.		
+	SDL_WaitThread(thread[1], &threadReturnValue[1]); //Wait for the thread to complete.
+	SDL_WaitThread(thread[2], &threadReturnValue[2]); //Wait for the thread to complete.
 
 	return 0;
 }

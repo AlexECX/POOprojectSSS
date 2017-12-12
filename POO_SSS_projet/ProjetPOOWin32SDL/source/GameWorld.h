@@ -49,6 +49,7 @@ public:
 	Ennemis* AddToGameWorld(Ennemis &entity);
 	//std::vector<Ennemis>* AddToGameWorld(std::vector<Ennemis> &entity);
 	CEsquadronTie* AddToGameWorld(CEsquadronTie &entity);
+	//CEsquadronTie* RemoveFromGameWorld(int member);
 	Projectile* AddToGameWorld(Projectile &entity);
 
 	/*void RemoveFromGameWorld(Joueur *entity);
