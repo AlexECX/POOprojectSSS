@@ -118,7 +118,8 @@ int TieFactoryThread(void *ptr)
 			Recrus.push_back(Ennemis(ennemis_simple, empire, 1100 + (rand() % 4 * 50), (i *100) + 50, 1, 0, 0));
 		}
 		CEsquadronTie* temp = new CEsquadronTie(Recrus);
-		Vagues.push_back(tdata->AddToGameWorld(*temp));
+		tdata->AddToGameWorld(*temp);
+		//Vagues.push_back(tdata->AddToGameWorld(*temp));
 			
 		//ThreadData *FactoryMessage = new ThreadData{ Esquadron, tdata };
 		//TieTH.push_back(SDL_CreateThread(TieThread, "TieThread", FactoryMessage));
@@ -211,12 +212,6 @@ int ThreadKeyboard(void* ptr)
 						if (state[SDL_SCANCODE_RIGHT])
 							MilleniumFalcon->MouvRight();
 
-			/*if (state[SDL_SCANCODE_LEFT] && !state[SDL_SCANCODE_RIGHT])
-				MilleniumFalcon->MouvLeft();
-			else
-				if (!state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_RIGHT])
-					MilleniumFalcon->MouvRight();*/
-
 			if (state[SDL_SCANCODE_W])
 			{
 				if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval)
@@ -229,9 +224,8 @@ int ThreadKeyboard(void* ptr)
 					Mix_PlayChannel(-1, gMusicBref[0], 0);
 				}
 			}
-			SDL_Delay(2);
 		//}
-		SDL_Delay(1);
+		SDL_Delay(3);
 	}
 	return 1;
 }
@@ -297,10 +291,10 @@ int main(int argc, char* args[])
 			GameWorld *World_ptr = &Space; //On envoie GameWorld en parametre, on devra le traduire avec (GameWorld*)
 			
 			//----Execute thread---------------------------------------------------------
-			thread[0] = SDL_CreateThread(TieThread, "ThreadTie", World_ptr);
+			//thread[0] = SDL_CreateThread(TieThread, "ThreadTie", World_ptr);
 			thread[1] = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", World_ptr);
 			thread[2] = SDL_CreateThread(ThreadKeyboard, "ThreadKeyboard", World_ptr);
-			thread[3] = SDL_CreateThread(ThreadCollision, "ThreadCollision", World_ptr);
+			//thread[3] = SDL_CreateThread(ThreadCollision, "ThreadCollision", World_ptr);
 
 			/////////////////////////////////
 			int T = 0;
@@ -429,10 +423,10 @@ int main(int argc, char* args[])
 
 	close();
 
-	SDL_WaitThread(thread[0], &threadReturnValue[0]); //Wait for the thread to complete.		
+//	SDL_WaitThread(thread[0], &threadReturnValue[0]); //Wait for the thread to complete.		
 	SDL_WaitThread(thread[1], &threadReturnValue[1]); //Wait for the thread to complete.
 	SDL_WaitThread(thread[2], &threadReturnValue[2]); //Wait for the thread to complete.
-	SDL_WaitThread(thread[3], &threadReturnValue[3]); //Wait for the thread to complete.
+//	SDL_WaitThread(thread[3], &threadReturnValue[3]); //Wait for the thread to complete.
 
 	return 0;
 }
