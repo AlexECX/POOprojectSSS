@@ -37,88 +37,14 @@ typedef struct {
 	void *data3;
 } ThreadData;
 
-<<<<<<< HEAD
-int CircleCollision(int x1, int y1, int radius1, int x2, int y2, int radius2)
-{
-	int dx = x2 - x1;
-	int dy = y2 - y1;
-	int radius3 = radius1 + radius2;
 
-	if (((dx ^ 2) + (dy ^ 2)) < (radius3 ^ 2))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-//----Thread Funtions----------------------------------------------------------------------------
-
-//int TieThread(void *ptr)
-//{
-//	//On traduit le pointeur en GameWorld
-//	ThreadData* FactoryData = (ThreadData*)ptr;
-//
-//	vector<Ennemis>* TieFighter = (vector<Ennemis>*)FactoryData->data1;
-//	//GameWorld *WorldData = (GameWorld*)FactoryData->data2;
-//
-//	//trucs pour le timer et le deplacement
-//	auto interval = std::chrono::milliseconds(5);
-////	std::chrono::milliseconds TieFighterFlightTime;
-//	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
-//
-//	while (!TieFighter->empty() && !quit)
-//	{
-//		int SquadronMembers = TieFighter->size();
-//		if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval) {
-//			
-//			for (int i = 0; i < TieFighter->size(); i++) {
-//				if ((*TieFighter)[i].isAlive())
-//					(*TieFighter)[i].UpdateTrajet((*TieFighter)[i].getCoordX() - 1, (*TieFighter)[i].getCoordY());
-//				else
-//					SquadronMembers--;
-//			}
-//			BeforeUpdate = std::chrono::high_resolution_clock::now();
-//		}
-//		else
-//			SDL_Delay(1);
-//
-//	}
-//	//((GameWorld*)(FactoryData->data2))->RemoveFromGameWorld(TieFighter);
-//
-//	return 1;
-//}
-
-int TieThread(void *ptr) 
-{
-	GameWorld *tdata = (GameWorld*)ptr;
-
-	Ennemis *Tiefighter = new Ennemis(ennemis_simple, empire, 250, 250, 1, 0, 0);
-	Tiefighter = tdata->AddToGameWorld(Tiefighter);
-
-	while(true) {
-		Tiefighter->UpdateTrajet(250,250);
-	}
-	return 1;
-}
-
-//----TieFactoryThread----------------------------------------------------------------
-=======
-//----TieFactoryThread-------------------------------------------------------
->>>>>>> 76468fa82e19a5c65a4b0e846297ffdb53dfd84d
+//----TieFactoryThread-----------------------------------------
 
 int TieFactoryThread(void *ptr)
 {
 	//On traduit le pointeur en GameWorld
 	vector<CEsquadronTie*> Vagues;
-<<<<<<< HEAD
-	//GameWorld *tdata = (GameWorld*)ptr;
-	//vector<Ennemis> Recrus;
-=======
 	vector<Ennemis> Recrus;
->>>>>>> 76468fa82e19a5c65a4b0e846297ffdb53dfd84d
 
 	while (!quit) {
 		SDL_Delay(5000);
@@ -129,15 +55,7 @@ int TieFactoryThread(void *ptr)
 				             (i *100) + 50, 1, 0, 0));
 		}
 		CEsquadronTie* temp = new CEsquadronTie(Recrus);
-<<<<<<< HEAD
 		GameWorld::AddToGameWorld(temp);
-		//Vagues.push_back(tdata->AddToGameWorld(*temp));
-			
-		//ThreadData *FactoryMessage = new ThreadData{ Esquadron, tdata };
-		//TieTH.push_back(SDL_CreateThread(TieThread, "TieThread", FactoryMessage));
-=======
-		GameWorld::AddToGameWorld(*temp);
->>>>>>> 76468fa82e19a5c65a4b0e846297ffdb53dfd84d
 		SDL_Delay(1000);
 	}
 	return 1;
@@ -152,12 +70,7 @@ int ThreadKeyboard(void* ptr)
 	//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de 
 	//l'objet
 	Joueur *MilleniumFalcon = new Joueur(joueur, republic, 50, 250, 1, 0, 0);
-<<<<<<< HEAD
 	MilleniumFalcon = GameWorld::AddToGameWorld(MilleniumFalcon);
-
-=======
-	MilleniumFalcon = GameWorld::AddToGameWorld(*MilleniumFalcon);
->>>>>>> 76468fa82e19a5c65a4b0e846297ffdb53dfd84d
 	auto interval = std::chrono::milliseconds(500);
 	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
 
@@ -224,27 +137,19 @@ int ThreadKeyboard(void* ptr)
 			if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - 
 				BeforeUpdate) >= interval)
 			{
-<<<<<<< HEAD
-				if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval)
+				if (DURATION_IN_MS(std::chrono::high_resolution_clock::now()
+												- BeforeUpdate) >= interval)
 				{
-					Projectile* Tir = new Projectile(tir_joueur, republic, MilleniumFalcon->getCoordX() + 150, MilleniumFalcon->getCoordY() + 65, 1, 10, 0);
+					Projectile* Tir = new Projectile(tir_joueur, republic,
+						MilleniumFalcon->getCoordX() + 150,
+						MilleniumFalcon->getCoordY() + 65,
+						1, 10, 0);
 					Tir = GameWorld::AddToGameWorld(Tir);
 					BeforeUpdate = std::chrono::high_resolution_clock::now();
 					
 					//----Play bref song----
 					Mix_PlayChannel(-1, gMusicBref[0], 0);
 				}
-=======
-				Projectile* Tir = new Projectile(tir_joueur, republic, 
-					                  MilleniumFalcon->getCoordX() + 150, 
-					                  MilleniumFalcon->getCoordY() + 65,
-					                             1, 10, 0);
-				Tir = GameWorld::AddToGameWorld(*Tir);
-				BeforeUpdate = std::chrono::high_resolution_clock::now();
-				
-				//----Play bref song----
-				Mix_PlayChannel(-1, gMusicBref[0], 0);
->>>>>>> 76468fa82e19a5c65a4b0e846297ffdb53dfd84d
 			}
 		}
 		SDL_Delay(3);
@@ -252,11 +157,10 @@ int ThreadKeyboard(void* ptr)
 	return 1;
 }
 
-//----Main-------------------------------------------------------------------
+//----Main-----------------------------------------------------------
 
 int main(int argc, char* args[])
 {
-	string score;
 	//----Variables pour nos thread-------
 	SDL_Thread *thread[10];
 	int threadReturnValue[10];
@@ -343,19 +247,13 @@ int main(int argc, char* args[])
 						                   0xFF);
 					SDL_RenderClear(gRenderer);
 
-<<<<<<< HEAD
-					//Bench pour tester l'interval de temp. Total devrait donner 16 ms +/- 1 ms
-					/*end = std::chrono::high_resolution_clock::now();
-					double total = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
-					start = std::chrono::high_resolution_clock::now();*/
-=======
 					//Bench pour tester l'interval de temp. Total devrait 
-					//donner 30 ms +/- 1 ms
+					//donner 16 ms +/- 1 ms
 					//end = std::chrono::high_resolution_clock::now();
 					//double total = std::chrono::duration_cast<std::chrono::
 					//nanoseconds>(end - start).count();
 					//start = std::chrono::high_resolution_clock::now();
->>>>>>> 76468fa82e19a5c65a4b0e846297ffdb53dfd84d
+
 
 					//SDL_Delay(16);
 
@@ -372,8 +270,8 @@ int main(int argc, char* args[])
 						gBackgroundTexture.render(-T, 0);
 					}
 
-					if (R >= -SCREEN_WIDTH && R <= gBackground2Texture.
-						getWidth())
+					if (R >= -SCREEN_WIDTH && R <= gBackground2Texture
+																.getWidth())
 						gBackgroundTexture.render(-R, 0);
 
 
@@ -386,21 +284,20 @@ int main(int argc, char* args[])
 					T++;
 					R++;
 					
-					score = to_string(GameWorld::GameScore());
-
 					//----Message----
-					TTF_Font* Arial = TTF_OpenFont("./style/Arial.ttf", 12);
-					SDL_Color White = { 255, 255, 255 };
-					SDL_Surface* surfaceMessage = TTF_RenderText_Solid
-					(Arial, ("Score "+ score).c_str(), White); 
-					SDL_Texture* Message = SDL_CreateTextureFromSurface
-					(gRenderer, surfaceMessage);
-					SDL_Rect Message_rect; //create a rect
-					Message_rect.x = 25;  //controls the rect's x coordinate 
-					Message_rect.y = 650; // controls the rect's y coordinte
-					Message_rect.w = 75; // controls the width of the rect
-					Message_rect.h = 25; // controls the height of the rect
-					SDL_RenderCopy(gRenderer, Message, NULL, &Message_rect);
+					//string score = to_string(GameWorld::GameScore());
+					//TTF_Font* Arial = TTF_OpenFont("./style/Arial.ttf", 12);
+					//SDL_Color White = { 255, 255, 255 };
+					//SDL_Surface* surfaceMessage = TTF_RenderText_Solid
+					//(Arial, ("Score "+ score).c_str(), White); 
+					//SDL_Texture* Message = SDL_CreateTextureFromSurface
+					//(gRenderer, surfaceMessage);
+					//SDL_Rect Message_rect; //create a rect
+					//Message_rect.x = 25;  //controls the rect's x coordinate 
+					//Message_rect.y = 650; // controls the rect's y coordinte
+					//Message_rect.w = 75; // controls the width of the rect
+					//Message_rect.h = 25; // controls the height of the rect
+					//SDL_RenderCopy(gRenderer, Message, NULL, &Message_rect);
 					//----Message----
 
 					GameWorld::RenderWorld();
@@ -415,9 +312,8 @@ int main(int argc, char* args[])
 	}
 	//Free resources and close SDL
 	close();
-	SDL_WaitThread(thread[1], &threadReturnValue[1]); //Wait for 
-	                                                  //the thread 
-	                                                  //to complete.
+	//Wait for the thread to complete.
+	SDL_WaitThread(thread[1], &threadReturnValue[1]); 
 	SDL_WaitThread(thread[2], &threadReturnValue[2]);
 	GameWorld::DeleteGameWorld();
 	return 0;

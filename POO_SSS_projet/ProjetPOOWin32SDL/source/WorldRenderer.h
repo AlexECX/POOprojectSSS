@@ -21,10 +21,11 @@ private:
 	std::list<AnimationRequest> Animations;
 
 public:
-	WorldRenderer(LTexture gametextures[], LSprite gamesprites[], SDL_Renderer* renderer);
+	WorldRenderer(LTexture gametextures[],
+				  LSprite gamesprites[],
+				  SDL_Renderer* renderer);
 	~WorldRenderer();
 
-	//static void SetupWorldRenderer(LTexture gametextures[], LSprite gamesprites[], SDL_Renderer* renderer);
 
 	void Render(Joueur*);
 	void Render(CEsquadronTie*);

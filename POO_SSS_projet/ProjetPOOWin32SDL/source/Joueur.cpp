@@ -7,13 +7,14 @@ Joueur::Joueur(categorie CategorieParam,
 				int			PosYParam,
 				int			HP_Param,
 				int			DamageParam,
-				int			SpeedParam) : EntiteVolante(CategorieParam,
-														AffiliationParam,
-														PosXParam,
-														PosYParam,
-														HP_Param,
-														DamageParam,
-														SpeedParam)
+				int			SpeedParam)
+				: EntiteVolante(CategorieParam,
+								AffiliationParam,
+								PosXParam,
+								PosYParam,
+								HP_Param,
+								DamageParam,
+								SpeedParam)
 {
 }
 Joueur::~Joueur()

@@ -34,7 +34,6 @@
     <ClInclude Include="source\Obstacle.h" />
     <ClInclude Include="source\GameWorld.h" />
     <ClInclude Include="source\Projectile.h" />
-    <ClInclude Include="source\Vaisseau.h" />
     <ClInclude Include="source\WorldRenderer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -47,7 +46,6 @@
     <ClCompile Include="source\Obstacle.cpp" />
     <ClCompile Include="source\GameWorld.cpp" />
     <ClCompile Include="source\Projectile.cpp" />
-    <ClCompile Include="source\Vaisseau.cpp" />
     <ClCompile Include="source\WorldRenderer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

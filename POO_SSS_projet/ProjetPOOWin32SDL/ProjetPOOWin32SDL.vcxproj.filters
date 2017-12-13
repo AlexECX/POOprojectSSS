@@ -9,7 +9,6 @@
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Obstacle.cpp" />
     <ClCompile Include="source\Projectile.cpp" />
-    <ClCompile Include="source\Vaisseau.cpp" />
     <ClCompile Include="source\WorldRenderer.cpp" />
     <ClCompile Include="source\GameWorld.cpp" />
   </ItemGroup>
@@ -27,7 +26,6 @@
     <ClInclude Include="source\Joueur.h" />
     <ClInclude Include="source\Obstacle.h" />
     <ClInclude Include="source\Projectile.h" />
-    <ClInclude Include="source\Vaisseau.h" />
     <ClInclude Include="ressources\LSprite.h" />
     <ClInclude Include="source\WorldRenderer.h" />
     <ClInclude Include="source\GameWorld.h" />

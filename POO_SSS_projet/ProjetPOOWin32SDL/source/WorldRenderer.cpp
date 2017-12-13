@@ -23,8 +23,12 @@ struct AnimationRequest {
 	int CurrentFrame;
 };
 
-WorldRenderer::WorldRenderer(LTexture gametextures[], LSprite gamesprites[], SDL_Renderer* renderer)
-		: GameTextures(gametextures), GameSprites(gamesprites), Renderer(renderer)
+WorldRenderer::WorldRenderer(LTexture gametextures[],
+							LSprite gamesprites[], 
+							SDL_Renderer* renderer)
+		: GameTextures(gametextures), 
+		  GameSprites(gamesprites), 
+		  Renderer(renderer)
 {
 }
 
@@ -32,55 +36,54 @@ WorldRenderer::~WorldRenderer()
 {
 }
 
-//void WorldRenderer::SetupWorldRenderer(LTexture gametextures[], LSprite gamesprites[], SDL_Renderer * renderer)
-//{
-//	GameTextures = gametextures;
-//	GameSprites = gamesprites;
-//	Renderer = renderer;
-//}
-
 void WorldRenderer::Render(Joueur *PlayerRender)
 {
-	GameTextures[PlayerRender->getCategorie()].render(PlayerRender->getCoordX(),
-													  PlayerRender->getCoordY());
+	GameTextures[PlayerRender->getCategorie()]
+		.render(PlayerRender->getCoordX(), PlayerRender->getCoordY());
 }
 
 void WorldRenderer::Render(CEsquadronTie *SquadRender)
 {
 	for (int i = 0; i < SquadRender->getSquadronSize(); i++)
 		if (SquadRender->getMember(i)->isAlive())
-			GameTextures[SquadRender->getMember(i)->getCategorie()].render(SquadRender->getMember(i)->getCoordX(),
-																		   SquadRender->getMember(i)->getCoordY());
+			GameTextures[SquadRender->getMember(i)->getCategorie()]
+			.render(SquadRender->getMember(i)->getCoordX(),
+					SquadRender->getMember(i)->getCoordY());
 		else
 			if (SquadRender->getMember(i)->isActive()) {
 				//Pour l'instant, seulement une animation d'explosion
-				Animations.push_back(AnimationRequest{ 0,	//Sprite Number
-													   GameSprites[0].TotalFrames,
-													   SquadRender->getMember(i)->getCoordX(),
-													   SquadRender->getMember(i)->getCoordY(),
-													   0	//Starting frame
-													  } );
-				/*ThreadData* ExplosionData = new ThreadData{ this, 
-															(void*)SquadRender->getMember(i)->getCoordX(),
-															(void*)SquadRender->getMember(i)->getCoordY() };
-				ExplosionThreadPtr = SDL_CreateThread(StartExplosionThread, "Explosion", ExplosionData);*/
+				Animations.push_back(AnimationRequest{ 
+					0,	//Sprite Number
+					GameSprites[0].TotalFrames,
+					SquadRender->getMember(i)->getCoordX(),
+					SquadRender->getMember(i)->getCoordY(),
+					0	//Starting frame
+					} );
 				SquadRender->RemoveMember(i);
 			}
 }
 void WorldRenderer::Render(Projectile *ProjectileRender)
 {
-	GameTextures[ProjectileRender->getCategorie()].render(ProjectileRender->getCoordX(), 
-														  ProjectileRender->getCoordY());
+	GameTextures[ProjectileRender->getCategorie()]
+		.render(ProjectileRender->getCoordX(),
+			    ProjectileRender->getCoordY());
 }
+
 
 void WorldRenderer::RenderEventAnimations()
 {
 	if (!Animations.empty()) {
-		std::list<AnimationRequest>::iterator Animator = Animations.begin();
+		std::list<AnimationRequest>::iterator Animator 
+												  = Animations.begin();
 		while (Animator != Animations.end()) {
 			if (Animator->CurrentFrame < Animator->TotalFrames) {
-				SDL_Rect* currentClip = &GameSprites[Animator->SpriteNum].SpriteClips[Animator->CurrentFrame / 6];
-				GameSprites[Animator->SpriteNum].SpriteTexture.renderSprite(Animator->X, Animator->Y, currentClip);
+			    SDL_Rect* currentClip 
+					= &GameSprites[Animator->SpriteNum]
+							.SpriteClips[Animator->CurrentFrame / 6];
+				GameSprites[Animator->SpriteNum]
+					.SpriteTexture.renderSprite(Animator->X, 
+												Animator->Y, 
+												currentClip);
 				Animator->CurrentFrame++;
 				Animator++;
 			}
@@ -94,8 +97,8 @@ void WorldRenderer::RenderEventAnimations()
 
 int WorldRenderer::StartExplosionThread(void * ptr)
 {
-
-	return ((WorldRenderer*)((ThreadData*)ptr)->data1)->RenderExplosion(ptr);
+	ThreadData* pointer = (ThreadData*)ptr;
+	return ((WorldRenderer*)pointer->data1)->RenderExplosion(ptr);
 }
 
 int WorldRenderer::RenderExplosion(void* explose)

@@ -29,7 +29,8 @@ std::mutex GameWorld::T_lock;
 //{
 //}
 
-//GameWorld::GameWorld(WorldRenderer* renderer_instance): RendererInstance(renderer_instance)
+//GameWorld::GameWorld(WorldRenderer* renderer_instance)
+//					: RendererInstance(renderer_instance)
 //{
 //}
 
@@ -46,7 +47,8 @@ std::mutex GameWorld::T_lock;
 //	T_lock.unlock();
 //
 //	F_lock.lock();
-//	for (F = FormationEnnemie.begin(); F != FormationEnnemie.end(); F++)
+//	for (F = FormationEnnemie.begin();
+//			F != FormationEnnemie.end(); F++)
 //		delete (*F);
 //	F_lock.unlock();
 //}
@@ -64,7 +66,8 @@ void GameWorld::DeleteGameWorld()
 	T_lock.unlock();
 
 	F_lock.lock();
-	for (F = FormationEnnemie.begin(); F != FormationEnnemie.end(); F++)
+	for (F = FormationEnnemie.begin();
+		 F != FormationEnnemie.end(); F++)
 		delete (*F);
 	F_lock.unlock();
 }
@@ -110,10 +113,9 @@ Projectile* GameWorld::AddToGameWorld(Projectile *entity)
 	return PtrToSend;
 }
 
-bool GameWorld::VerifierImpact(Projectile* Tir)
-{
+bool GameWorld::VerifierImpact(Projectile* Tir){
 	bool Impact = false;
-	if (Tir->getAffiliation() == republic) {
+	if (Tir->getAffiliation() == republic) 
 		F_lock.lock();
 		F = FormationEnnemie.begin();
 		while (F != FormationEnnemie.end()) {
@@ -123,8 +125,7 @@ bool GameWorld::VerifierImpact(Projectile* Tir)
 					if ((*F)->getMember(i)->isAlive()) {
 						int x1 = (*F)->getMember(i)->getCoordX() + 30 - Tir->getCoordX();
 						int y1 = (*F)->getMember(i)->getCoordY() + 30 - Tir->getCoordY();
-						if ((x1*x1) + (y1*y1) < (30 * 30))
-						{
+						if ((x1*x1) + (y1*y1) < (30 * 30)) {
 							(*F)->getMember(i)->TakeDamage(Tir->getDamage());
 							Impact = true;
 							Score++;
@@ -136,7 +137,6 @@ bool GameWorld::VerifierImpact(Projectile* Tir)
 			F++;
 		}
 		F_lock.unlock();
-	}
 	return Impact;
 }
 

@@ -7,13 +7,15 @@
 #include "EntiteVolante.h"
 #include "Ennemis.h"
 
-#define DURATION_IN_MS(Time_Interval) std::chrono::duration_cast<std::chrono::milliseconds>(Time_Interval)
+#define DURATION_IN_MS(Time_Interval)\
+std::chrono::duration_cast<std::chrono::milliseconds>(Time_Interval)\
 
 CEsquadronTie::CEsquadronTie(std::vector<Ennemis> Vect) : Squad(Vect)
 {
 	Active = 0;
 	SquadCount = Squad.size();
-	SquadThreadPtr = SDL_CreateThread(StartSquadThread, "SquadThread", this);
+	SquadThreadPtr = SDL_CreateThread(StartSquadThread,
+									  "SquadThread", this);
 }
 
 CEsquadronTie::~CEsquadronTie()
@@ -24,11 +26,13 @@ CEsquadronTie::~CEsquadronTie()
 	}
 }
 
+
 void CEsquadronTie::Update()
 {
 	for (int i = 0; i < Squad.size(); i++) {
 		if (Squad[i].isAlive())
-			Squad[i].UpdateTrajet(Squad[i].getCoordX() - 1, Squad[i].getCoordY());
+			Squad[i].UpdateTrajet(Squad[i].getCoordX() - 1,
+								  Squad[i].getCoordY());
 	}
 }
 
@@ -47,13 +51,13 @@ int CEsquadronTie::SquadThread()
 {
 	//trucs pour le timer et le deplacement
 	auto interval = std::chrono::milliseconds(5);
-	std::chrono::milliseconds TieFighterFlightTime;
 	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
 
 	while (this->isActive())
 	{
 		//int SquadronMembers = TieFighter->size();
-		if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval) 
+		if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() 
+										- BeforeUpdate) >= interval) 
 		{
 			this->Update();
 			BeforeUpdate = std::chrono::high_resolution_clock::now();
