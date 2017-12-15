@@ -12,13 +12,11 @@ class Ennemis;
 class LTexture;
 class CEsquadronTie;
 class Projectile;
-class WorldRenderer;
 enum categorie;
 
 class GameWorld
 {
 private:
-	static WorldRenderer* RendererInstance;
 	static int Score;
 	static std::list<Joueur*>::iterator P;
 	static std::list<Joueur*> PlayerHolder;
@@ -34,9 +32,7 @@ private:
 	static std::mutex T_lock;
 	
 public:
-	static void SetupGameWorld(WorldRenderer* renderer_instance) {
-		RendererInstance = renderer_instance;
-	}
+
 	static void DeleteGameWorld();
 
 	static Joueur* AddToGameWorld(Joueur* entity);

@@ -28,16 +28,15 @@ public:
 	//Set alpha modulation
 	void setAlpha(Uint8 alpha);
 
-	//Renders texture at given point
-	void render(int x, int y);
-
-	//Renders texture at given point
-	void renderSprite(int x, int y, SDL_Rect* clip = NULL);
-
 	//Gets image dimensions
-	int getWidth();
-	int getHeight();
-
+	int getWidth() { return mWidth; }
+	int getHeight() { return mHeight; }
+	SDL_Texture* getTexture() { return mTexture; }
+	//void operator = (SDL_Texture* pointer) {
+	//	if (pointer != NULL)
+	//		mTexture = pointer;
+	//}
+	void AssignTexture(SDL_Texture* newTexture, int newWidth, int newHeight);
 private:
 	//The actual hardware texture
 	SDL_Texture* mTexture;

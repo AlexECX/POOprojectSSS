@@ -1,25 +1,7 @@
 #include "LTexture.h"
+#pragma once
 
-LTexture::LTexture()
-{
-	//Initialize
-	mTexture = NULL;
-	mWidth = 0;
-	mHeight = 0;
-}
-
-LTexture::~LTexture()
-{
-	//Deallocate
-	free();
-}
-
-void LTexture::AssignTexture(SDL_Texture* newTexture, int newWidth, int newHeight)
-{
-	mTexture = newTexture;
-	mWidth = newWidth;
-	mHeight = newHeight;
-}
+class LTexture;
 
 void LTexture::free()
 {
@@ -50,3 +32,4 @@ void LTexture::setAlpha(Uint8 alpha)
 	//Modulate texture alpha
 	SDL_SetTextureAlphaMod(mTexture, alpha);
 }
+

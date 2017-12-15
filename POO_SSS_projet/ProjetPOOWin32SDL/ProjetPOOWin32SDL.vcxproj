@@ -19,20 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ressources\boolinit.h" />
-    <ClInclude Include="ressources\close.h" />
-    <ClInclude Include="ressources\initialise.h" />
-    <ClInclude Include="ressources\loadFromFile.h" />
-    <ClInclude Include="ressources\loadmedia.h" />
-    <ClInclude Include="ressources\loadtexture.h" />
     <ClInclude Include="ressources\LSprite.h" />
     <ClInclude Include="ressources\LTexture.h" />
+    <ClInclude Include="ressources\SetOnce.h" />
     <ClInclude Include="source\Ennemis.h" />
     <ClInclude Include="source\EntiteVolante.h" />
     <ClInclude Include="source\EsquadronTie.h" />
+    <ClInclude Include="source\GameMedia.h" />
+    <ClInclude Include="source\GameWorld.h" />
     <ClInclude Include="source\Joueur.h" />
     <ClInclude Include="source\Obstacle.h" />
-    <ClInclude Include="source\GameWorld.h" />
     <ClInclude Include="source\Projectile.h" />
     <ClInclude Include="source\WorldRenderer.h" />
   </ItemGroup>
@@ -41,10 +37,11 @@
     <ClCompile Include="source\Ennemis.cpp" />
     <ClCompile Include="source\EntiteVolante.cpp" />
     <ClCompile Include="source\EsquadronTie.cpp" />
+    <ClCompile Include="source\GameMedia.cpp" />
+    <ClCompile Include="source\GameWorld.cpp" />
     <ClCompile Include="source\Joueur.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Obstacle.cpp" />
-    <ClCompile Include="source\GameWorld.cpp" />
     <ClCompile Include="source\Projectile.cpp" />
     <ClCompile Include="source\WorldRenderer.cpp" />
   </ItemGroup>

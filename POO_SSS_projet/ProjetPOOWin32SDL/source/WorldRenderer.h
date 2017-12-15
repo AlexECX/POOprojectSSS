@@ -7,30 +7,36 @@ class LTexture;
 struct LSprite;
 struct AnimationRequest;
 struct SDL_Renderer;
+struct SDL_Rect;
 class Ennemis;
 class Joueur;
-class EsquadronTie;
+class CEsquadronTie;
 class Projectile;
+
+struct AnimationRequest;
 
 class WorldRenderer
 {
 private:
-	LTexture *GameTextures;
-	LSprite *GameSprites;
-	SDL_Renderer* Renderer;
-	std::list<AnimationRequest> Animations;
+	static std::list<AnimationRequest> Animations;
 
 public:
-	WorldRenderer(LTexture gametextures[],
-				  LSprite gamesprites[],
-				  SDL_Renderer* renderer);
-	~WorldRenderer();
+	static void Render(LTexture &TextureNum, int x, int y, SDL_Rect* Clip = NULL);
 
+	static LTexture Textures[10];
+	static LSprite Sprites[10];
+	static SDL_Renderer* Renderer;
+	
 
-	void Render(Joueur*);
-	void Render(CEsquadronTie*);
-	void Render(Projectile*);
-	void RenderEventAnimations();
+public:
+
+	//static void SetupWorldRenderer();
+	static void Render(Joueur*);
+	static void Render(CEsquadronTie*);
+	static void Render(Projectile*);
+	static void RenderEventAnimations();
+	static void RenderClear();
+	static void RenderPresent();
 
 	//Inutilisé
 	static int StartExplosionThread(void* ptr);

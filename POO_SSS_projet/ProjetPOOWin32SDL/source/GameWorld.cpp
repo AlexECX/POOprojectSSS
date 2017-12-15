@@ -8,7 +8,6 @@
 #include <SDL.h>
 #include "..\ressources\LTexture.h"
 
-WorldRenderer* GameWorld::RendererInstance;
 int GameWorld::Score;
 
 std::list<Joueur*>::iterator  GameWorld::P;
@@ -142,11 +141,13 @@ bool GameWorld::VerifierImpact(Projectile* Tir){
 
 void GameWorld::RenderWorld()
 {
+	WorldRenderer::RenderClear();
+
 	P_lock.lock();
 	P = PlayerHolder.begin();
 	while (P != PlayerHolder.end()) {
 		if ((*P)->isAlive()) {
-			RendererInstance->Render(*P);
+			WorldRenderer::Render(*P);
 			P++;
 		}
 		else {
@@ -160,7 +161,7 @@ void GameWorld::RenderWorld()
 	F = FormationEnnemie.begin();
 	while (F != FormationEnnemie.end()) {
 		if ((*F)->isAlive()) {
-			RendererInstance->Render(*F);
+			WorldRenderer::Render(*F);
 			F++;
 		}
 		else {
@@ -174,7 +175,7 @@ void GameWorld::RenderWorld()
 	T = TirsLaser.begin();
 	while (T != TirsLaser.end()) {
 		if ((*T)->isAlive()) {
-			RendererInstance->Render(*T);
+			WorldRenderer::Render(*T);
 			T++;
 		}
 		else {
@@ -183,7 +184,9 @@ void GameWorld::RenderWorld()
 		}
 	}
 	T_lock.unlock();
-	RendererInstance->RenderEventAnimations();
+
+	WorldRenderer::RenderEventAnimations();
+	WorldRenderer::RenderPresent();
 }
 
 std::list<Joueur*>* GameWorld::AccessPlayerHolder()

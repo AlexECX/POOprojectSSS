@@ -12,15 +12,12 @@
 
 using namespace std;
 
-//Screen dimension constants
-const int SCREEN_WIDTH = 1200;
-const int SCREEN_HEIGHT = 700;
-
 #include "../ressources/LTexture.h"
 #include "..\ressources\LSprite.h"
-#include "initialise.h"
-#include "GameWorld.h"
+#include "GameMedia.h"
 #include "WorldRenderer.h"
+//#include "initialise.h"
+#include "GameWorld.h"
 
 #include "EntiteVolante.h"
 #include "Joueur.h"
@@ -30,6 +27,25 @@ const int SCREEN_HEIGHT = 700;
 
 #define DURATION_IN_MS(Time_Interval) std::chrono::\
         duration_cast<std::chrono::milliseconds>(Time_Interval)\
+
+//Globally used font
+TTF_Font *gFont = NULL;
+TTF_Font* Arial = TTF_OpenFont("./style/Arial.ttf", 12);
+//Scene Texte
+LTexture gPromptTextTexture;
+
+//The music that will be played
+Mix_Music *gMusic = NULL;
+
+//The bref song that will be played
+
+Mix_Chunk *gMusicBref[10];
+
+//Event handler
+SDL_Event e;
+
+//Main loop flag
+bool quit = false;
 
 typedef struct {
 	void *data1;
@@ -158,6 +174,7 @@ int ThreadKeyboard(void* ptr)
 }
 
 //----Main-----------------------------------------------------------
+void close();
 
 int main(int argc, char* args[])
 {
@@ -176,25 +193,22 @@ int main(int argc, char* args[])
 	//----Objet GameWorld et variable pour contenir les adresses 
 	//----de conteneurs
 	//Englobe toute les textures, animation et le SDL renderer
-	WorldRenderer SpaceRenderer(texture, GameSprites, gRenderer); 
 	//GameWorld contiendra des pointeurs sur tout nos objets volant du jeu. 
 	//On lui passe ici l'adresse du Renderer
-	GameWorld::SetupGameWorld(&SpaceRenderer);	//Contiendra des pointeurs 
-	                                            //sur tout nos objets 
-	                                            //volant du jeu
+	
 
 	void SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h);
 	int BackgroundMusic = true;
 
 	//Start up SDL and create window
-	if (!init())
+	if (!GameMedia::Initialise())
 	{
 		printf("Failed to initialize!\n");
 	}
 	else
 	{
 		//Load media
-		if (!loadMedia())
+		if (!GameMedia::LoadMedia())
 		{
 			printf("Failed to load media!\n");
 		}
@@ -203,18 +217,17 @@ int main(int argc, char* args[])
 			//The current input text.
 			string inputText = "Some Text";
 
-			Mix_PlayMusic(gMusic, -1);
+			Mix_PlayMusic(GameMedia::Music, -1);
 			Mix_ResumeMusic();
 
 			//----Execute thread---------------------------------------------
-			thread[1] = SDL_CreateThread(TieFactoryThread, 
-				                         "TieFactoryThread", ((void*)1) );
-			thread[2] = SDL_CreateThread(ThreadKeyboard,
-				                         "ThreadKeyboard", ((void*)1) );
+			thread[1] = SDL_CreateThread(TieFactoryThread, "TieFactoryThread", ((void*)1));
+				                         
+			thread[2] = SDL_CreateThread(ThreadKeyboard, "ThreadKeyboard", ((void*)1));
+				                         
 
-			int T = 0;
-			int R = -gBackgroundTexture.getWidth();
-			bool M = true;
+			//int T = 0;
+			//int R = -GameMedia::Textures[5].getWidth();
 
 			//While application is running
 			while (!quit)
@@ -242,10 +255,6 @@ int main(int argc, char* args[])
 
 				else 
 				{
-					//Clear screen
-					SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 
-						                   0xFF);
-					SDL_RenderClear(gRenderer);
 
 					//Bench pour tester l'interval de temp. Total devrait 
 					//donner 16 ms +/- 1 ms
@@ -260,29 +269,24 @@ int main(int argc, char* args[])
 					Main_Timestamp = std::chrono::
 						             high_resolution_clock::now();
 
-					//Clear screen
-					SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 
-						                   0xFF, 0xFF);
-					SDL_RenderClear(gRenderer);
-
 					//Loops the background and Render texture to screen
-					if (T <= gBackgroundTexture.getWidth() + SCREEN_WIDTH) {
+					/*if (T <= GameMedia::texture[5].getWidth() + SCREEN_WIDTH) {
 						gBackgroundTexture.render(-T, 0);
 					}
 
-					if (R >= -SCREEN_WIDTH && R <= gBackground2Texture
+					if (R >= -SCREEN_WIDTH && R <= GameMedia::texture[6]
 																.getWidth())
-						gBackgroundTexture.render(-R, 0);
+						GameMedia::texture[5].render(-R, 0);
 
 
-					if (R == gBackground2Texture.getWidth() - 
+					if (R == GameMedia::texture[6].getWidth() -
 						SCREEN_WIDTH && T >= 0)
 						T = -SCREEN_WIDTH;
 
-					if (R >= gBackground2Texture.getWidth())
-						R = -gBackgroundTexture.getWidth();
+					if (R >= GameMedia::texture[6].getWidth())
+						R = -GameMedia::texture[5].getWidth();
 					T++;
-					R++;
+					R++;*/
 					
 					//----Message----
 					//string score = to_string(GameWorld::GameScore());
@@ -302,16 +306,18 @@ int main(int argc, char* args[])
 
 					GameWorld::RenderWorld();
 
-					texture[4].render(700, 300);
+					WorldRenderer::Render(WorldRenderer::Textures[0], 150, 150);
 
-					////Update screen
-					SDL_RenderPresent(gRenderer);
+					//GameMedia::texture[4].render(700, 300);
+
+					
 				}
 			}
 		}
 	}
 	//Free resources and close SDL
 	close();
+	GameMedia::Close();
 	//Wait for the thread to complete.
 	SDL_WaitThread(thread[1], &threadReturnValue[1]); 
 	SDL_WaitThread(thread[2], &threadReturnValue[2]);
@@ -319,12 +325,55 @@ int main(int argc, char* args[])
 	return 0;
 }
 
-#include"loadFromFile.h"
+void close()
+{
+	//Free loaded images
+	//GameSprites[0].SpriteTexture.free();
 
-#include"loadtexture.h"
+	////Free loaded images
+	//texture[0].free();
+	//texture[1].free();
+	//texture[2].free();
+	//texture[3].free();
+	//gBackgroundTexture.free();
+	//gBackground2Texture.free();
 
-#include"boolinit.h"
+	//Free loaded images
+	gPromptTextTexture.free();
 
-#include"loadmedia.h"
+	//Free global font
+	TTF_CloseFont(Arial);
+	gFont = NULL;
 
-#include"close.h"
+	//Free the music
+	Mix_FreeMusic(GameMedia::Music);
+	GameMedia::Music = NULL;
+
+	Mix_FreeChunk(GameMedia::SFX[0]);
+	Mix_FreeChunk(GameMedia::SFX[1]);
+	Mix_FreeChunk(GameMedia::SFX[2]);
+	GameMedia::SFX[0] = NULL;
+	GameMedia::SFX[1] = NULL;
+	GameMedia::SFX[2] = NULL;
+
+	//Destroy window	
+	/*SDL_DestroyRenderer(gRenderer);
+	SDL_DestroyWindow(gWindow);
+	gWindow = NULL;
+	gRenderer = NULL;*/
+
+	//Quit SDL subsystems
+	TTF_Quit();
+	Mix_Quit();
+	IMG_Quit();
+	SDL_Quit();
+}
+
+//#include"loadFromFile.h"
+//
+//#include"loadtexture.h"
+//
+//#include"boolinit.h"
+//
+//#include"loadmedia.h"
+

@@ -11,14 +11,9 @@
     <ClCompile Include="source\Projectile.cpp" />
     <ClCompile Include="source\WorldRenderer.cpp" />
     <ClCompile Include="source\GameWorld.cpp" />
+    <ClCompile Include="source\GameMedia.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ressources\boolinit.h" />
-    <ClInclude Include="ressources\close.h" />
-    <ClInclude Include="ressources\initialise.h" />
-    <ClInclude Include="ressources\loadFromFile.h" />
-    <ClInclude Include="ressources\loadmedia.h" />
-    <ClInclude Include="ressources\loadtexture.h" />
     <ClInclude Include="ressources\LTexture.h" />
     <ClInclude Include="source\Ennemis.h" />
     <ClInclude Include="source\EntiteVolante.h" />
@@ -29,5 +24,7 @@
     <ClInclude Include="ressources\LSprite.h" />
     <ClInclude Include="source\WorldRenderer.h" />
     <ClInclude Include="source\GameWorld.h" />
+    <ClInclude Include="source\GameMedia.h" />
+    <ClInclude Include="ressources\SetOnce.h" />
   </ItemGroup>
 </Project>

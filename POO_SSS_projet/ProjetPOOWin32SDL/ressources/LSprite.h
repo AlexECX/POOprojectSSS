@@ -1,8 +1,10 @@
 #pragma once
+#include <vector>
 
 struct LSprite {
 	LTexture SpriteTexture;
-	SDL_Rect *SpriteClips;
+	std::vector<SDL_Rect> SpriteClips;
+	//SDL_Rect *SpriteClips;
 	int CurrentFrame;
 	int TotalFrames;
 	int OnScreenX;

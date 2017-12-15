@@ -65,58 +65,75 @@ bool loadMedia()
 	{
 		//Set sprite clips
 
-		//----Ligne 1:----
+		//This is a SDL_Rect
+		/*typedef struct SDL_Rect
+		{
+			int x, y;
+			int w, h;
+		} SDL_Rect;*/
+		//----------------
+		
+		GameSprites[0].SpriteClips = {
+			SDL_Rect{ 10,  10,  60, 60 },
+			SDL_Rect{ 75,  10,  60, 60 }, 
+			SDL_Rect{ 150, 10,  60, 60 }, 
+			SDL_Rect{ 10,  75,  60, 60 },
+			SDL_Rect{ 75,  75,  60, 60 },
+			SDL_Rect{ 150, 75,  60, 60 },
+			SDL_Rect{ 10,  150, 60, 60 },
+			SDL_Rect{ 75,  150, 60, 60 },
+			SDL_Rect{ 150, 150, 60, 60 },
+		};
+		//gSpriteClips[0].x = 10;
+		//gSpriteClips[0].y = 10;
+		//gSpriteClips[0].w = 60;
+		//gSpriteClips[0].h = 60;
 
-		gSpriteClips[0].x = 10;
-		gSpriteClips[0].y = 10;
-		gSpriteClips[0].w = 60;
-		gSpriteClips[0].h = 60;
+		//gSpriteClips[1].x = 75;
+		//gSpriteClips[1].y = 10;
+		//gSpriteClips[1].w = 60;
+		//gSpriteClips[1].h = 60;
 
-		gSpriteClips[1].x = 75;
-		gSpriteClips[1].y = 10;
-		gSpriteClips[1].w = 60;
-		gSpriteClips[1].h = 60;
+		//gSpriteClips[2].x = 150;
+		//gSpriteClips[2].y = 10;
+		//gSpriteClips[2].w = 60;
+		//gSpriteClips[2].h = 60;
 
-		gSpriteClips[2].x = 150;
-		gSpriteClips[2].y = 10;
-		gSpriteClips[2].w = 60;
-		gSpriteClips[2].h = 60;
+		////----Ligne 2:----
 
-		//----Ligne 2:----
+		//gSpriteClips[3].x = 10;
+		//gSpriteClips[3].y = 75;
+		//gSpriteClips[3].w = 60;
+		//gSpriteClips[3].h = 60;
 
-		gSpriteClips[3].x = 10;
-		gSpriteClips[3].y = 75;
-		gSpriteClips[3].w = 60;
-		gSpriteClips[3].h = 60;
+		//gSpriteClips[4].x = 75;
+		//gSpriteClips[4].y = 75;
+		//gSpriteClips[4].w = 60;
+		//gSpriteClips[4].h = 60;
 
-		gSpriteClips[4].x = 75;
-		gSpriteClips[4].y = 75;
-		gSpriteClips[4].w = 60;
-		gSpriteClips[4].h = 60;
+		//gSpriteClips[5].x = 150;
+		//gSpriteClips[5].y = 75;
+		//gSpriteClips[5].w = 60;
+		//gSpriteClips[5].h = 60;
 
-		gSpriteClips[5].x = 150;
-		gSpriteClips[5].y = 75;
-		gSpriteClips[5].w = 60;
-		gSpriteClips[5].h = 60;
+		////----Ligne 3:----
 
-		//----Ligne 3:----
+		//gSpriteClips[6].x = 10;
+		//gSpriteClips[6].y = 150;
+		//gSpriteClips[6].w = 60;
+		//gSpriteClips[6].h = 60;
 
-		gSpriteClips[6].x = 10;
-		gSpriteClips[6].y = 150;
-		gSpriteClips[6].w = 60;
-		gSpriteClips[6].h = 60;
+		//gSpriteClips[7].x = 75;
+		//gSpriteClips[7].y = 150;
+		//gSpriteClips[7].w = 60;
+		//gSpriteClips[7].h = 60;
 
-		gSpriteClips[7].x = 75;
-		gSpriteClips[7].y = 150;
-		gSpriteClips[7].w = 60;
-		gSpriteClips[7].h = 60;
+		//gSpriteClips[8].x = 150;
+		//gSpriteClips[8].y = 150;
+		//gSpriteClips[8].w = 60;
+		//gSpriteClips[8].h = 60;
 
-		gSpriteClips[8].x = 150;
-		gSpriteClips[8].y = 150;
-		gSpriteClips[8].w = 60;
-		gSpriteClips[8].h = 60;
-
-		GameSprites[0].SpriteClips = gSpriteClips;
+		//GameSprites[0].SpriteClips = gSpriteClips;
 		GameSprites[0].CurrentFrame = 0;
 		GameSprites[0].TotalFrames = 9;
 	}

@@ -7,37 +7,33 @@
 class LTexture;
 
 //The window renderer
-SDL_Renderer* gRenderer = NULL;
+//SDL_Renderer* gRenderer = NULL;
 
 //Starts up SDL and creates window
-bool init();
-
-//Loads media
-bool loadMedia();
+//bool init();
+//
+////Loads media
+//bool loadMedia();
 
 //Frees media and shuts down SDL
-void close();
+//void close();
 
-//Event handler
-SDL_Event e;
 
-//Main loop flag
-bool quit = false;
 
-//The window we'll be rendering to
-SDL_Window* gWindow = NULL;
-
-//Walking animation
-LSprite GameSprites[10];
-
-SDL_Rect gSpriteClips[9];
-/*LTexture gSpriteSheetTexture;*/
-
-//Scene textures
-LTexture texture[10];
-
-LTexture gBackgroundTexture;
-LTexture gBackground2Texture;
+////The window we'll be rendering to
+//SDL_Window* gWindow = NULL;
+//
+////Walking animation
+//LSprite GameSprites[10];
+//
+////SDL_Rect gSpriteClips[9];
+///*LTexture gSpriteSheetTexture;*/
+//
+////Scene textures
+//LTexture texture[10];
+//
+//LTexture gBackgroundTexture;
+//LTexture gBackground2Texture;
 
 //Globally used font
 TTF_Font *gFont = NULL;
