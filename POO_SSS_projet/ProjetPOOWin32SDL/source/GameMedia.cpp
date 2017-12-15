@@ -134,6 +134,7 @@ bool GameMedia::LoadMedia()
 
 	//----Load image----------------------------------------------------------
 
+
 	if (!LoadFromFile(Textures[0], "./image/falcon.png"))
 	{
 		printf("Failed to load Foo' texture image!\n");

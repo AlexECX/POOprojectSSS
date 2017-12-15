@@ -27,24 +27,28 @@ struct AnimationRequest {
 };
 
 
-void WorldRenderer::Render(LTexture &TextureNum, int x, int y, SDL_Rect* Clip)
+void WorldRenderer::Render(LTexture *TextureNum, int x, int y, SDL_Rect* Clip)
 {
 
 	SDL_Rect renderQuad = { x, y, 
-							TextureNum.getWidth(),
-							TextureNum.getWidth()
+							TextureNum->getWidth(),
+							TextureNum->getWidth()
 						  };
+	if (TextureNum->getWidth() == 60 || TextureNum->getWidth() == 61)
+		int u = 0;
+	if (renderQuad.h == 60 || renderQuad.h == 61)
+		int y = 0;
 	if (Clip != NULL)
 	{
 		renderQuad.w = Clip->w;
 		renderQuad.h = Clip->h;
 	}
-	SDL_RenderCopy(Renderer, TextureNum.getTexture(), Clip, &renderQuad);
+	SDL_RenderCopy(Renderer, TextureNum->getTexture(), Clip, &renderQuad);
 }
 
 void WorldRenderer::Render(Joueur* PlayerRender)
 {
-	Render(Textures[PlayerRender->getCategorie()],
+	Render(&Textures[PlayerRender->getCategorie()],
 		   PlayerRender->getCoordX(),
 		   PlayerRender->getCoordY());
 }
@@ -53,7 +57,7 @@ void WorldRenderer::Render(CEsquadronTie *SquadRender)
 {
 	for (int i = 0; i < SquadRender->getSquadronSize(); i++)
 		if (SquadRender->getMember(i)->isAlive())
-			Render(Textures[SquadRender->getMember(i)->getCategorie()],
+			Render(&Textures[SquadRender->getMember(i)->getCategorie()],
 				   SquadRender->getMember(i)->getCoordX(),
 				   SquadRender->getMember(i)->getCoordY());
 		else
@@ -71,7 +75,7 @@ void WorldRenderer::Render(CEsquadronTie *SquadRender)
 }
 void WorldRenderer::Render(Projectile *ProjectileRender)
 {
-	Render(Textures[ProjectileRender->getCategorie()],
+	Render(&Textures[ProjectileRender->getCategorie()],
 		   ProjectileRender->getCoordX(),
 		   ProjectileRender->getCoordY());
 }
@@ -83,7 +87,7 @@ void WorldRenderer::RenderEventAnimations()
 		std::list<AnimationRequest>::iterator Animator = Animations.begin();
 		while (Animator != Animations.end()) {
 			if (Animator->CurrentFrame < Animator->TotalFrames) {
-				Render(Sprites[Animator->SpriteNum].SpriteTexture,
+				Render(&Sprites[Animator->SpriteNum].SpriteTexture,
 					   Animator->X, 
 					   Animator->Y,
 					   &Sprites[Animator->SpriteNum].SpriteClips[Animator->CurrentFrame / 6]);

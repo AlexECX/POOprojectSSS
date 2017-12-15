@@ -186,7 +186,6 @@ void GameWorld::RenderWorld()
 	T_lock.unlock();
 
 	WorldRenderer::RenderEventAnimations();
-	WorldRenderer::RenderPresent();
 }
 
 std::list<Joueur*>* GameWorld::AccessPlayerHolder()

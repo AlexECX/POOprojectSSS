@@ -197,6 +197,7 @@ int main(int argc, char* args[])
 	//GameWorld contiendra des pointeurs sur tout nos objets volant du jeu. 
 	//On lui passe ici l'adresse du Renderer
 	
+
 	
 	int BackgroundMusic = true;
 
@@ -214,6 +215,8 @@ int main(int argc, char* args[])
 		}
 		else
 		{
+			LTexture TryTexture;
+			TryTexture.loadFromFile("./image/falcon.png");
 			//The current input text.
 			string inputText = "Some Text";
 
@@ -306,7 +309,9 @@ int main(int argc, char* args[])
 
 					GameWorld::RenderWorld();
 
-					WorldRenderer::Render(WorldRenderer::Textures[0], 150, 150);
+					WorldRenderer::Render(&TryTexture, 150, 150);
+					WorldRenderer::RenderPresent();
+
 
 					//GameMedia::texture[4].render(700, 300);
 

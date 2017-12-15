@@ -21,7 +21,7 @@ private:
 	static std::list<AnimationRequest> Animations;
 
 public:
-	static void Render(LTexture &TextureNum, int x, int y, SDL_Rect* Clip = NULL);
+	static void Render(LTexture *TextureNum, int x, int y, SDL_Rect* Clip = NULL);
 
 	static LTexture Textures[10];
 	static LSprite Sprites[10];
