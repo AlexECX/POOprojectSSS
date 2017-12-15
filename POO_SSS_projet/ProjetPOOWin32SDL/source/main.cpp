@@ -28,6 +28,7 @@ using namespace std;
 #define DURATION_IN_MS(Time_Interval) std::chrono::\
         duration_cast<std::chrono::milliseconds>(Time_Interval)\
 
+
 //Globally used font
 TTF_Font *gFont = NULL;
 TTF_Font* Arial = TTF_OpenFont("./style/Arial.ttf", 12);
@@ -196,8 +197,7 @@ int main(int argc, char* args[])
 	//GameWorld contiendra des pointeurs sur tout nos objets volant du jeu. 
 	//On lui passe ici l'adresse du Renderer
 	
-
-	void SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h);
+	
 	int BackgroundMusic = true;
 
 	//Start up SDL and create window

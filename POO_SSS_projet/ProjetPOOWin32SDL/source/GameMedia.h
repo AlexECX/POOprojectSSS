@@ -19,6 +19,7 @@ public:
 	static SDL_Window* Window;
 	//static SDL_Renderer* Renderer;
 
+	static void SetWindowsSize();
 	static bool Initialise();
 	static bool LoadMedia();
 	static void Close();

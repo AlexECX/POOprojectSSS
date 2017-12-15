@@ -50,6 +50,11 @@ bool GameMedia::LoadFromFile(LTexture &Image, std::string path)
 	return newTexture != NULL;
 }
 
+void GameMedia::SetWindowsSize()
+{
+	SDL_SetWindowMinimumSize(GameMedia::Window, SCREEN_WIDTH, SCREEN_HEIGHT);
+}
+
 bool GameMedia::Initialise()
 {
 	//Initialization flag
