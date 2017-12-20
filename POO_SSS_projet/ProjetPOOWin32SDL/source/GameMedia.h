@@ -1,27 +1,23 @@
 #pragma once
 #include "WorldRenderer.h"
+#include <SDL_mixer.h>
 
 class LTexture;
-struct SDL_Window;
-typedef struct _Mix_Music Mix_Music;
-struct Mix_Chunk;
 
-class GameMedia : public WorldRenderer
+class GameMedia : private WorldRenderer
 {
 private:
-
 	static bool LoadFromFile(LTexture&, std::string path);
-	const static int SCREEN_WIDTH = 1200;
-	const static int SCREEN_HEIGHT = 700;
+
 public:
 	static Mix_Music* Music;
 	static Mix_Chunk* SFX[10];
-	static SDL_Window* Window;
 	//static SDL_Renderer* Renderer;
 
-	static void SetWindowsSize();
 	static bool Initialise();
 	static bool LoadMedia();
+	static void PlayMusic();
+	static void PlaySFX(int sound){ Mix_PlayChannel(-1, SFX[sound], 0); }
 	static void Close();
 
 };

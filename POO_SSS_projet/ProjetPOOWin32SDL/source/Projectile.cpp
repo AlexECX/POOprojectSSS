@@ -27,10 +27,8 @@ Projectile::Projectile(	categorie CategorieParam,
 
 Projectile::~Projectile()
 {
-	if (isActive()) {
-		Active += 2;
-		SDL_WaitThread(ProjectileThreadPtr, &ProjectileThreadReturnValue);
-	}
+	HP = 0;
+	SDL_WaitThread(ProjectileThreadPtr, &ProjectileThreadReturnValue);
 }
 
 int Projectile::StartProjectileThread(void * pointer)
@@ -55,6 +53,11 @@ void Projectile::UpdateTrajet(int PosX, int PosY)
 		HP = 0;
 }
 
+void Projectile::MakeFly()
+{
+	ProjectileThreadPtr = SDL_CreateThread(StartProjectileThread, "StartProjectileThread", this);
+}
+
 //int Projectile::ProjectileThread()
 //{
 //	if (Affiliation == republic)
@@ -77,7 +80,7 @@ int Projectile::ProjectileThread(int direction)
 	auto interval = std::chrono::milliseconds(1);
 	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
 
-	while (isActive())
+	while (isAlive())
 	{
 		if (DURATION_IN_MS(std::chrono::high_resolution_clock::now() - BeforeUpdate) >= interval)
 		{
@@ -91,8 +94,6 @@ int Projectile::ProjectileThread(int direction)
 		if (GameWorld::VerifierImpact(this) == true)
 			HP = 0;
 	}
-	if (Active == 1)
-		delete this;
 	return 0;
 }
 

@@ -6,11 +6,14 @@
 #include "Projectile.h"
 #include "WorldRenderer.h"
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include "..\ressources\LTexture.h"
 #include "..\ressources\LSprite.h"
 #include "GameMedia.h"
+#include <string>
 
 std::list<AnimationRequest> WorldRenderer::Animations;
+LTexture WorldRenderer::ScoreMessage;
 
 typedef struct {
 	void *data1;
@@ -29,15 +32,13 @@ struct AnimationRequest {
 
 void WorldRenderer::Render(LTexture *TextureNum, int x, int y, SDL_Rect* Clip)
 {
+	static SDL_Rect renderQuad;
+	renderQuad.x = x;
+	renderQuad.y = y;
+	renderQuad.w = TextureNum->getWidth();
+	renderQuad.h = TextureNum->getHeight();
+		
 
-	SDL_Rect renderQuad = { x, y, 
-							TextureNum->getWidth(),
-							TextureNum->getWidth()
-						  };
-	if (TextureNum->getWidth() == 60 || TextureNum->getWidth() == 61)
-		int u = 0;
-	if (renderQuad.h == 60 || renderQuad.h == 61)
-		int y = 0;
 	if (Clip != NULL)
 	{
 		renderQuad.w = Clip->w;
@@ -46,11 +47,16 @@ void WorldRenderer::Render(LTexture *TextureNum, int x, int y, SDL_Rect* Clip)
 	SDL_RenderCopy(Renderer, TextureNum->getTexture(), Clip, &renderQuad);
 }
 
+void WorldRenderer::Render(categorie TextureNum, int x, int y)
+{
+	Render(&Textures[TextureNum], x, y);
+}
+
 void WorldRenderer::Render(Joueur* PlayerRender)
 {
 	Render(&Textures[PlayerRender->getCategorie()],
-		   PlayerRender->getCoordX(),
-		   PlayerRender->getCoordY());
+					PlayerRender->getCoordX(),
+					PlayerRender->getCoordY());
 }
 
 void WorldRenderer::Render(CEsquadronTie *SquadRender)
@@ -58,26 +64,48 @@ void WorldRenderer::Render(CEsquadronTie *SquadRender)
 	for (int i = 0; i < SquadRender->getSquadronSize(); i++)
 		if (SquadRender->getMember(i)->isAlive())
 			Render(&Textures[SquadRender->getMember(i)->getCategorie()],
-				   SquadRender->getMember(i)->getCoordX(),
-				   SquadRender->getMember(i)->getCoordY());
+							 SquadRender->getMember(i)->getCoordX(),
+							 SquadRender->getMember(i)->getCoordY());
 		else
 			if (SquadRender->getMember(i)->isActive()) {
 				//Pour l'instant, seulement une animation d'explosion
-				Animations.push_back(AnimationRequest{ 
-					0,	//Sprite Number
-					Sprites[0].TotalFrames,
-					SquadRender->getMember(i)->getCoordX(),
-					SquadRender->getMember(i)->getCoordY(),
-					0	//Starting frame
-					} );
+				
 				SquadRender->RemoveMember(i);
 			}
 }
+
 void WorldRenderer::Render(Projectile *ProjectileRender)
 {
 	Render(&Textures[ProjectileRender->getCategorie()],
-		   ProjectileRender->getCoordX(),
-		   ProjectileRender->getCoordY());
+					ProjectileRender->getCoordX(),
+					ProjectileRender->getCoordY());
+}
+
+void WorldRenderer::RenderScore(int score)
+{
+	static int PrevScore;
+	static SDL_Color White = { 255, 255, 255 };
+	static LTexture ScorePoints;
+	if (PrevScore != score) {
+		ScorePoints.free();
+		PrevScore = score;
+		//static SDL_Color White = { 255, 255, 255 };
+		SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Fonts[0], std::to_string(score).c_str(), White);
+		ScorePoints.AssignTexture(SDL_CreateTextureFromSurface(Renderer, surfaceMessage), std::to_string(score).size()*15, 24);
+	}
+	Render(&ScorePoints, 115, 650);
+	Render(&ScoreMessage, 25, 650);
+
+}
+
+void WorldRenderer::MakeAnimationRequest(categorie TextureNum, int x, int y)
+{
+	Animations.push_back(AnimationRequest{
+		0,	//Sprite Number
+		Sprites[0].TotalFrames,
+		x, y,
+		0	//Starting frame
+	});
 }
 
 
@@ -103,13 +131,13 @@ void WorldRenderer::RenderEventAnimations()
 void WorldRenderer::RenderClear()
 {
 	//Clear screen
-	SDL_SetRenderDrawColor(Renderer, 0xFF, 0xFF,
-		0xFF, 0xFF);
+	SDL_SetRenderDrawColor(Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(Renderer);
 }
 
 void WorldRenderer::RenderPresent()
 {
+	RenderEventAnimations();
 	SDL_RenderPresent(Renderer);
 }
 

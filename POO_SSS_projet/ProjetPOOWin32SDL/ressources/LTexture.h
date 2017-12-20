@@ -9,12 +9,13 @@ class LTexture
 public:
 	//Initializes variables
 	LTexture();
+	LTexture(SDL_Texture*, int, int);
 
 	//Deallocates memory
 	~LTexture();
 
 	//Loads image at specified path
-	bool loadFromFile(std::string path);
+	//bool loadFromFile(std::string path);
 
 	//Deallocates texture
 	void free();

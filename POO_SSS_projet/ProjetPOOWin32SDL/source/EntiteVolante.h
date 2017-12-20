@@ -1,7 +1,7 @@
 #ifndef ENTITEVOLANTE_H
 #define ENTITEVOLANTE_H
 
-enum categorie { joueur, ennemis_simple, tir_joueur, tir_tie };
+enum categorie { joueur, ennemis_simple, tir_joueur, tir_tie, asteroid, background };
 
 enum affiliation { republic, empire, neutre, environnement };
 

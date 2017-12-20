@@ -26,5 +26,6 @@
     <ClInclude Include="source\GameWorld.h" />
     <ClInclude Include="source\GameMedia.h" />
     <ClInclude Include="ressources\SetOnce.h" />
+    <ClInclude Include="ressources\TConcurrent_queue.h" />
   </ItemGroup>
 </Project>

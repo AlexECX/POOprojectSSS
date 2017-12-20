@@ -10,8 +10,9 @@
 
 LTexture WorldRenderer::Textures[10];
 LSprite WorldRenderer::Sprites[10];
+TTF_Font* WorldRenderer::Fonts[10];
 SDL_Renderer*  WorldRenderer::Renderer;
-SDL_Window* GameMedia::Window;
+SDL_Window* WorldRenderer::Window;
 Mix_Music* GameMedia::Music;
 Mix_Chunk* GameMedia::SFX[10];
 
@@ -50,10 +51,6 @@ bool GameMedia::LoadFromFile(LTexture &Image, std::string path)
 	return newTexture != NULL;
 }
 
-void GameMedia::SetWindowsSize()
-{
-	SDL_SetWindowMinimumSize(GameMedia::Window, SCREEN_WIDTH, SCREEN_HEIGHT);
-}
 
 bool GameMedia::Initialise()
 {
@@ -218,6 +215,18 @@ bool GameMedia::LoadMedia()
 	}
 	//----Load sprite end------------------------------------------------------
 
+	//----Load fonts-----------------------------------------------------------
+	 //Arial
+	Fonts[0] = TTF_OpenFont("./style/Arial.ttf", 12);
+	std::string ScoreText = "Score ";
+	SDL_Color White = { 255, 255, 255 };
+	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Fonts[0], ScoreText.c_str(), White);
+	ScoreMessage.AssignTexture(SDL_CreateTextureFromSurface(Renderer, surfaceMessage), 75, 25);
+	
+
+	//----Load fonts-----------------------------------------------------------
+
+
 	//----Load music and sound-------------------------------------------------
 
 	Music = Mix_LoadMUS("./music/BackgroundAsteroidField.mp3");
@@ -255,13 +264,42 @@ bool GameMedia::LoadMedia()
 
 }
 
+void GameMedia::PlayMusic()
+{
+	Mix_PlayMusic(Music, -1);
+	Mix_ResumeMusic();
+}
+
 void GameMedia::Close()
 {
-	Sprites[0].SpriteTexture.free();
-	SDL_DestroyRenderer(Renderer);
+	//Free Window and Renderer
 	SDL_DestroyWindow(Window);
-	Renderer = NULL;
-	Window = NULL;
+	Window = nullptr;
+	SDL_DestroyRenderer(Renderer);
+	Renderer = nullptr;
+
+	//Textures and Sprites are auto dealocated
+	//by LTexture's destructor
+
+	//Free music memory
+	Mix_FreeMusic(Music);
+	Music = nullptr;
+	Mix_FreeChunk(SFX[0]);
+	Mix_FreeChunk(SFX[1]);
+	Mix_FreeChunk(SFX[2]);
+	SFX[0] = nullptr;
+	SFX[1] = nullptr;
+	SFX[2] = nullptr;
+
+	//Free fonts from memory
+	TTF_CloseFont(Fonts[0]);
+	Fonts[0] = nullptr;
+
+	//Quit SDL subsystems
+	TTF_Quit();
+	Mix_Quit();
+	IMG_Quit();
+	SDL_Quit();
 
 }
 
