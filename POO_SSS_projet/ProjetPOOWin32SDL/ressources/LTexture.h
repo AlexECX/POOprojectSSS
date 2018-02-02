@@ -33,10 +33,16 @@ public:
 	int getWidth() { return mWidth; }
 	int getHeight() { return mHeight; }
 	SDL_Texture* getTexture() { return mTexture; }
-	//void operator = (SDL_Texture* pointer) {
-	//	if (pointer != NULL)
-	//		mTexture = pointer;
-	//}
+	/*void operator = (const LTexture &copy) {
+		free();
+		mTexture = copy.mTexture;
+		mWidth = copy.mWidth;
+		mHeight = copy.mHeight;
+
+	}*/
+
+
+
 	void AssignTexture(SDL_Texture* newTexture, int newWidth, int newHeight);
 private:
 	//The actual hardware texture

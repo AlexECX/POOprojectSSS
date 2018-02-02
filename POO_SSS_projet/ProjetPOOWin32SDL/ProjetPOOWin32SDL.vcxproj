@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ressources\CPointerWraper.h" />
     <ClInclude Include="ressources\LSprite.h" />
     <ClInclude Include="ressources\LTexture.h" />
     <ClInclude Include="ressources\SetOnce.h" />
@@ -34,6 +35,7 @@
     <ClInclude Include="ressources\TConcurrent_queue.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ressources\CPointerWraper.cpp" />
     <ClCompile Include="ressources\LTexture.cpp" />
     <ClCompile Include="source\Ennemis.cpp" />
     <ClCompile Include="source\EntiteVolante.cpp" />

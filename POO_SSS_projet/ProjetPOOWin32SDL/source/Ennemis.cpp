@@ -3,42 +3,33 @@
 #include "EsquadronTie.h"
 
 
-Ennemis::Ennemis(categorie CategorieParam,
-				 affiliation AffiliationParam,
-				 int			PosXParam,
-				 int			PosYParam,
-				 int			HP_Param,
-				 int			DamageParam,
-				 int			SpeedParam)
-				: EntiteVolante(CategorieParam,
-								AffiliationParam,
-								PosXParam,
-								PosYParam,
-								HP_Param,
-								DamageParam,
-								SpeedParam)
+Ennemis::Ennemis(affiliation AffiliationParam,
+			 	 int			PosXParam,
+				 int			PosYParam)
+				 : EntiteVolante(tie_fighter,
+					AffiliationParam,
+					PosXParam,
+					PosYParam,
+					1,
+					10,
+					0)
 {
-	SquadLink = nullptr;
+	Hit1.w = 48;
+	Hit1.h = 3;
+	Hit2.w = 21;
+	Hit2.h = 48;
+	Hit3.w = 48;
+	Hit3.h = 3;
+	//SquadLink = nullptr;
 }
 
 Ennemis::~Ennemis()
 {
-	if (SquadLink->getSquadronSize() <= 1)
-		delete SquadLink;
-	else
-		SquadLink->RemoveMember(SquadID);
-	/*if (SquadLink != nullptr)
-		delete SquadLink;*/
-}
-
-void Ennemis::Remove()
-{
-	  SquadLink = nullptr;
 }
 
 void Ennemis::UpdateTrajet(int x, int y)
 {
-	if (coordX > 1/*-100*/) {
+	if (coordX > -100) {
 		coordX = x;
 		coordY = y;
 	}

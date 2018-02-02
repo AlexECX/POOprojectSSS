@@ -1,0 +1,6 @@
+./image/falcon.png
+./image/tiefighter.png
+./image/LaserFriend.png
+./image/LaserEnnemis.png
+./image/Asteroid.png
+./image/background.png

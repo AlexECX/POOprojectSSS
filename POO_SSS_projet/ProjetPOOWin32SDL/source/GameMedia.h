@@ -1,24 +1,72 @@
 #pragma once
-#include "WorldRenderer.h"
+#include <SDL.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
+#include <SDL_image.h>
+#include <SDL_video.h>
+#include <vector>
 
 class LTexture;
+struct LSprite;
+enum SfxName { falcon_fire, tie_fire, tie_explosion };
+enum MusicName { background_music };
+enum FontName { arial };
 
-class GameMedia : private WorldRenderer
+
+//#include "GameAudio.h"
+//#include "GameGraphics.h"
+//#include "GameText.h"
+
+
+class GameMedia
 {
-private:
-	static bool LoadFromFile(LTexture&, std::string path);
+public:
+	static std::vector<Mix_Music*> Music;
+	static std::vector<Mix_Chunk*> SFX;
+
+	static const int SCREEN_WIDTH = 1200;
+	static const int SCREEN_HEIGHT = 700;
+	static SDL_Window* Window;
+	static SDL_Renderer* Renderer;
+	static LTexture Textures[10];
+	static std::vector<LSprite> Sprites;
+
+	static std::vector<TTF_Font*> Fonts;
+
+	static bool LoadFromFile(LTexture *Image, std::string path) ;
+
+	
+	
+
+	static bool GraphicSuccess;
+	static bool GraphicReady;
+
+	static bool AudioSuccess;
+	static bool AudioReady;
+
+	static bool TextSuccess;
+	static bool TextReady;
 
 public:
-	static Mix_Music* Music;
-	static Mix_Chunk* SFX[10];
-	//static SDL_Renderer* Renderer;
+	//GameMedia();
+	/*GameMedia(const GameMedia&) = delete;
+	GameMedia(GameMedia&&) = delete;
+	void operator=(const GameMedia&) = delete;
+	void operator=(GameMedia&&) = delete;*/
 
+public:
 	static bool Initialise();
-	static bool LoadMedia();
-	static void PlayMusic();
-	static void PlaySFX(int sound){ Mix_PlayChannel(-1, SFX[sound], 0); }
-	static void Close();
 
+	static bool LoadFonts() ;
+
+
+	static bool LoadAudio() ;
+	static void PlayMusic(MusicName) ;
+	static void PlaySFX(int sound) ;
+
+	static bool LoadGraphics() ;
+
+	//static GameMedia& Get();
+	
 };
 

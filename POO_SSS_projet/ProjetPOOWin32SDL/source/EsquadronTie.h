@@ -8,23 +8,30 @@ struct SDL_Thread;
 class CEsquadronTie
 {
 private:
-	std::vector<Ennemis*> Squad;
+	std::vector<std::shared_ptr<Ennemis>> Squad;
 	SDL_Thread* SquadThreadPtr;
 	int SquadThreadReturnValue;
 	int SquadCount;
-	int Active;
 	std::mutex Squad_lock;
 public:
-	CEsquadronTie(std::vector<Ennemis*>);
+	CEsquadronTie(std::vector<std::shared_ptr<Ennemis>>&);
+	CEsquadronTie(CEsquadronTie const &E);
 	~CEsquadronTie();
-	Ennemis* getMember(int member) { return Squad[member]; }
+
+	std::shared_ptr<Ennemis> getMember(int member) { return Squad[member]; }
+
 	int getSquadronSize() { return SquadCount; }
+
 	bool isAlive() { return SquadCount > 0; }
-	bool isActive() { return Active == 0; }
 
 	void Update();
-	void Remove();
 	void RemoveMember(int member);
+	void MakeFly();
+
+	void operator=(CEsquadronTie const &E) {
+		Squad = std::move(E.Squad);
+		SquadCount = E.SquadCount;
+	}
 
 	static int StartSquadThread(void* pointer);
 	int SquadThread();

@@ -4,16 +4,15 @@
 class Joueur : public EntiteVolante
 {
 public:
-	Joueur(categorie, affiliation, int, int, int, int, int);
+	Joueur(affiliation, int, int);
 	~Joueur();
 	
+	void UpdateTrajet(int x, int y) override;
+
 	void MouvUp();
 	void MouvDown();
 	void MouvLeft();
 	void MouvRight();
-	void MouvUpLeft();
-	void MouvDownLeft();
-	void MouvUpRight();
-	void MouvDownRight();
+
 };
 #endif 

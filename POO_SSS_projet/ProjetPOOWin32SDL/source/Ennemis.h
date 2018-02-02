@@ -1,19 +1,22 @@
 #ifndef ENNEMIS_H
 #define ENNEMIS_H
+#include <SDL.h>
 
 class CEsquadronTie;
 
 class Ennemis : public EntiteVolante
 {
 private:
-	CEsquadronTie* SquadLink;
+	//CEsquadronTie* SquadLink;
 	int			   SquadID;
+	//Hit boxes
+	SDL_Rect Hit1, Hit2, Hit3;
 
 public:
-	Ennemis(categorie, affiliation, int, int, int, int, int);
+	Ennemis(affiliation, int, int);
 	~Ennemis();
-	void LinkToSquad(CEsquadronTie* link, int ID) { SquadLink = link; SquadID = ID; }
-	void Remove();
+	
 	void UpdateTrajet(int x, int y);
+
 };
 #endif 

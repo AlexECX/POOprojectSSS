@@ -1,0 +1,3 @@
+./music/FalconFire.wav
+./music/TieFighterFire.wav
+./music/TieFighterExplosion.wav

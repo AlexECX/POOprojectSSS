@@ -11,6 +11,7 @@
     <ClCompile Include="source\Projectile.cpp" />
     <ClCompile Include="source\WorldRenderer.cpp" />
     <ClCompile Include="source\GameWorld.cpp" />
+    <ClCompile Include="ressources\CPointerWraper.cpp" />
     <ClCompile Include="source\GameMedia.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -24,8 +25,9 @@
     <ClInclude Include="ressources\LSprite.h" />
     <ClInclude Include="source\WorldRenderer.h" />
     <ClInclude Include="source\GameWorld.h" />
-    <ClInclude Include="source\GameMedia.h" />
     <ClInclude Include="ressources\SetOnce.h" />
     <ClInclude Include="ressources\TConcurrent_queue.h" />
+    <ClInclude Include="ressources\CPointerWraper.h" />
+    <ClInclude Include="source\GameMedia.h" />
   </ItemGroup>
 </Project>

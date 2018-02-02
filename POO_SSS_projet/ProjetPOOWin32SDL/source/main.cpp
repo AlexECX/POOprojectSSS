@@ -9,13 +9,17 @@
 #include <stdlib.h>
 #include <string>
 #include <chrono>
+#include <memory>
+#include <queue>
 
 using namespace std;
 
-#include "../ressources/LTexture.h"
+//#include "GameGraphics.h"
+//#include "GameAudio.h"
+//#include "GameText.h"
 #include "GameMedia.h"
 #include "GameWorld.h"
-//#include "WorldRenderer.h"
+#include "..\ressources\CPointerWraper.h"
 
 #include "EntiteVolante.h"
 #include "Joueur.h"
@@ -43,20 +47,23 @@ typedef struct {
 
 int TieFactoryThread(void *ptr)
 {
-	//On traduit le pointeur en GameWorld
-	//vector<CEsquadronTie*> Vagues;
-	//vector<Ennemis> Recrus;
+	queue<CEsquadronTie> Vagues;
+	vector<std::shared_ptr<Ennemis>> Recrus;
 
 	while (!quit) {
-		SDL_Delay(5000);
-		vector<Ennemis*> Recrus;
-		for (int i = 0; i < 6; i++) {
-			Recrus.push_back(GameWorld::AddToGameWorld(new Ennemis(ennemis_simple, empire, 
-				             1100 + (rand() % 4 * 50), 
-				             (i *100) + 50, 1, 0, 0)));
+		Recrus.clear();
+		for (int i = 0; i < 6 && !quit; i++) {
+			SDL_Delay(1000);
+			Recrus.push_back(GameWorld::Get().AddToGameWorld(new Ennemis(empire, 
+				             1300 + (rand() % 4 * 50), 
+				             (i *100) + 50)));
 		}
-		CEsquadronTie* temp = new CEsquadronTie(Recrus);
-		SDL_Delay(1000);
+		if (!quit) {
+			Vagues.push(CEsquadronTie(Recrus));
+			Vagues.back().MakeFly();
+			if (!Vagues.front().isAlive())
+				Vagues.pop();
+		}	
 	}
 	return 1;
 }
@@ -66,16 +73,17 @@ int ThreadKeyboard(void* ptr)
 	//On traduit le pointeur en GameWorld
 	bool CheckUpFirst = true;
 	bool CheckRightFirst = true;
+	
 	//Initialise un Falcon
 	//On push un nouvelle objet dans le gameworld, et on reçoit l'adresse de 
 	//l'objet
-	Joueur *MilleniumFalcon = new Joueur(joueur, republic, 50, 250, 1, 0, 0);
-	MilleniumFalcon = GameWorld::AddToGameWorld(MilleniumFalcon);
+	std::shared_ptr<Joueur> MilleniumFalcon = GameWorld::Get().AddToGameWorld(new Joueur(republic, 100, 350));
 	auto interval = std::chrono::milliseconds(500);
 	auto BeforeUpdate = std::chrono::high_resolution_clock::now();
 
 	while (!quit) 
 	{
+		int NextX = 0, NextY = 0;
 		const Uint8 *state = SDL_GetKeyboardState(NULL);
 
 		if (state[SDL_SCANCODE_Q]) {
@@ -86,51 +94,64 @@ int ThreadKeyboard(void* ptr)
 
 		if (CheckUpFirst) {
 			if (state[SDL_SCANCODE_UP] && state[SDL_SCANCODE_DOWN])
-				MilleniumFalcon->MouvUp();
-			else 
-				if (state[SDL_SCANCODE_UP]) {
-				MilleniumFalcon->MouvUp();
-				CheckUpFirst = false;
-			} 
+				MilleniumFalcon->UpdateTrajet(0,-1);
+			//MilleniumFalcon->MouvUp();
 			else
-				if (state[SDL_SCANCODE_DOWN])
-					MilleniumFalcon->MouvDown();
-			}
+				if (state[SDL_SCANCODE_UP]) {
+					MilleniumFalcon->UpdateTrajet(0,-1);
+					//MilleniumFalcon->MouvUp();
+					CheckUpFirst = false;
+				}
+				else
+					if (state[SDL_SCANCODE_DOWN])
+						MilleniumFalcon->UpdateTrajet(0,1);
+			//MilleniumFalcon->MouvDown();
+		}
 		else
 			if (state[SDL_SCANCODE_UP] && state[SDL_SCANCODE_DOWN])
-				MilleniumFalcon->MouvDown();
+				MilleniumFalcon->UpdateTrajet(0,1);
+		//MilleniumFalcon->MouvDown();
 			else
 				if (state[SDL_SCANCODE_DOWN]) {
-					MilleniumFalcon->MouvDown();
+					MilleniumFalcon->UpdateTrajet(0,1);
+					//MilleniumFalcon->MouvDown();
 					CheckUpFirst = true;
 				}
-			else
-				if (state[SDL_SCANCODE_UP])
-					MilleniumFalcon->MouvUp();
+				else
+					if (state[SDL_SCANCODE_UP])
+						MilleniumFalcon->UpdateTrajet(0,-1);
+					//MilleniumFalcon->MouvUp();
 
 		if (CheckRightFirst) {
 			if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_LEFT])
-				MilleniumFalcon->MouvRight();
+				MilleniumFalcon->UpdateTrajet(1,0);
+			//MilleniumFalcon->MouvRight();
 			else
 				if (state[SDL_SCANCODE_RIGHT]) {
-					MilleniumFalcon->MouvRight();
+					MilleniumFalcon->UpdateTrajet(1,0);
+					//MilleniumFalcon->MouvRight();
 					CheckRightFirst = false;
 				}
 				else
 					if (state[SDL_SCANCODE_LEFT])
-						MilleniumFalcon->MouvLeft();
+						MilleniumFalcon->UpdateTrajet(-1,0);
+			//MilleniumFalcon->MouvLeft();
 		}
 		else
 			if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_LEFT])
-				MilleniumFalcon->MouvLeft();
+				MilleniumFalcon->UpdateTrajet(-1,0);
+				//MilleniumFalcon->MouvLeft();
 			else
 				if (state[SDL_SCANCODE_LEFT]) {
-					MilleniumFalcon->MouvLeft();
+					MilleniumFalcon->UpdateTrajet(-1,0);
+					//MilleniumFalcon->MouvLeft();
 					CheckRightFirst = true;
 				}
 				else
 					if (state[SDL_SCANCODE_RIGHT])
-						MilleniumFalcon->MouvRight();
+						MilleniumFalcon->UpdateTrajet(1,0);
+						//MilleniumFalcon->MouvRight();
+		
 
 		if (state[SDL_SCANCODE_W])
 		{
@@ -141,14 +162,14 @@ int ThreadKeyboard(void* ptr)
 												- BeforeUpdate) >= interval)
 				{
 					
-					Projectile* Tir = GameWorld::AddToGameWorld(new Projectile(tir_joueur, republic,
-																MilleniumFalcon->getCoordX() + 150,
-																MilleniumFalcon->getCoordY() + 65,
-																1, 10, 0));
+					std::shared_ptr<Projectile> Tir = GameWorld::Get().AddToGameWorld(new Projectile(republic,
+																MilleniumFalcon->getCoordX() + 138 / 2,
+																MilleniumFalcon->getCoordY()
+																));
 					BeforeUpdate = std::chrono::high_resolution_clock::now();
 					
 					//----Play bref song----
-					GameMedia::PlaySFX(0);					
+					GameMedia::PlaySFX(falcon_fire);
 				}
 			}
 		}
@@ -159,8 +180,6 @@ int ThreadKeyboard(void* ptr)
 
 
 //----Main-----------------------------------------------------------
-void close();
-
 int main(int argc, char* args[])
 {
 	//----Variables pour la gestion du FPS----------
@@ -170,37 +189,35 @@ int main(int argc, char* args[])
 	std::chrono::milliseconds Main_elapsed;
 	//------------------------------------------------
 
-	//----Objet GameWorld et variable pour contenir les adresses 
-	//----de conteneurs
-	//Englobe toute les textures, animation et le SDL renderer
 	//GameMedia a acces a tous les suport media du jeux
 
 	//GameWorld contiendra des pointeurs sur tout nos objets volant du jeu. 
 	
+	bool success = true;
+
+	GameMedia::Initialise();
+	success = GameMedia::LoadAudio();
+	success = GameMedia::LoadGraphics();
+	success = GameMedia::LoadFonts();
 
 	//Start up SDL and create window
-	if (!GameMedia::Initialise())
+	if (!success)
 	{
 		printf("Failed to initialize!\n");
 	}
 	else
 	{
-		//Load media
-		if (!GameMedia::LoadMedia())
-		{
-			printf("Failed to load media!\n");
-		}
-		else
-		{
-
 			//----Start Game music-------------------------------------------
-			GameMedia::PlayMusic();
+			GameMedia::PlayMusic(background_music);
 
 			//----Execute thread---------------------------------------------
-			GameWorld::AddThread(GameWorld::ReaperThread,1);
-			GameWorld::AddThread(TieFactoryThread, "TieFactoryThread", 1);
-			GameWorld::AddThread(ThreadKeyboard, "ThreadKeyboard", 1);
+			//GameWorld::AddThread(GameWorld::ReaperThread,1);
+			//GameWorld::Get().AddThread(GameWorld::Get().RenderingThread,"RenderingThread", 1);
+			//GameWorld::AddThread(GameWorld::ColisionThread, "ColisionThread", 1);
+			GameWorld::Get().AddThread(TieFactoryThread, "TieFactoryThread", 1);
+			GameWorld::Get().AddThread(ThreadKeyboard, "ThreadKeyboard", 1);
 
+		
 			//int T = 0;
 			//int R = -GameMedia::Textures[5].getWidth();
 
@@ -216,26 +233,14 @@ int main(int argc, char* args[])
 						quit = true;
 					}
 				}
-				//Wait until Main_interval milliseconds have passed.
-				Main_elapsed = DURATION_IN_MS(std::chrono::
+
+				//GameWorld::RenderWorld();
+				SDL_Delay(3);
+				/*Main_elapsed = DURATION_IN_MS(std::chrono::
 					           high_resolution_clock::now() - 
 					           Main_Timestamp);
-
-				//if (Main_elapsed < Main_interval) 
-				//{
-				//	SDL_Delay(1);
-				//	//SDL_Delay(DURATION_IN_MS(Main_interval - 
-				//	//Main_elapsed).count());
-				//}
-
-				//else 
-				//{
-
-
-					SDL_Delay(16);
-
 					Main_Timestamp = std::chrono::high_resolution_clock::now();
-
+*/
 					//Loops the background and Render texture to screen
 					/*if (T <= GameMedia::texture[5].getWidth() + SCREEN_WIDTH) {
 						gBackgroundTexture.render(-T, 0);
@@ -255,26 +260,13 @@ int main(int argc, char* args[])
 					T++;
 					R++;*/
 
-					GameWorld::RenderWorld();
 				//}
-			}
 		}
 	}
-	//For now, signals ReaperThread to erase all EntiteVolante
-	GameWorld::Close();
 	//Free resources and close SDL
-	GameMedia::Close();
+	//GameMedia::Close();
 	//For now, wait on threads completion
-	GameWorld::DeleteGameWorld();
+	//GameWorld::DeleteGameWorld();
 
 	return 0;
 }
-
-//#include"loadFromFile.h"
-//
-//#include"loadtexture.h"
-//
-//#include"boolinit.h"
-//
-//#include"loadmedia.h"
-

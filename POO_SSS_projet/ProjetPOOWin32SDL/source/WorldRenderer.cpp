@@ -1,19 +1,16 @@
 #include "GameWorld.h"
+#include <vector>
 #include "EntiteVolante.h"
-#include "Joueur.h"
-#include "Ennemis.h"
-#include "EsquadronTie.h"
-#include "Projectile.h"
 #include "WorldRenderer.h"
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include "..\ressources\LTexture.h"
 #include "..\ressources\LSprite.h"
-#include "GameMedia.h"
 #include <string>
 
 std::list<AnimationRequest> WorldRenderer::Animations;
-LTexture WorldRenderer::ScoreMessage;
+std::mutex WorldRenderer::Renderer_lock;
+
 
 typedef struct {
 	void *data1;
@@ -30,82 +27,68 @@ struct AnimationRequest {
 };
 
 
+
+//WorldRenderer & WorldRenderer::Get()
+//{
+//	static WorldRenderer renderer;
+//	return renderer;
+//}
+
+
 void WorldRenderer::Render(LTexture *TextureNum, int x, int y, SDL_Rect* Clip)
 {
 	static SDL_Rect renderQuad;
-	renderQuad.x = x;
-	renderQuad.y = y;
-	renderQuad.w = TextureNum->getWidth();
-	renderQuad.h = TextureNum->getHeight();
-		
-
-	if (Clip != NULL)
+	if (Clip == NULL) {
+		renderQuad.x = x - TextureNum->getWidth() / 2;
+		renderQuad.y = y - TextureNum->getHeight() / 2;
+		renderQuad.w = TextureNum->getWidth();
+		renderQuad.h = TextureNum->getHeight();
+	}
+	else
 	{
+		renderQuad.x = x - Clip->w / 2;
+		renderQuad.y = y - Clip->h / 2;
 		renderQuad.w = Clip->w;
 		renderQuad.h = Clip->h;
 	}
+	//std::lock_guard<std::mutex> lock(Renderer_lock);
 	SDL_RenderCopy(Renderer, TextureNum->getTexture(), Clip, &renderQuad);
 }
 
-void WorldRenderer::Render(categorie TextureNum, int x, int y)
+
+void WorldRenderer::RenderEntity(categorie TextureNum, int x, int y)
 {
 	Render(&Textures[TextureNum], x, y);
 }
 
-void WorldRenderer::Render(Joueur* PlayerRender)
-{
-	Render(&Textures[PlayerRender->getCategorie()],
-					PlayerRender->getCoordX(),
-					PlayerRender->getCoordY());
-}
-
-void WorldRenderer::Render(CEsquadronTie *SquadRender)
-{
-	for (int i = 0; i < SquadRender->getSquadronSize(); i++)
-		if (SquadRender->getMember(i)->isAlive())
-			Render(&Textures[SquadRender->getMember(i)->getCategorie()],
-							 SquadRender->getMember(i)->getCoordX(),
-							 SquadRender->getMember(i)->getCoordY());
-		else
-			if (SquadRender->getMember(i)->isActive()) {
-				//Pour l'instant, seulement une animation d'explosion
-				
-				SquadRender->RemoveMember(i);
-			}
-}
-
-void WorldRenderer::Render(Projectile *ProjectileRender)
-{
-	Render(&Textures[ProjectileRender->getCategorie()],
-					ProjectileRender->getCoordX(),
-					ProjectileRender->getCoordY());
-}
-
 void WorldRenderer::RenderScore(int score)
 {
-	static int PrevScore;
+	static LTexture ScoreMessage;
+	static int PrevScore = -1;
 	static SDL_Color White = { 255, 255, 255 };
 	static LTexture ScorePoints;
 	if (PrevScore != score) {
 		ScorePoints.free();
 		PrevScore = score;
-		//static SDL_Color White = { 255, 255, 255 };
-		SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Fonts[0], std::to_string(score).c_str(), White);
-		ScorePoints.AssignTexture(SDL_CreateTextureFromSurface(Renderer, surfaceMessage), std::to_string(score).size()*15, 24);
+		SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Fonts[arial], std::to_string(score).c_str(), White);
+		ScorePoints.AssignTexture(SDL_CreateTextureFromSurface(Renderer, surfaceMessage),
+								  std::to_string(score).size()*15,
+								  24);
 	}
-	Render(&ScorePoints, 115, 650);
-	Render(&ScoreMessage, 25, 650);
+	Render(&ScorePoints, 215, 650);
+	Render(&ScoreMessage, 125, 650);
 
 }
 
 void WorldRenderer::MakeAnimationRequest(categorie TextureNum, int x, int y)
 {
-	Animations.push_back(AnimationRequest{
-		0,	//Sprite Number
-		Sprites[0].TotalFrames,
-		x, y,
-		0	//Starting frame
-	});
+	if (TextureNum != tir_joueur && TextureNum != tir_tie)
+		Animations.push_back(AnimationRequest{
+			0,	//Sprite Number
+			Sprites[0].TotalFrames,
+			x, y,
+			0	//Starting frame
+		});
 }
 
 
@@ -130,14 +113,25 @@ void WorldRenderer::RenderEventAnimations()
 
 void WorldRenderer::RenderClear()
 {
+	//Render Background
+	static SDL_Rect renderQuad;
+	renderQuad.x = 0;
+	renderQuad.y = 0;
+	renderQuad.w = Textures[background].getWidth();
+	renderQuad.h = Textures[background].getHeight();
+
 	//Clear screen
 	SDL_SetRenderDrawColor(Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(Renderer);
+
+	//std::lock_guard<std::mutex> lock(Renderer_lock);
+
+	SDL_RenderCopy(Renderer, Textures[background].getTexture(), NULL, &renderQuad);
 }
 
 void WorldRenderer::RenderPresent()
 {
-	RenderEventAnimations();
+	//std::lock_guard<std::mutex> lock(Renderer_lock);
 	SDL_RenderPresent(Renderer);
 }
 

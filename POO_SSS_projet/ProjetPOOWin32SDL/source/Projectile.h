@@ -10,7 +10,7 @@ private:
 	int ProjectileThreadReturnValue;
 
 public:
-	Projectile(categorie, affiliation, int, int, int, int, int);
+	Projectile(affiliation,int, int);
 	~Projectile();
 	
 	void UpdateTrajet(int PosX, int PosY) override;

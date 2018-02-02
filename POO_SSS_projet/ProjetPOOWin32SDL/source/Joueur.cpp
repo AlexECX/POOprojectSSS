@@ -1,24 +1,29 @@
 #include "EntiteVolante.h"
 #include "Joueur.h"
 
-Joueur::Joueur(categorie CategorieParam,
-				affiliation AffiliationParam,
+Joueur::Joueur(affiliation AffiliationParam,
 				int			PosXParam,
-				int			PosYParam,
-				int			HP_Param,
-				int			DamageParam,
-				int			SpeedParam)
-				: EntiteVolante(CategorieParam,
+				int			PosYParam)
+				: EntiteVolante(joueur,
 								AffiliationParam,
 								PosXParam,
 								PosYParam,
-								HP_Param,
-								DamageParam,
-								SpeedParam)
+								1,
+								10,
+								0)
 {
+	Size = 35;
 }
 Joueur::~Joueur()
 {
+}
+
+void Joueur::UpdateTrajet(int x, int y)
+{
+	if (coordX + x > 0 && coordX + x < 1200)
+		coordX += x;
+	if (coordY + y > 0 && coordY + y < 700)
+		coordY += y;
 }
 
 void Joueur::MouvUp()

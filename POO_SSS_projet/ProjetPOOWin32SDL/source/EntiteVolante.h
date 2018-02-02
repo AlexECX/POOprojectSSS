@@ -1,7 +1,7 @@
 #ifndef ENTITEVOLANTE_H
 #define ENTITEVOLANTE_H
 
-enum categorie { joueur, ennemis_simple, tir_joueur, tir_tie, asteroid, background };
+enum categorie { joueur, tie_fighter, tir_joueur, tir_tie, asteroid, background };
 
 enum affiliation { republic, empire, neutre, environnement };
 
@@ -15,13 +15,15 @@ protected:
 	int HP;
 	int Damage;
 	int VitesseDeplacment;
-	int Active;
+	int Size;
 
 public:
 	EntiteVolante(categorie, affiliation, int, int, int, int, int);
 	virtual ~EntiteVolante();
+
 	int getCoordX() { return coordX; }
 	int getCoordY() { return coordY; }
+	int getSize() { return Size; }
 	categorie getCategorie(){ return Categorie; }
 	affiliation getAffiliation(){ return Affiliation; }
 	int getHP() { return HP; }
@@ -29,11 +31,9 @@ public:
 	int getVitesseDeplacment() { return VitesseDeplacment; }
 
 	bool isAlive() { return HP > 0; }
-	bool isActive() { return Active == 0; }
-
+	
 	void TakeDamage(int dmg) { HP -= dmg; }
-	void Remove() { Active++; }
 
-	virtual void UpdateTrajet(int x, int y);
+	virtual void UpdateTrajet(int x, int y) = 0;
 };
 #endif 

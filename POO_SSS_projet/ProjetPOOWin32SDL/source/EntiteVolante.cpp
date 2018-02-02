@@ -15,15 +15,14 @@ EntiteVolante::EntiteVolante(categorie CategorieParam,
 	HP = HP_Param;
 	Damage = DamageParam;
 	VitesseDeplacment = SpeedParam;
-	Active = 0;
 }
 
 EntiteVolante::~EntiteVolante()
 {
 }
 
-void EntiteVolante::UpdateTrajet(int x, int y)
-{
-	coordX = x;
-	coordY = y;  
-}
+//void EntiteVolante::UpdateTrajet(int x, int y)
+//{
+//	coordX = x;
+//	coordY = y;  
+//}

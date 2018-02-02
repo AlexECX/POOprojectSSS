@@ -8,20 +8,18 @@
 
 #define DURATION_IN_MS(Time_Interval) std::chrono::duration_cast<std::chrono::milliseconds>(Time_Interval)
 
-Projectile::Projectile(	categorie CategorieParam,
-						affiliation AffiliationParam,
-						int			PosXParam,
-						int			PosYParam,
-						int			HP_Param,
-						int			DamageParam,
-						int			SpeedParam) : EntiteVolante(CategorieParam,
-																AffiliationParam,
-																PosXParam,
-																PosYParam,
-																HP_Param,
-																DamageParam,
-																SpeedParam)
+Projectile::Projectile(affiliation AffiliationParam,
+					   int			PosXParam,
+					   int			PosYParam)
+					  : EntiteVolante((AffiliationParam == republic) ? tir_joueur:tir_tie,
+						AffiliationParam,
+						PosXParam,
+						PosYParam,
+						1,
+						10,
+						0)
 {
+	Size = 1;
 	ProjectileThreadPtr = SDL_CreateThread(StartProjectileThread, "StartProjectileThread", this);
 }
 
@@ -91,8 +89,8 @@ int Projectile::ProjectileThread(int direction)
 		{
 			SDL_Delay(1);
 		}
-		if (GameWorld::VerifierImpact(this) == true)
-			HP = 0;
+		/*if (GameWorld::ColisionThread(this) == true)
+			HP = 0;*/
 	}
 	return 0;
 }

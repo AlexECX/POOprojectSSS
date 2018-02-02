@@ -10,25 +10,26 @@
 #define DURATION_IN_MS(Time_Interval)\
 std::chrono::duration_cast<std::chrono::milliseconds>(Time_Interval)\
 
-CEsquadronTie::CEsquadronTie(std::vector<Ennemis*> Vect) : Squad(Vect)
+CEsquadronTie::CEsquadronTie(std::vector<std::shared_ptr<Ennemis>> &Vect)
 {
-	Active = 0;
+	Squad = std::move(Vect);
 	SquadCount = Squad.size();
-	for (int i = 0; i < SquadCount; i++)
-		Squad[i]->LinkToSquad(this, i);
-	SquadThreadPtr = SDL_CreateThread(StartSquadThread,
-									  "SquadThread", this);
+	SquadThreadPtr = nullptr;
+}
+
+CEsquadronTie::CEsquadronTie(CEsquadronTie const & E)
+{
+	Squad = std::move(E.Squad);
+	SquadCount = E.SquadCount;
 }
 
 CEsquadronTie::~CEsquadronTie()
 {
-	Remove();
-	/*for (int i = 0; i < Squad.size(); i++)
-		Squad[i]->Remove();
-	if (isActive()) {
-		Active += 2;
+	if (SquadThreadPtr != nullptr) {
+		SquadCount = 0;
 		SDL_WaitThread(SquadThreadPtr, &SquadThreadReturnValue);
-	}*/
+	}
+	
 }
 
 
@@ -36,35 +37,31 @@ void CEsquadronTie::Update()
 {
 	Squad_lock.lock();
 	for (int i = 0; i < Squad.size(); i++) {
-		if (Squad[i] != nullptr /*&& Squad[i]->isActive()*/)
+		if (Squad[i]->isAlive())
 			Squad[i]->UpdateTrajet(Squad[i]->getCoordX() - 1,
 								  Squad[i]->getCoordY());
-		/*else {
-			Squad[i]->Remove();
-			delete Squad[i];
+		else {
 			Squad.erase(Squad.begin()+i);
 			SquadCount--;
-		}*/
+		}
 	}
 	Squad_lock.unlock();
 }
 
-void CEsquadronTie::Remove()
-{
-	SquadCount = 0;
-	/*for (int i = 0; i < Squad.size(); i++) {
-		Squad[i]->Remove();
-	}*/
-	SDL_WaitThread(SquadThreadPtr, &SquadThreadReturnValue);
-}
 
 void CEsquadronTie::RemoveMember(int member)
 {
 	Squad_lock.lock();
-	Squad[member] = nullptr;// Squad[member]->Remove();
+	Squad[member] = nullptr;
 	SquadCount--;
 	Squad_lock.unlock();
 }
+
+void CEsquadronTie::MakeFly()
+{
+	SquadThreadPtr = SDL_CreateThread(StartSquadThread, "SquadThread", this);
+}
+
 
 int CEsquadronTie::StartSquadThread(void *pointer)
 {
